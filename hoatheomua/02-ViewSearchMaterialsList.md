@@ -1,109 +1,63 @@
 # STORY-002: View and Search Material List
 
-## Overview
-Story này xây dựng màn hình chính của **Material Management**, cho phép quản trị viên xem, tìm kiếm, lọc và sắp xếp danh sách vật liệu dùng để cấu thành các combo hoa, đồng thời theo dõi tình trạng tồn kho của từng vật liệu.
+## Metadata
+- **Story**: Là một Quản trị viên, tôi muốn xem và tìm kiếm danh sách vật liệu cấu thành sản phẩm, để nắm được hệ thống đang quản lý những loại hoa và phụ kiện nào cùng tình trạng tồn kho của chúng.
+- **Context**: Trước đây hệ thống chỉ quản lý combo ở mức thành phẩm. Khi bổ sung quản lý vật liệu, quản trị viên cần một màn hình danh sách làm điểm vào cho toàn bộ nghiệp vụ vật liệu, định lượng và tồn kho. Đây là story nền của module. Vật liệu được hiểu là các sản phẩm cấu thành nên bó hoa combo như (hoa hồng, hoa hướng dương,...). Combo được hiểu là một sản phẩm hoa lớn chứa nhiều vật liệu thành phần.
+- **Sprint**: S1
+- **Priority**: Must
+- **Assignee**: BE: Hồ Hoàng Nam | FE: Hồ Hoàng Nam
+- **Creator**: Hồ Hoàng Nam
+- **Status**: Cần làm
 
+## Conditions
+- **Preconditions**:
+  - Quản trị viên đã đăng nhập vào trang admin.
+  - Tài khoản có quyền xem dữ liệu vật liệu theo cấu hình RBAC.
+- **Trigger**: Quản trị viên chọn mục "Vật liệu" trên menu điều hướng của trang admin.
 
-## Objective
-Cho phép quản trị viên:
-- Xem danh sách vật liệu.
-- Tìm kiếm vật liệu theo mã hoặc tên.
-- Lọc vật liệu theo nhóm, vai trò mặc định và trạng thái.
-- Sắp xếp danh sách theo các cột hỗ trợ.
-- Theo dõi thông tin tồn kho của từng vật liệu.
+## Flow
+### Xem danh sách vật liệu
+1. Hệ thống hiển thị danh sách vật liệu, mặc định sắp xếp theo tên tăng dần, phân trang 20 dòng mỗi trang. (FE đề xuất)
+2. Mỗi dòng hiển thị: mã vật liệu, tên, nhóm, vai trò mặc định, đơn vị tính, tồn thực, đang giữ chỗ, tồn khả dụng, trạng thái.
+3. Hệ thống hiển thị bộ lọc theo nhóm, vai trò mặc định, trạng thái và ô tìm kiếm theo mã hoặc tên.
+4. Quản trị viên nhập từ khóa hoặc chọn điều kiện lọc.
+5. Hệ thống trả về danh sách khớp điều kiện và hiển thị tổng số kết quả.
 
+### Alternative Flow
+- **ALT-01**: Quản trị viên bấm tiêu đề cột tồn khả dụng; hệ thống sắp xếp lại danh sách theo cột được chọn và giữ nguyên điều kiện lọc hiện tại.
 
-
-## Preconditions
-- Quản trị viên đã đăng nhập vào hệ thống.
-- Tài khoản có quyền xem dữ liệu vật liệu (RBAC).
-
-
-## Trigger
-Quản trị viên chọn menu **Materials** trên trang Admin.
-
-
-## Main Features
-
-### Material List
-- Hiển thị danh sách vật liệu theo dạng bảng.
-- Phân trang 20 dòng mỗi trang.
-- Mặc định sắp xếp theo tên vật liệu (A → Z).
-
-### Display Information
-Mỗi vật liệu hiển thị các thông tin:
-- Mã vật liệu
-- Tên vật liệu
-- Nhóm
-- Vai trò mặc định
-- Đơn vị tính
-- Tồn thực
-- Đang giữ chỗ
-- Tồn khả dụng
-- Trạng thái
-
-### Search
-- Tìm kiếm theo mã hoặc tên vật liệu.
-- Hỗ trợ tìm kiếm tiếng Việt.
-- Debounce khi nhập từ khóa.
-
-### Filter
-Hỗ trợ lọc theo:
-- Nhóm
-- Vai trò mặc định
-- Trạng thái
-
-Có thể kết hợp nhiều bộ lọc cùng lúc.
-
-### Sorting
-- Cho phép sắp xếp theo các cột (ví dụ: Tồn khả dụng).
-- Giữ nguyên điều kiện tìm kiếm và bộ lọc hiện tại sau khi sắp xếp.
-
-
-## Exception Handling
-
-### No Results
-- Hiển thị trạng thái không có dữ liệu.
-- Gợi ý xóa bộ lọc.
-- Gợi ý tạo vật liệu mới.
-
-### Unauthorized Access
-- Chặn truy cập màn hình.
-- Hiển thị thông báo không có quyền sử dụng chức năng.
-
-### System Error
-- Hiển thị thông báo lỗi.
-- Cho phép người dùng thử lại.
-- Không hiển thị dữ liệu cũ để tránh gây nhầm lẫn.
-
+### Exception Flow
+- **EXC-01**: Hệ thống hiển thị trạng thái rỗng kèm gợi ý xóa bộ lọc hoặc tạo vật liệu mới.
+- **EXC-02**: Hệ thống chặn truy cập và hiển thị thông báo không có quyền truy cập chức năng.
+- **EXC-03**: Hệ thống hiển thị thông báo lỗi kèm nút thử lại, không hiển thị dữ liệu cũ gây hiểu nhầm.
 
 ## Acceptance Criteria
-
 ### AC-001
-- Hiển thị danh sách vật liệu có phân trang.
-- Mặc định sắp xếp theo tên tăng dần.
-- Hiển thị đầy đủ tồn thực, đang giữ chỗ và tồn khả dụng.
+- **Given**: Quản trị viên đã đăng nhập và có quyền xem vật liệu
+- **When**: Truy cập màn hình danh sách vật liệu
+- **Then**: Hệ thống hiển thị danh sách vật liệu phân trang theo dòng (số dòng cụ thể FE đề xuất), sắp xếp theo tên tăng dần
+- **And**: Mỗi dòng hiển thị đủ tồn thực, đang giữ chỗ và tồn khả dụng
 
 ### AC-002
-- Tìm kiếm theo mã hoặc tên vật liệu.
-- Debounce theo từng ký tự.
-- Hiển thị tất cả kết quả phù hợp.
+- **Given**: Danh sách vật liệu đang hiển thị
+- **When**: Quản trị viên nhập từ khóa vào ô tìm kiếm
+- **Then**: Hệ thống trả về các vật liệu có mã hoặc tên chứa từ khóa, có debounce theo từng chữ
+- **And**: Hiển thị tất cả kết quả tìm được
 
 ### AC-003
-- Hỗ trợ áp dụng đồng thời nhiều bộ lọc.
-- Chỉ hiển thị các vật liệu thỏa mãn tất cả điều kiện.
+- **Given**: Quản trị viên đang ở màn hình danh sách
+- **When**: Chọn đồng thời bộ lọc nhóm và bộ lọc trạng thái
+- **Then**: Hệ thống trả về danh sách thỏa mãn đồng thời tất cả điều kiện lọc
 
 ### AC-004
-- Khi không có kết quả, hiển thị trạng thái rỗng.
-- Cho phép người dùng xóa bộ lọc để tìm kiếm lại.
+- **Given**: Bộ lọc hiện tại không khớp vật liệu nào
+- **When**: Hệ thống trả kết quả
+- **Then**: Hiển thị thông báo không tìm thấy vật liệu kèm hành động xóa bộ lọc
 
-
-## Non-functional Requirements
-- Thời gian phản hồi dưới **2 giây** với tối đa **2.000 vật liệu**.
-- Hỗ trợ tìm kiếm tiếng Việt.
-- Debounce khi tìm kiếm.
-
+## Non-Functional
+- Thời gian phản hồi danh sách dưới 2 giây với tối đa 2.000 vật liệu. (Đề xuất)
+- Tìm kiếm hỗ trợ Tiếng Việt và debounce trên từng kí tự.
 
 ## Out of Scope
 - Xuất danh sách vật liệu ra file.
-- Xem lịch sử biến động tồn kho của vật liệu.
+- Xem chi tiết lịch sử biến động tồn của từng vật liệu. (check 02)

@@ -1,110 +1,55 @@
 # STORY-017: Copy Combo Formula
 
-## Overview
-Story này cho phép quản trị viên sao chép công thức từ một combo hoa đã có sang một combo hoa khác nhằm giảm thời gian nhập liệu và hạn chế sai sót khi tạo các combo có cấu thành tương tự.
+## Metadata
+- **Story**: Là một Quản trị viên, tôi muốn sao chép công thức của một combo hoa sẵn có sang combo hoa mới, để rút ngắn thời gian khai báo cho các combo hoa có cấu thành gần giống nhau.
+- **Context**: Các combo hoa cùng dòng theo mùa thường chỉ khác nhau vài vật liệu. Nhập lại từ đầu vừa tốn thời gian vừa dễ sai sót. Đây là story tối ưu trải nghiệm, không chặn luồng nghiệp vụ chính. Vật liệu được hiểu là các sản phẩm cấu thành nên bó hoa combo như (hoa hồng, hoa hướng dương,...). Combo được hiểu là một sản phẩm hoa lớn chứa nhiều vật liệu thành phần.
+- **Sprint**: S4
+- **Priority**: Won't
+- **Assignee**: BE: Hồ Hoàng Nam | FE: Hồ Hoàng Nam
+- **Creator**: Hồ Hoàng Nam
+- **Status**: Cần làm
 
----
+## Conditions
+- **Preconditions**:
+  - Tồn tại ít nhất một combo hoa có công thức ở trạng thái `active`.
+  - Combo hoa đích chưa có công thức hoặc công thức đang ở trạng thái `NHAP`.
+- **Trigger**: Quản trị viên bấm "Sao chép từ combo hoa khác" trên màn hình công thức của combo hoa đích.
 
-## Objective
-Cho phép quản trị viên:
-- Sao chép toàn bộ công thức của một combo hoa.
-- Xem trước công thức trước khi sao chép.
-- Chỉnh sửa công thức sau khi sao chép.
-- Giữ công thức mới ở trạng thái **Draft (NHAP)** trước khi kích hoạt.
+## Flow
+### Sao chép công thức thành công
+1. Hệ thống hiển thị danh sách combo hoa có công thức hiệu lực kèm ô tìm kiếm.
+2. Quản trị viên chọn combo hoa nguồn.
+3. Hệ thống hiển thị bản xem trước toàn bộ dòng vật liệu sẽ được sao chép.
+4. Quản trị viên xác nhận.
+5. Hệ thống tạo công thức ở trạng thái `NHAP` cho combo hoa đích với nội dung sao chép.
+6. Hệ thống mở màn hình công thức để quản trị viên tinh chỉnh trước khi kích hoạt.
 
----
+### Alternative Flow
+- **ALT-01**: Combo hoa đích đã có công thức `NHAP`; hệ thống cảnh báo nội dung hiện tại sẽ bị thay thế và yêu cầu xác nhận.
 
-## Preconditions
-- Có ít nhất một combo hoa có công thức ở trạng thái **Active**.
-- Combo hoa đích chưa có công thức hoặc công thức hiện tại đang ở trạng thái **NHAP**.
-
----
-
-## Trigger
-Quản trị viên chọn **Copy from Another Combo** trên màn hình công thức của combo hoa đích.
-
----
-
-## Main Features
-
-### Select Source Formula
-Hệ thống hiển thị:
-- Danh sách các combo hoa có công thức đang hoạt động.
-- Ô tìm kiếm để tìm nhanh combo nguồn.
-
-### Preview Formula
-Sau khi chọn combo nguồn:
-- Hiển thị toàn bộ danh sách vật liệu sẽ được sao chép.
-- Bao gồm:
-  - Tên vật liệu.
-  - Định lượng.
-  - Vai trò.
-
-### Copy Formula
-Sau khi xác nhận:
-- Tạo công thức mới cho combo đích.
-- Sao chép toàn bộ:
-  - Vật liệu.
-  - Định lượng.
-  - Vai trò.
-- Đặt công thức ở trạng thái **NHAP**.
-
-### Edit Formula
-Sau khi sao chép:
-- Mở màn hình chỉnh sửa công thức.
-- Cho phép quản trị viên tiếp tục điều chỉnh trước khi kích hoạt.
-
----
-
-## Validation
-
-Hệ thống kiểm tra:
-- Combo nguồn có công thức ở trạng thái **Active**.
-- Combo đích chưa có công thức hoặc công thức đang ở trạng thái **NHAP**.
-
-Nếu combo đích đã có công thức **NHAP**:
-- Hiển thị cảnh báo.
-- Yêu cầu xác nhận trước khi ghi đè.
-
----
-
-## Exception Handling
-
-### Discontinued Material
-Nếu công thức nguồn chứa vật liệu đã **Ngừng kinh doanh**:
-- Vẫn sao chép công thức.
-- Đánh dấu các dòng cần thay thế.
-- Không cho phép kích hoạt công thức cho đến khi xử lý.
-
-### Invalid Target Formula
-Nếu công thức hiện tại không được phép ghi đè:
-- Không cho phép sao chép.
-- Hướng dẫn tạo phiên bản công thức mới.
-
----
+### Exception Flow
+- **EXC-01**: Hệ thống vẫn sao chép nhưng đánh dấu các dòng cần thay thế và không cho kích hoạt tới khi xử lý xong.
+- **EXC-02**: Hệ thống chặn sao chép và hướng dẫn tạo phiên bản mới thay vì sao chép.
 
 ## Acceptance Criteria
-
 ### AC-001
-- Sao chép toàn bộ công thức sang combo đích.
-- Giữ nguyên vật liệu, định lượng và vai trò.
+- **Given**: Combo hoa nguồn có công thức gồm 4 dòng vật liệu
+- **When**: Quản trị viên sao chép sang combo hoa đích và xác nhận
+- **Then**: Combo hoa đích có công thức `NHAP` gồm đúng 4 dòng với cùng vật liệu, định lượng và vai trò
 
 ### AC-002
-- Công thức mới ở trạng thái **NHAP**.
-- Chưa ảnh hưởng đến số lượng có thể bán của combo.
+- **Given**: Việc sao chép vừa hoàn tất
+- **When**: Quản trị viên xem trạng thái công thức của combo hoa đích
+- **Then**: Công thức ở trạng thái `NHAP` và chưa ảnh hưởng tới khả năng bán
 
 ### AC-003
-- Nếu công thức nguồn chứa vật liệu **Ngừng kinh doanh**:
-  - Đánh dấu các dòng cần thay thế.
-  - Không cho phép kích hoạt công thức cho đến khi được xử lý.
+- **Given**: Công thức nguồn chứa một vật liệu đã ngừng kinh doanh
+- **When**: Sao chép hoàn tất
+- **Then**: Dòng đó được đánh dấu cần thay thế và công thức không kích hoạt được cho tới khi xử lý
 
----
-
-## Non-functional Requirements
-- Thao tác sao chép hoàn thành trong dưới **2 giây** với công thức tối đa **30 dòng vật liệu**.
-
----
+## Non-Functional
+- Thao tác sao chép hoàn tất trong dưới 2 giây với công thức tối đa 30 dòng.
 
 ## Out of Scope
-- Sao chép công thức cho nhiều combo cùng lúc.
+- Sao chép hàng loạt cho nhiều combo hoa cùng lúc.
 - Tạo mẫu công thức dùng chung.

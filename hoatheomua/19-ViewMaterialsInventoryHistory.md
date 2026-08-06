@@ -1,119 +1,61 @@
-# STORY-019: View Material Inventory History
+# STORY-019: View Materials Inventory History
 
-## Overview
-Story này cho phép quản trị viên xem toàn bộ lịch sử biến động tồn kho của một vật liệu nhằm hỗ trợ kiểm tra, đối soát và truy vết nguyên nhân khi số liệu tồn kho không khớp với thực tế.
+## Metadata
+- **Story**: Là một Quản trị viên, tôi muốn xem toàn bộ lịch sử biến động tồn của một vật liệu, để truy được nguyên nhân khi số liệu kho lệch so với thực tế.
+- **Context**: Khi tồn kho sai, câu hỏi đầu tiên luôn là ai đã thay đổi, thay đổi bao nhiêu và vì lý do gì. Sổ cái bút toán đã được thiết kế từ STORY-024, story này chỉ trình bày dữ liệu đó ra giao diện phục vụ đối soát. Vật liệu được hiểu là các sản phẩm cấu thành nên bó hoa combo như (hoa hồng, hoa hướng dương,...). Combo được hiểu là một sản phẩm hoa lớn chứa nhiều vật liệu thành phần.
+- **Sprint**: S4
+- **Priority**: Won't
+- **Assignee**: BE: Hồ Hoàng Nam | FE: Hồ Hoàng Nam
+- **Creator**: Hồ Hoàng Nam
+- **Status**: Cần làm
 
----
+## Conditions
+- **Preconditions**:
+  - Vật liệu đã phát sinh ít nhất một bút toán kho.
+  - Quản trị viên có quyền xem lịch sử kho.
+- **Trigger**: Quản trị viên mở tab "Lịch sử tồn kho" trong màn hình chi tiết vật liệu.
 
-## Objective
-Cho phép quản trị viên:
-- Xem lịch sử biến động tồn kho của vật liệu.
-- Lọc lịch sử theo thời gian và loại bút toán.
-- Xem thông tin chi tiết của từng bút toán.
-- Điều hướng đến đơn hàng liên quan nếu có.
-- Theo dõi tổng hợp nhập, xuất và điều chỉnh trong khoảng thời gian lựa chọn.
+## Flow
+### Xem lịch sử biến động
+1. Hệ thống hiển thị danh sách bút toán theo thứ tự thời gian giảm dần.
+2. Mỗi dòng hiển thị: thời điểm, loại bút toán, số lượng thay đổi, tồn sau biến động, lý do, người thực hiện, mã đơn hàng liên quan nếu có.
+3. Hệ thống hiển thị bộ lọc theo khoảng thời gian và loại bút toán.
+4. Quản trị viên chọn điều kiện lọc và xem kết quả.
 
----
+### Alternative Flow
+- **ALT-01**: Quản trị viên bấm vào mã đơn hàng trên một bút toán loại xuất bán; hệ thống mở chi tiết đơn hàng tương ứng.
+- **ALT-02**: Quản trị viên chọn chế độ tổng hợp; hệ thống hiển thị tổng số lượng nhập, xuất bán, hao hụt và điều chỉnh trong khoảng thời gian đã chọn.
 
-## Preconditions
-- Vật liệu đã phát sinh ít nhất một bút toán kho.
-- Quản trị viên có quyền xem lịch sử tồn kho.
-
----
-
-## Trigger
-Quản trị viên mở tab **Inventory History** trong màn hình chi tiết vật liệu.
-
----
-
-## Main Features
-
-### View Inventory History
-Hệ thống hiển thị danh sách bút toán theo thứ tự thời gian giảm dần.
-
-Mỗi dòng bao gồm:
-- Thời điểm.
-- Loại bút toán.
-- Số lượng thay đổi.
-- Tồn sau biến động.
-- Lý do.
-- Người thực hiện.
-- Mã đơn hàng liên quan (nếu có).
-
-### Filter History
-Cho phép lọc theo:
-- Khoảng thời gian.
-- Loại bút toán.
-
-### View Order Detail
-Nếu bút toán liên quan đến đơn hàng:
-- Cho phép nhấn vào mã đơn hàng.
-- Mở màn hình chi tiết đơn hàng tương ứng.
-
-### Summary View
-Cho phép chuyển sang chế độ tổng hợp để xem:
-- Tổng số lượng nhập.
-- Tổng số lượng xuất bán.
-- Tổng hao hụt.
-- Tổng điều chỉnh.
-
----
-
-## Validation
-
-Hệ thống:
-- Chỉ hiển thị các bút toán thuộc vật liệu được chọn.
-- Không cho phép chỉnh sửa hoặc xóa các bút toán đã phát sinh.
-
----
-
-## Exception Handling
-
-### No History
-- Hiển thị trạng thái chưa có lịch sử tồn kho.
-
-### Invalid Filter
-- Nếu điều kiện lọc không hợp lệ:
-  - Không thực hiện tìm kiếm.
-  - Yêu cầu người dùng chọn lại.
-
----
+### Exception Flow
+- **EXC-01**: Hệ thống hiển thị trạng thái rỗng.
+- **EXC-02**: Hệ thống chặn và yêu cầu chọn lại.
 
 ## Acceptance Criteria
-
 ### AC-001
-- Hiển thị đầy đủ thông tin của từng bút toán:
-  - Thời điểm.
-  - Loại.
-  - Số lượng thay đổi.
-  - Tồn sau biến động.
-  - Lý do.
-  - Người thực hiện.
+- **Given**: Vật liệu đã có các bút toán nhập, xuất bán và hao hụt
+- **When**: Quản trị viên mở tab lịch sử tồn kho
+- **Then**: Mỗi dòng hiển thị đủ thời điểm, loại, số lượng thay đổi, tồn sau biến động, lý do và người thực hiện
 
 ### AC-002
-- Cho phép lọc lịch sử theo khoảng thời gian.
-- Chỉ hiển thị các bút toán thuộc khoảng thời gian được chọn.
+- **Given**: Danh sách bút toán đang hiển thị
+- **When**: Quản trị viên chọn khoảng thời gian 7 ngày gần nhất
+- **Then**: Hệ thống chỉ hiển thị bút toán trong khoảng đó
 
 ### AC-003
-- Tổng hợp các biến động theo thời gian phải khớp với tồn thực hiện tại của vật liệu.
+- **Given**: Toàn bộ bút toán của vật liệu được liệt kê
+- **When**: Cộng dồn số lượng thay đổi theo thứ tự thời gian
+- **Then**: Kết quả bằng đúng tồn thực hiện tại của vật liệu
 
 ### AC-004
-- Không cung cấp chức năng sửa hoặc xóa bút toán.
-- Chỉ cho phép tạo bút toán điều chỉnh mới.
+- **Given**: Quản trị viên đang xem một bút toán đã ghi nhận
+- **When**: Tìm hành động sửa hoặc xóa bút toán
+- **Then**: Hệ thống không cung cấp hành động này, chỉ có hành động tạo bút toán điều chỉnh
 
----
+## References
+- **Dependencies**: STORY-018
 
-## Dependencies
-- STORY-018: Adjust Material Inventory
-
----
-
-## Non-functional Requirements
-- Danh sách phải hỗ trợ phân trang.
-- Thời gian tải dưới **2 giây** với tối đa **10.000 bút toán** cho một vật liệu.
-
----
+## Non-Functional
+- Danh sách phân trang, tải trong dưới 2 giây với tối đa 10.000 bút toán trên một vật liệu.
 
 ## Out of Scope
-- Báo cáo tồn kho toàn hệ thống.
-- Xuất dữ liệu lịch sử ra file.
+- Báo cáo tồn kho toàn hệ thống và xuất file.

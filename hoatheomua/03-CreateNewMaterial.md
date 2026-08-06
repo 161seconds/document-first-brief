@@ -1,135 +1,70 @@
 # STORY-003: Create New Material
 
-## Overview
-Story này cho phép quản trị viên tạo mới một vật liệu để sử dụng trong công thức cấu thành các combo hoa và phục vụ việc quản lý tồn kho. Các thông tin quan trọng như đơn vị tính và vai trò mặc định được ràng buộc ngay từ bước tạo nhằm đảm bảo tính chính xác của dữ liệu.
+## Metadata
+- **Story**: Là một Quản trị viên, tôi muốn khai báo một vật liệu mới với đầy đủ đơn vị tính và vai trò mặc định, để vật liệu đó có thể được đưa vào công thức cấu thành combo và được theo dõi tồn kho.
+- **Context**: Danh mục vật liệu là dữ liệu nền của toàn bộ module. Việc khai báo sai đơn vị tính hoặc vai trò ngay từ đầu sẽ kéo theo sai lệch tồn kho và tính khả năng bán, nên các trường này cần được ràng buộc chặt ngay tại bước tạo.
+- **Sprint**: S1
+- **Priority**: Must
+- **Assignee**: BE: Hồ Hoàng Nam | FE: Hồ Hoàng Nam
+- **Creator**: Hồ Hoàng Nam
+- **Status**: Cần làm
 
----
+## Conditions
+- **Preconditions**:
+  - Quản trị viên đã đăng nhập và có quyền tạo vật liệu.
+  - Đang ở màn hình danh sách vật liệu.
+- **Trigger**: Quản trị viên bấm nút "Thêm vật liệu".
 
-## Objective
-Cho phép quản trị viên:
-- Tạo mới một vật liệu.
-- Khai báo đầy đủ thông tin của vật liệu.
-- Thiết lập đơn vị tính và vai trò mặc định.
-- Đưa vật liệu vào danh sách để có thể sử dụng trong công thức và theo dõi tồn kho.
+## Flow
+### Tạo vật liệu mới thành công
+1. Hệ thống mở biểu mẫu tạo vật liệu.
+2. Quản trị viên nhập mã vật liệu, tên, nhóm, vai trò mặc định, đơn vị tính, ngưỡng cảnh báo tồn thấp, nhãn mùa vụ và mô tả.
+3. Quản trị viên bấm "Lưu".
+4. Hệ thống kiểm tra tính hợp lệ và tính duy nhất của mã vật liệu.
+5. Hệ thống tạo vật liệu ở trạng thái `đang bán` với tồn thực bằng 0.
+6. Hệ thống hiển thị thông báo thành công và đưa vật liệu mới vào danh sách.
 
----
+### Alternative Flow
+- **ALT-01**: Quản trị viên chọn "Lưu và tạo tiếp"; hệ thống lưu vật liệu rồi mở biểu mẫu trống mới, giữ lại giá trị nhóm và đơn vị tính vừa dùng.
+- **ALT-02**: Quản trị viên bỏ trống mã vật liệu; hệ thống sinh mã theo quy tắc tiền tố nhóm cộng số thứ tự.
 
-## Preconditions
-- Quản trị viên đã đăng nhập vào hệ thống.
-- Tài khoản có quyền tạo vật liệu.
-- Đang ở màn hình **Material List**.
-
----
-
-## Trigger
-Quản trị viên nhấn nút **Add Material**.
-
----
-
-## Main Features
-
-### Create Material
-Hệ thống hiển thị biểu mẫu tạo vật liệu.
-
-Các thông tin cần nhập gồm:
-- Mã vật liệu
-- Tên vật liệu
-- Nhóm
-- Vai trò mặc định
-- Đơn vị tính
-- Ngưỡng cảnh báo tồn thấp
-- Nhãn mùa vụ
-- Mô tả
-
-Sau khi nhấn **Save**, hệ thống:
-- Kiểm tra dữ liệu hợp lệ.
-- Kiểm tra mã vật liệu không bị trùng.
-- Tạo vật liệu với:
-  - Trạng thái: **Đang bán**
-  - Tồn thực: **0**
-- Hiển thị thông báo thành công.
-- Thêm vật liệu vào danh sách.
-
-### Save and Create Another
-- Lưu vật liệu hiện tại.
-- Mở biểu mẫu tạo mới.
-- Giữ lại giá trị **Nhóm** và **Đơn vị tính** vừa sử dụng.
-
-### Auto Generate Code
-Nếu không nhập mã vật liệu:
-- Hệ thống tự sinh mã theo quy tắc:
-  - Tiền tố của nhóm.
-  - Số thứ tự tăng dần.
-
----
-
-## Validation
-
-Hệ thống kiểm tra:
-- Mã vật liệu không được trùng.
-- Các trường bắt buộc không được để trống.
-- Ngưỡng cảnh báo tồn thấp phải là số nguyên không âm.
-
----
-
-## Exception Handling
-
-### Duplicate Code
-- Không cho phép lưu.
-- Hiển thị lỗi tại trường mã vật liệu.
-
-### Missing Required Fields
-- Không cho phép lưu.
-- Đánh dấu các trường bắt buộc còn thiếu.
-
-### Invalid Number
-- Không cho phép lưu.
-- Yêu cầu nhập số nguyên không âm.
-
-### System Error
-- Giữ nguyên dữ liệu đã nhập.
-- Hiển thị nút **Retry** để thử lại.
-
----
+### Exception Flow
+- **EXC-01**: Hệ thống chặn lưu và hiển thị lỗi tại trường mã.
+- **EXC-02**: Hệ thống chặn lưu và đánh dấu các trường còn trống.
+- **EXC-03**: Hệ thống chặn lưu và yêu cầu nhập số nguyên không âm.
+- **EXC-04**: Hệ thống giữ nguyên dữ liệu đã nhập trên biểu mẫu và hiển thị nút thử lại.
 
 ## Acceptance Criteria
-
 ### AC-001
-- Tạo vật liệu thành công khi nhập đầy đủ thông tin hợp lệ.
-- Vật liệu có trạng thái **Đang bán**.
-- Tồn thực bằng **0**.
-- Có thể được chọn khi tạo công thức.
+- **Given**: Quản trị viên đang ở biểu mẫu tạo vật liệu
+- **When**: Nhập đầy đủ trường bắt buộc với mã chưa tồn tại và bấm Lưu
+- **Then**: Hệ thống tạo vật liệu ở trạng thái đang bán với tồn thực bằng 0
+- **And**: Vật liệu xuất hiện trong danh sách và có thể được chọn khi thêm vào công thức
 
 ### AC-002
-- Không cho phép tạo vật liệu có mã đã tồn tại.
-- Hiển thị thông báo lỗi phù hợp.
+- **Given**: Trong hệ thống đã tồn tại vật liệu mã `flowerId`
+- **When**: Quản trị viên tạo vật liệu mới cũng dùng mã `flowerId`
+- **Then**: Hệ thống từ chối lưu và hiển thị thông báo mã vật liệu đã tồn tại
 
 ### AC-003
-- Không cho phép lưu nếu thiếu:
-  - Vai trò mặc định.
-  - Đơn vị tính.
+- **Given**: Quản trị viên bỏ trống vai trò mặc định hoặc đơn vị tính
+- **When**: Bấm Lưu
+- **Then**: Hệ thống chặn lưu và yêu cầu nhập hai trường này
 
 ### AC-004
-Sau khi tạo thành công:
-- Tồn thực = 0.
-- Đang giữ chỗ = 0.
-- Tồn khả dụng = 0.
-- Chưa phát sinh giao dịch kho.
+- **Given**: Vật liệu vừa được tạo thành công
+- **When**: Xem chi tiết vật liệu
+- **Then**: Tồn thực bằng 0, đang giữ chỗ bằng 0 và tồn khả dụng bằng 0
+- **And**: Chưa có bút toán kho nào được sinh ra
 
----
+## References
+- **Dependencies**: STORY-002
 
-## Dependencies
-- STORY-002: View and Search Material List
-
----
-
-## Non-functional Requirements
-- Chống gửi biểu mẫu nhiều lần khi người dùng nhấn **Save** liên tục.
-- Thông báo lỗi hiển thị bằng tiếng Việt và gắn trực tiếp vào trường bị lỗi.
-
----
+## Non-Functional
+- Biểu mẫu phải chống gửi trùng khi bấm Lưu nhiều lần.
+- Thông báo lỗi hiển thị bằng tiếng Việt, gắn trực tiếp vào trường lỗi.
 
 ## Out of Scope
-- Nhập tồn kho ban đầu (STORY-024).
+- Nhập tồn kho ban đầu (thuộc STORY-024).
 - Nhập vật liệu hàng loạt từ file.
-- Quản lý giá vốn vật liệu.
+- Quản lý giá vốn vật liệu (theo Q-09, tách phase sau).
