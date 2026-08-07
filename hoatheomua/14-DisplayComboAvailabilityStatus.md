@@ -1,8 +1,8 @@
-# STORY-014: Display Combo Availability Status
+# STORY-014: Hiển thị trạng thái còn hàng của combo hoa
 
 ## Metadata
 - **Story**: Là một Khách hàng, tôi muốn biết combo hoa còn hàng hay đã hết trước khi bỏ công thiết kế và đặt mua, để không mất thời gian với combo hoa không thể giao.
-- **Context**: Cơ chế tính khả năng bán phải hiển thị ra phía khách hàng thì mới giảm được đơn hỏng. Cần cân bằng giữa việc minh bạch tình trạng hàng và việc không tiết lộ số liệu tồn kho nội bộ cho đối thủ. Vật liệu được hiểu là các sản phẩm cấu thành nên bó hoa combo như (hoa hồng, hoa hướng dương,...). Combo được hiểu là một sản phẩm hoa lớn chứa nhiều vật liệu thành phần.
+- **Context**: Cơ chế tính khả năng bán phải hiển thị ra phía khách hàng thì mới giảm được đơn hỏng. Cần cân bằng giữa việc minh bạch tình trạng hàng và việc không tiết lộ số liệu tồn kho nội bộ cho đối thủ. Vật liệu được hiểu là các sản phẩm cấu thành nên bó hoa combo như (hoa hồng, hoa hướng dương,...) Combo được hiểu là một sản phẩm hoa lớn chưa nhiều vật liệu thành phần.
 - **Sprint**: S4
 - **Priority**: Must
 - **Assignee**: BE: Hồ Hoàng Nam | FE: Hồ Hoàng Nam
@@ -10,7 +10,7 @@
 - **Status**: Cần làm
 
 ## Conditions
-- **Preconditions**:
+- **Preconditions**: 
   - Combo hoa có công thức hiệu lực và số lượng có thể bán đã được tính.
   - Không yêu cầu khách hàng đăng nhập.
 - **Trigger**: Khách hàng xem danh sách combo hoa hoặc chi tiết một combo hoa trên website.
@@ -30,20 +30,14 @@
 - **EXC-02**: Hệ thống hiển thị trạng thái an toàn là cho phép đặt và kiểm tra lại ở bước tạo đơn.
 
 ## Acceptance Criteria
-### AC-001
-- **Given**: Combo hoa có số lượng có thể bán bằng 0
-- **When**: Khách hàng xem combo hoa
-- **Then**: Hệ thống hiển thị nhãn hết hàng và vô hiệu hóa nút đặt hàng
-
-### AC-002
-- **Given**: Combo hoa có số lượng có thể bán nhỏ hơn hoặc bằng ngưỡng hiển thị sắp hết
-- **When**: Khách hàng xem combo hoa
-- **Then**: Hệ thống hiển thị nhãn sắp hết
-
-### AC-0031
-- **Given**: Khách hàng chưa đăng nhập
-- **When**: Duyệt danh sách combo hoa
-- **Then**: Nhãn trạng thái vẫn hiển thị đầy đủ
+- **AC-001**: 
+  - **Given**: Combo hoa có số lượng có thể bán bằng 0.
+  - **When**: Khách hàng xem combo hoa.
+  - **Then**: Hệ thống hiển thị nhãn hết hàng và vô hiệu hóa nút đặt hàng.
+- **AC-002**: 
+  - **Given**: Khách hàng chưa đăng nhập.
+  - **When**: Duyệt danh sách combo hoa.
+  - **Then**: Nhãn trạng thái vẫn hiển thị đầy đủ.
 
 ## References
 - **Dependencies**: STORY-013
@@ -54,4 +48,4 @@
 
 ## Out of Scope
 - Chức năng thông báo khi có hàng trở lại.
-- Chặn thao tác đặt hàng.
+- Chặn thao tác đặt hàng (sẽ có ở bước thanh toán / giỏ hàng).
