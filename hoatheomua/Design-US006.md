@@ -52,7 +52,7 @@ sequenceDiagram
     participant DB as PostgreSQL
 
     Admin->>FE: Click tab "Định lượng" của Combo (ID=1)
-    FE->>API: GET /api/v1/combos/1/specifications
+    FE->>API: GET /api/v1/combo-specification/1
     
     API->>Service: Gọi hàm GetComboSpecificationAsync(comboId)
     Service->>DB: Lấy danh sách Specification (Kèm MaterialProduct) WHERE SubId = comboId AND IsActive = true
@@ -71,9 +71,9 @@ sequenceDiagram
         Service-->>API: Trả về ComboFormulaResponse
         API-->>FE: 200 OK {sellableQuantity, items}
         FE-->>Admin: Hiển thị giao diện định lượng và số lượng có thể bán
-    else [Combo không có vật liệu]
-        DB-->>Service: Empty List (Rỗng)
-        Service-->>API: Throw Exception("COMBO_EMPTY")
+    else [Combo không có vật liệu hoặc không tồn tại]
+        DB-->>Service: Throw Exception("NOT_FOUND")
+        Service-->>API: Throw Exception("NOT_FOUND")
         API-->>FE: 404 Not Found
         FE-->>Admin: Hiển thị giao diện rỗng & Nút "Thêm vật liệu"
     else [Lỗi CSDL / Timeout]
@@ -134,7 +134,7 @@ sequenceDiagram
     }
     
     [Fact]
-    public void GetComboSpecification_EmptyCombo_ThrowsException()
+    public void GetComboSpecification_NotFound_ThrowsException()
     {
         // 1. Arrange
         var comboId = Guid.NewGuid();
@@ -143,7 +143,7 @@ sequenceDiagram
         // 2 & 3. Act & Assert
         // TODO: Mở comment dòng dưới khi code logic thật
         // var ex = await Assert.ThrowsAsync<Exception>(() => service.GetComboSpecificationAsync(comboId));
-        // Assert.Equal("COMBO_EMPTY", ex.Message);
+        // Assert.Equal("NOT_FOUND", ex.Message);
     }
 
     [Fact]
@@ -168,6 +168,29 @@ sequenceDiagram
         // 3. Assert
         Assert.Equal(0, calculatedSellableQuantity);
     }
+
+    [Fact]
+    public void GetComboSpecification_OnlyCoreItems_CalculatesSellableQuantityCorrectly()
+    {
+        // 1. Arrange: Combo chỉ chứa các vật liệu IsCore = true
+        // 2. Act: Gọi service
+        // 3. Assert: SellableQuantity được tính toán đúng dựa trên vật liệu Core
+    }
+
+    [Fact]
+    public void GetComboSpecification_CoreItemOutOfStock_CalculatesSellableQuantityAsZero()
+    {
+        // 1. Arrange: Combo có vật liệu Core nhưng AvailableForSale = 0 hoặc không đủ
+        // 2. Act: Gọi service
+        // 3. Assert: SellableQuantity trả về 0
+    }
+
+    [Fact]
+    public void GetComboSpecification_AllSpecificationsInactive_ThrowsExceptionNotFound()
+    {
+        // 1. Arrange: Combo có các vật liệu nhưng đều có IsActive = false
+        // 2. Act & Assert: Ném ra lỗi "NOT_FOUND" vì không tìm thấy vật liệu nào đang active
+    }
 ```
 
 ### 2.3. TDD - Triển khai Logic thực tế (Dự kiến)
@@ -179,7 +202,7 @@ public async Task<ComboFormulaResponse> GetComboSpecificationAsync(Guid comboId)
         .Where(cs => cs.SubId == comboId && cs.IsActive)
         .ToListAsync();
 
-    if (!specs.Any()) throw new Exception("COMBO_EMPTY");
+    if (!specs.Any()) throw new Exception("NOT_FOUND");
 
     // Sắp xếp: CORE trước, SUPPORT sau
     var sortedItems = specs.OrderByDescending(cs => cs.IsCore).ToList();
@@ -202,7 +225,7 @@ public async Task<ComboFormulaResponse> GetComboSpecificationAsync(Guid comboId)
 
 ### 2.4. API Contract
 
-**Endpoint:** `GET /api/v1/combos/{comboId}/specifications`
+**Endpoint:** `GET /api/v1/combo-specification/{comboId}`
 
 **Description:** Lấy chi tiết công thức định lượng của một Combo, tính toán khả năng bán và sắp xếp vật liệu.
 
@@ -242,7 +265,7 @@ public async Task<ComboFormulaResponse> GetComboSpecificationAsync(Guid comboId)
 
 | Mã lỗi (Code) | HTTP Status | Khi nào xảy ra |
 | :--- | :--- | :--- |
-| `COMBO_EMPTY` | 404 | ComboId không tồn tại hoặc Combo chưa được thêm bất kỳ vật liệu định lượng nào |
+| `NOT_FOUND` | 404 | ComboId không tồn tại hoặc Combo chưa được thêm bất kỳ vật liệu định lượng nào |
 | `INVALID_COMBO_ID` | 400 | Định dạng comboId truyền lên url không hợp lệ (không phải định dạng UUID) |
 | `UNAUTHORIZED` | 401 | Người dùng chưa đăng nhập, token hết hạn hoặc không có quyền gọi API này |
 | `SERVER_BUSY` | 503 | Hệ thống đang bận, lỗi kết nối hoặc truy vấn CSDL quá lâu (timeout) |
