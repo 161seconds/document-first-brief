@@ -14,7 +14,7 @@ Dưới đây là 3 form đã được viết sẵn cho 3 trường hợp lọc 
 ### Dữ liệu test
 - **Precondition / Mock setup:**
   ```text
-  - DB Mock tồn tại 3 sản phẩm với 3 loại khác nhau: "Combo 1" (ProductType="Combo"), "Material 1" (ProductType="Material"), "Product 1" (ProductType="Product").
+  - DB Mock tồn tại 3 sản phẩm với 3 loại khác nhau: "Combo 1" (ProductType="Combo"), "Thành phần 1" (ProductType="Thành phần"), "Sản phẩm 1" (ProductType="Sản phẩm").
   - typeProduct = ProductFilterType.Combo.
   ```
 
@@ -62,7 +62,7 @@ Dưới đây là 3 form đã được viết sẵn cho 3 trường hợp lọc 
 ### Dữ liệu test
 - **Precondition / Mock setup:**
   ```text
-  - DB Mock tồn tại 3 sản phẩm với 3 loại khác nhau: "Combo 1" (ProductType="Combo"), "Material 1" (ProductType="Material"), "Product 1" (ProductType="Product").
+  - DB Mock tồn tại 3 sản phẩm với 3 loại khác nhau: "Combo 1" (ProductType="Combo"), "Thành phần 1" (ProductType="Thành phần"), "Sản phẩm 1" (ProductType="Sản phẩm").
   - typeProduct = ProductFilterType.Material.
   ```
 
@@ -75,7 +75,7 @@ Dưới đây là 3 form đã được viết sẵn cho 3 trường hợp lọc 
 
 - **Expected output *:**
   ```text
-  Trả về danh sách sản phẩm thành công, danh sách chứa duy nhất các sản phẩm thuộc loại "Material".
+  Trả về danh sách sản phẩm thành công, danh sách chứa duy nhất các sản phẩm thuộc loại "Thành phần".
   ```
 
 ### Phân loại và trách nhiệm
@@ -84,7 +84,7 @@ Dưới đây là 3 form đã được viết sẵn cho 3 trường hợp lọc 
 - **Owner:** (Tên của bạn)
 - **Rationale *:** 
   ```text
-  Xác nhận luồng chính cho phép người dùng lọc và tìm kiếm chính xác danh sách các sản phẩm theo loại Vật liệu (Material).
+  Xác nhận luồng chính cho phép người dùng lọc và tìm kiếm chính xác danh sách các sản phẩm theo loại Vật liệu (Thành phần).
   ```
 
 - **TEST_LINKS:**
@@ -110,7 +110,7 @@ Dưới đây là 3 form đã được viết sẵn cho 3 trường hợp lọc 
 ### Dữ liệu test
 - **Precondition / Mock setup:**
   ```text
-  - DB Mock tồn tại 3 sản phẩm với 3 loại khác nhau: "Combo 1" (ProductType="Combo"), "Material 1" (ProductType="Material"), "Product 1" (ProductType="Product").
+  - DB Mock tồn tại 3 sản phẩm với 3 loại khác nhau: "Combo 1" (ProductType="Combo"), "Thành phần 1" (ProductType="Thành phần"), "Sản phẩm 1" (ProductType="Sản phẩm").
   - typeProduct = ProductFilterType.Product.
   ```
 
@@ -123,7 +123,7 @@ Dưới đây là 3 form đã được viết sẵn cho 3 trường hợp lọc 
 
 - **Expected output *:**
   ```text
-  Trả về danh sách sản phẩm thành công, danh sách chứa duy nhất các sản phẩm thuộc loại "Product" thông thường.
+  Trả về danh sách sản phẩm thành công, danh sách chứa duy nhất các sản phẩm thuộc loại "Sản phẩm" thông thường.
   ```
 
 ### Phân loại và trách nhiệm
@@ -158,7 +158,7 @@ Dưới đây là 3 form đã được viết sẵn cho 3 trường hợp lọc 
 ### Dữ liệu test
 - **Precondition / Mock setup:**
   ```text
-  - DB Mock tồn tại 3 sản phẩm với 3 loại khác nhau: "Combo 1", "Material 1", "Product 1".
+  - DB Mock tồn tại 3 sản phẩm với 3 loại khác nhau: "Combo 1", "Thành phần 1", "Sản phẩm 1".
   - request không truyền (hoặc truyền null) thuộc tính typeProduct.
   ```
 
@@ -205,7 +205,7 @@ Dưới đây là 3 form đã được viết sẵn cho 3 trường hợp lọc 
 ### Dữ liệu test
 - **Precondition / Mock setup:**
   ```text
-  - DB Mock CHỈ tồn tại các sản phẩm loại "Material" và "Product".
+  - DB Mock CHỈ tồn tại các sản phẩm loại "Thành phần" và "Sản phẩm".
   - KHÔNG có sản phẩm nào loại "Combo" trong DB.
   ```
 
