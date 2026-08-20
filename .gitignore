@@ -1,0 +1,15 @@
+hoatheomua/Code/
+**/Code/
+
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+bin/
+obj/
+*.log
+.DS_Store
+Thumbs.db

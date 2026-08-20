@@ -1,290 +1,209 @@
-# Các form Unit Test cho UT-002-01 (Đã điền đầy đủ 3 case)
+# Các form Unit Test cho US-002 (GetLocalProductsV2)
 
-Dưới đây là 3 form đã được viết sẵn cho 3 trường hợp lọc khác nhau (Combo, Material, Product) theo đúng chuẩn văn phong ngắn gọn. Bạn chỉ việc copy và paste từng khung nhé!
+Dưới đây là các form Unit Test chuẩn hóa khớp 100% với danh sách quản lý kiểm thử trên hệ thống.
 
 ---
 
-## 1. UT-002-01 (Case 1: Lọc Combo)
+## 1. UT-002-01 (xem và search list material)
 
 ### Đơn vị kiểm thử
 - **Module *:** Xem và tìm kiếm danh sách sản phẩm theo loại
-- **Unit under test *:** GetLocalProductsV2
+- **Unit under test *:** `GetLocalProductsV2`
 - **Loại:** `Happy`
 
 ### Dữ liệu test
 - **Precondition / Mock setup:**
   ```text
-  - DB Mock tồn tại 3 sản phẩm với 3 loại khác nhau: "Combo 1" (ProductType="Combo"), "Thành phần 1" (ProductType="Thành phần"), "Sản phẩm 1" (ProductType="Sản phẩm").
-  - typeProduct = ProductFilterType.Combo.
+  - DB Mock tồn tại các sản phẩm với Barcode, NhanhProductId, ProductName khác nhau:
+    + P1: ProductName = "Hoa hồng đỏ Đà Lạt", ProductLabel = "Thành phần", IsDeleted = false
+    + P2: ProductName = "Hoa cúc họa mi", ProductLabel = "Thành phần", IsDeleted = false
+    + P3: ProductName = "Hoa hồng Ecuador", ProductType = "Sản phẩm", IsDeleted = false
   ```
 
 - **Input:**
   ```text
-  request = {
-    typeProduct = ProductFilterType.Combo
+  request = new Request.LocalProductQueryRequest {
+      productType = "thành phần",
+      search = "hồng"
   }
   ```
 
 - **Expected output *:**
   ```text
-  Trả về danh sách sản phẩm thành công, danh sách chứa duy nhất các sản phẩm thuộc loại "Combo".
-  ```
-
-### Phân loại và trách nhiệm
-- **Suite:** `SMOKE` (hoặc `REGRESSION`)
-- **Priority:** `P1`
-- **Owner:** (Tên của bạn)
-- **Rationale *:** 
-  ```text
-  Xác nhận luồng chính cho phép người dùng lọc và tìm kiếm chính xác danh sách các sản phẩm theo loại Combo.
-  ```
-
-- **TEST_LINKS:**
-  ```text
-  US-002
-  TDD-002
-  ```
-
-- **Ghi chú:**
-  ```text
-  Xác nhận hệ thống filter chính xác loại sản phẩm Combo, không hiển thị lẫn lộn Vật liệu hay Sản phẩm thường.
-  ```
-
----
-
-## 2. UT-002-01 (Case 2: Lọc Material - Vật liệu)
-
-### Đơn vị kiểm thử
-- **Module *:** Xem và tìm kiếm danh sách sản phẩm theo loại
-- **Unit under test *:** GetLocalProductsV2
-- **Loại:** `Happy`
-
-### Dữ liệu test
-- **Precondition / Mock setup:**
-  ```text
-  - DB Mock tồn tại 3 sản phẩm với 3 loại khác nhau: "Combo 1" (ProductType="Combo"), "Thành phần 1" (ProductType="Thành phần"), "Sản phẩm 1" (ProductType="Sản phẩm").
-  - typeProduct = ProductFilterType.Material.
-  ```
-
-- **Input:**
-  ```text
-  request = {
-    typeProduct = ProductFilterType.Material
-  }
-  ```
-
-- **Expected output *:**
-  ```text
-  Trả về danh sách sản phẩm thành công, danh sách chứa duy nhất các sản phẩm thuộc loại "Thành phần".
+  - Trả về BasePaginationResponse thành công.
+  - Danh sách Items chỉ chứa P1 (vừa có ProductLabel chứa "thành phần" vừa khớp từ khóa search "hồng").
+  - P2 bị loại vì không khớp search; P3 bị loại vì không phải loại "thành phần".
   ```
 
 ### Phân loại và trách nhiệm
 - **Suite:** `SMOKE`
 - **Priority:** `P1`
-- **Owner:** (Tên của bạn)
+- **Owner:** Quoc Bao
 - **Rationale *:** 
   ```text
-  Xác nhận luồng chính cho phép người dùng lọc và tìm kiếm chính xác danh sách các sản phẩm theo loại Vật liệu (Thành phần).
+  Xác nhận luồng kết hợp giữa lọc theo loại thành phần (vật liệu) và tìm kiếm từ khóa hoạt động chính xác.
   ```
-
-- **TEST_LINKS:**
-  ```text
-  US-002
-  TDD-002
-  ```
-
-- **Ghi chú:**
-  ```text
-  Xác nhận hệ thống filter chính xác loại sản phẩm Vật liệu, không hiển thị lẫn lộn Combo hay Sản phẩm thường.
-  ```
+- **TEST_LINKS:** `US-002`, `TDD-002`
 
 ---
 
-## 3. UT-002-01 (Case 3: Lọc Product - Sản phẩm thường)
+## 2. UT-002-02 (Lọc Product - sản phẩm thường)
 
 ### Đơn vị kiểm thử
 - **Module *:** Xem và tìm kiếm danh sách sản phẩm theo loại
-- **Unit under test *:** GetLocalProductsV2
+- **Unit under test *:** `GetLocalProductsV2`
 - **Loại:** `Happy`
 
 ### Dữ liệu test
 - **Precondition / Mock setup:**
   ```text
-  - DB Mock tồn tại 3 sản phẩm với 3 loại khác nhau: "Combo 1" (ProductType="Combo"), "Thành phần 1" (ProductType="Thành phần"), "Sản phẩm 1" (ProductType="Sản phẩm").
-  - typeProduct = ProductFilterType.Product.
+  - DB Mock có các sản phẩm:
+    + P_IND: ProductType = "Sản phẩm", không có sản phẩm con.
+    + P_MIXED (Cha): ProductType = "Sản phẩm", có con Con_1 (Combo) và Con_2 (Sản phẩm).
+    + P_ALL_COMBO (Cha): ProductType = "Sản phẩm", có con Con_3 (Combo) và Con_4 (Combo).
+    + P_COMBO: ProductType = "Combo", không có con.
   ```
 
 - **Input:**
   ```text
-  request = {
-    typeProduct = ProductFilterType.Product
+  request = new Request.LocalProductQueryRequest {
+      productType = "Sản phẩm"
   }
   ```
 
 - **Expected output *:**
   ```text
-  Trả về danh sách sản phẩm thành công, danh sách chứa duy nhất các sản phẩm thuộc loại "Sản phẩm" thông thường.
+  - Trả về danh sách gồm 2 sản phẩm: P_IND và P_MIXED.
+  - P_ALL_COMBO bị loại trừ vì toàn bộ con là Combo (thuộc nhóm Combo).
+  - P_COMBO bị loại trừ vì là loại Combo.
   ```
 
 ### Phân loại và trách nhiệm
 - **Suite:** `SMOKE`
 - **Priority:** `P1`
-- **Owner:** (Tên của bạn)
+- **Owner:** Quoc Bao
 - **Rationale *:** 
   ```text
-  Xác nhận luồng chính cho phép người dùng lọc và tìm kiếm chính xác danh sách các sản phẩm thông thường (Product).
+  Xác nhận hệ thống lọc chính xác các sản phẩm thông thường và loại trừ đúng nhóm Combo cha-con.
   ```
-
-- **TEST_LINKS:**
-  ```text
-  US-002
-  TDD-002
-  ```
-
-- **Ghi chú:**
-  ```text
-  Xác nhận hệ thống filter chính xác loại sản phẩm Sản phẩm thường, không hiển thị lẫn lộn Combo hay Vật liệu.
-  ```
+- **TEST_LINKS:** `US-002`, `TDD-002`
 
 ---
 
-## 4. UT-002-01 (Case 4: Boundary - Không truyền typeProduct)
+## 3. UT-002-02-01 (Lọc Material - vật liệu)
 
 ### Đơn vị kiểm thử
 - **Module *:** Xem và tìm kiếm danh sách sản phẩm theo loại
-- **Unit under test *:** GetLocalProductsV2
+- **Unit under test *:** `GetLocalProductsV2`
+- **Loại:** `Happy`
+
+### Dữ liệu test
+- **Precondition / Mock setup:**
+  ```text
+  - DB Mock có các sản phẩm:
+    + M1: ProductLabel = "Thành phần 1", IsDeleted = false
+    + M2: ProductLabel = "Vật liệu và thành phần", IsDeleted = false
+    + P1: ProductLabel = "Hoa hồng", ProductType = "Sản phẩm", IsDeleted = false
+  ```
+
+- **Input:**
+  ```text
+  request = new Request.LocalProductQueryRequest {
+      productType = "thành phần"
+  }
+  ```
+
+- **Expected output *:**
+  ```text
+  - Trả về danh sách gồm đúng 2 vật liệu: M1 và M2 (khớp điều kiện LIKE %thành phần%).
+  - TotalCount = 2.
+  - Không chứa sản phẩm P1.
+  ```
+
+### Phân loại và trách nhiệm
+- **Suite:** `SMOKE`
+- **Priority:** `P1`
+- **Owner:** Quoc Bao
+- **Rationale *:** 
+  ```text
+  Xác nhận hệ thống lọc chính xác danh sách vật liệu cấu thành dựa trên ProductLabel.
+  ```
+- **TEST_LINKS:** `US-002`, `TDD-002`
+
+---
+
+## 4. UT-002-03 (kh truyền typeProduct)
+
+### Đơn vị kiểm thử
+- **Module *:** Xem và tìm kiếm danh sách sản phẩm theo loại
+- **Unit under test *:** `GetLocalProductsV2`
 - **Loại:** `Boundary`
 
 ### Dữ liệu test
 - **Precondition / Mock setup:**
   ```text
-  - DB Mock tồn tại 3 sản phẩm với 3 loại khác nhau: "Combo 1", "Thành phần 1", "Sản phẩm 1".
-  - request không truyền (hoặc truyền null) thuộc tính typeProduct.
+  - DB Mock tồn tại 3 sản phẩm hợp lệ với các loại khác nhau (Combo, Thành phần, Sản phẩm thường), IsDeleted = false và không phải sản phẩm con.
   ```
 
 - **Input:**
   ```text
-  request = {
-    typeProduct = null
+  request = new Request.LocalProductQueryRequest {
+      productType = null
   }
   ```
 
 - **Expected output *:**
   ```text
-  Trả về thành công danh sách chứa TẤT CẢ 3 sản phẩm mà không thực hiện thao tác lọc loại sản phẩm nào.
+  - Trả về thành công danh sách chứa toàn bộ 3 sản phẩm mà không lọc theo loại.
+  - TotalCount = 3.
   ```
 
 ### Phân loại và trách nhiệm
 - **Suite:** `REGRESSION`
 - **Priority:** `P2`
-- **Owner:** (Tên của bạn)
+- **Owner:** Quoc Bao
 - **Rationale *:** 
   ```text
-  Đảm bảo hệ thống vẫn hiển thị tất cả các loại sản phẩm khi người dùng không chọn filter.
+  Đảm bảo hành vi mặc định (default behavior) khi không truyền tham số productType thì hiển thị đầy đủ danh sách sản phẩm.
   ```
-
-- **TEST_LINKS:**
-  ```text
-  US-002
-  ```
-
-- **Ghi chú:**
-  ```text
-  Kiểm tra tính chịu lỗi và default behavior khi API nhận request rỗng ở parameter.
-  ```
+- **TEST_LINKS:** `US-002`
 
 ---
 
-## 5. UT-002-01 (Case 5: Boundary - Không có dữ liệu thoả mãn)
+## 5. UT-002-04 (kh có dữ liệu thỏa mãn)
 
 ### Đơn vị kiểm thử
 - **Module *:** Xem và tìm kiếm danh sách sản phẩm theo loại
-- **Unit under test *:** GetLocalProductsV2
+- **Unit under test *:** `GetLocalProductsV2`
 - **Loại:** `Edge`
 
 ### Dữ liệu test
 - **Precondition / Mock setup:**
   ```text
-  - DB Mock CHỈ tồn tại các sản phẩm loại "Thành phần" và "Sản phẩm".
-  - KHÔNG có sản phẩm nào loại "Combo" trong DB.
+  - DB Mock chỉ tồn tại các sản phẩm loại "Sản phẩm thường" và "Thành phần".
+  - Không tồn tại bất kỳ sản phẩm nào thuộc loại "Combo".
   ```
 
 - **Input:**
   ```text
-  request = {
-    typeProduct = ProductFilterType.Combo
+  request = new Request.LocalProductQueryRequest {
+      productType = "Combo"
   }
   ```
 
 - **Expected output *:**
   ```text
-  - Hàm vẫn chạy thành công (Status 200 OK).
-  - Danh sách trả về là một mảng rỗng (Items = []).
-  - Thuộc tính TotalCount = 0.
+  - Hàm thực thi thành công, không ném exception hay lỗi.
+  - TotalCount = 0.
+  - Danh sách Items trả về là một mảng rỗng (Items = []).
   ```
 
 ### Phân loại và trách nhiệm
 - **Suite:** `REGRESSION`
 - **Priority:** `P2`
-- **Owner:** (Tên của bạn)
+- **Owner:** Quoc Bao
 - **Rationale *:** 
   ```text
-  Xác nhận hệ thống không bị crash hoặc ném exception khi kết quả query rỗng.
+  Xác nhận hệ thống xử lý mượt mà khi kết quả truy vấn rỗng, không gây lỗi 500 hay crash hệ thống.
   ```
-
-- **TEST_LINKS:**
-  ```text
-  US-002
-  ```
-
-- **Ghi chú:**
-  ```text
-  Trường hợp người dùng filter một danh mục hoặc loại sản phẩm chưa có dữ liệu tồn tại trong kho.
-  ```
-
----
-
-## 6. UT-002-01 (Case 6: Error - Lỗi kết nối CSDL / Timeout)
-
-### Đơn vị kiểm thử
-- **Module *:** Xem và tìm kiếm danh sách sản phẩm theo loại
-- **Unit under test *:** GetLocalProductsV2
-- **Loại:** `Exception / Error`
-
-### Dữ liệu test
-- **Precondition / Mock setup:**
-  ```text
-  - Mock DB Context ném ra Exception (TimeoutException hoặc SqlException) khi gọi hành động query dữ liệu.
-  ```
-
-- **Input:**
-  ```text
-  request = {
-    typeProduct = ProductFilterType.Material
-  }
-  ```
-
-- **Expected output *:**
-  ```text
-  - Hệ thống ném ra exception nội bộ và API trả về HTTP Status 503 (Internal Server Error / Service Unavailable).
-  - Bắn ra message lỗi "Hệ thống đang bận" theo thiết kế.
-  ```
-
-### Phân loại và trách nhiệm
-- **Suite:** `REGRESSION`
-- **Priority:** `P2`
-- **Owner:** (Tên của bạn)
-- **Rationale *:** 
-  ```text
-  Xác nhận hệ thống xử lý ngoại lệ an toàn, không bị rò rỉ dữ liệu (data leak) hoặc crash toàn ứng dụng khi kết nối CSDL có sự cố.
-  ```
-
-- **TEST_LINKS:**
-  ```text
-  US-002
-  ```
-
-- **Ghi chú:**
-  ```text
-  Phần này test khả năng bắt lỗi (Try-Catch) của service.
-  ```
+- **TEST_LINKS:** `US-002`

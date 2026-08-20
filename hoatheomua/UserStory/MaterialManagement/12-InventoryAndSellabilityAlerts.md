@@ -1,13 +1,20 @@
-# STORY-012: Cảnh báo vật liệu sắp hết và combo hết khả năng bán
+# STORY-012: Cảnh báo vật liệu sắp hết trên dashboard
 
 ## Metadata
-- **Story**: Là một Quản trị viên, tôi muốn được cảnh báo các vật liệu sắp hết và các combo hoa sắp không bán được, để chủ động nhập hàng trước khi mất doanh thu.
-- **Context**: Cơ chế tính khả năng bán chỉ có giá trị nếu quản trị viên biết được tình hình sớm. Đưa cảnh báo lên dashboard biến dữ liệu tồn kho từ thông tin bị động thành công cụ vận hành chủ động. Vật liệu được hiểu là các sản phẩm cấu thành nên bó hoa combo như (hoa hồng, hoa hướng dương,...) Combo được hiểu là một sản phẩm hoa lớn chưa nhiều vật liệu thành phần.
+- **Story**: Là một Quản trị viên, tôi muốn được cảnh báo các vật liệu sắp hết và các combo hoa sắp không bán được, để chủ động nhập hàng trước khi mất doanh thu
+- **Context**: Cơ chế tính khả năng bán chỉ có giá trị nếu quản trị viên biết được tình hình sớm. Đưa cảnh báo lên dashboard biến dữ liệu tồn kho từ thông tin bị động thành công cụ vận hành chủ động. Vật liệu được hiểu là các sản phẩm cấu thành nên bó hoa combo như (hoa hồng, hoa hướng dương,...) Combo được hiểu là một sản phẩm hoa lớn chưa nhiều vật liệu thành phần
 - **Sprint**: S4
 - **Priority**: Could
+- **Phiên bản**: v1.0
+- **Phê duyệt**: Nháp
+- **Cập nhật**: 10/08/2026
+- **Author**: Hồ Hoàng Nam
+- **Reviewer**: Nguyễn Đức Bình
+- **Approver**: Chưa chỉ định
+- **Owner**: Hồ Hoàng Nam
+- **Status**: Cần làm
 - **Assignee**: BE: Hồ Hoàng Nam | FE: Hồ Hoàng Nam
 - **Creator**: Hồ Hoàng Nam
-- **Status**: Cần làm
 
 ## Conditions
 - **Preconditions**: 
@@ -23,10 +30,10 @@
 4. Mỗi dòng cảnh báo có liên kết nhanh tới màn hình nhập kho của vật liệu tương ứng.
 
 ### Alternative Flow
-- **ALT-02**: Hệ thống hiển thị trạng thái tồn kho ổn định (nếu không có cảnh báo nào).
+- **ALT-02 — Không có cảnh báo**: Hệ thống hiển thị trạng thái tồn kho ổn định.
 
 ### Exception Flow
-- **EXC-01**: Hệ thống hiển thị thông báo không tải được cảnh báo và giữ nguyên các khối khác của dashboard.
+- **EXC-01 — Lỗi tính toán**: Hệ thống hiển thị thông báo không tải được cảnh báo và giữ nguyên các khối khác của dashboard.
 
 ## Acceptance Criteria
 - **AC-001**: 
@@ -37,6 +44,10 @@
   - **Given**: Combo hoa đang mở bán có số lượng có thể bán bằng 0.
   - **When**: Quản trị viên mở dashboard.
   - **Then**: Combo hoa xuất hiện trong khối cảnh báo.
+
+## References
+- **TDDs**: 
+  - [TDD-010](file:///d:/VNZ/document-first-brief/hoatheomua/TDD/TDD-010.md) (Xem, tìm kiếm và filter theo sản phẩm có nhãn là vật liệu)
 
 ## Non-Functional
 - Khối cảnh báo tải trong dưới 2 giây và không chặn hiển thị các khối khác của dashboard.
