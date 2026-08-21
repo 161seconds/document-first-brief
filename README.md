@@ -13,6 +13,11 @@ document-first-brief/
 ├── .gitignore
 ├── README.md                                  # Tài liệu tổng quan dự án
 └── hoatheomua/
+    ├── BusinessRules/                         # Quy tắc nghiệp vụ hệ thống (Business Rules)
+    │   ├── BR-013.md                          # Giữ dòng tham chiếu vật liệu ngừng kinh doanh
+    │   ├── BR-014.md                          # Thứ tự hiển thị theo vai trò
+    │   ├── BR-018.md                          # Hoa phụ không giới hạn khả năng bán
+    │   └── BR-019.md                          # Combo không đủ điều kiện thì bằng 0
     ├── ConfirmedDoc/                          # Tài liệu API & nghiệp vụ đã chốt
     │   └── HTM_MATERIAL_API.md
     ├── UserStory/                             # Đặc tả yêu cầu người dùng (User Stories)
