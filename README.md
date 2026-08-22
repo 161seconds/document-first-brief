@@ -19,6 +19,7 @@ document-first-brief/
     │   ├── BR-018.md                          # Hoa phụ không giới hạn khả năng bán
     │   └── BR-019.md                          # Combo không đủ điều kiện thì bằng 0
     ├── ConfirmedDoc/                          # Tài liệu API & nghiệp vụ đã chốt
+    │   ├── DanhSach_API.md                    # Tổng hợp toàn bộ các API đã làm & chức năng
     │   └── HTM_MATERIAL_API.md
     ├── UserStory/                             # Đặc tả yêu cầu người dùng (User Stories)
     │   ├── MaterialManagement/                # Phân hệ Quản lý Vật liệu & Định lượng Combo
