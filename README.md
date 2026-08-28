@@ -39,6 +39,7 @@ document-first-brief/
     │   │   ├── DiagramUS002.md
     │   │   └── DiagramUS006.md
     │   └── FlouristAI/                        # TDD Phân hệ Thiết kế Hoa & Thiệp AI
+    │       ├── COVERAGE.md                    # Ma trận bao phủ Unit Test phân hệ FlouristAI
     │       ├── TDD-030/                       # Tạo mẫu hoa AI (18 UTs)
     │       ├── TDD-035/                       # Tạo thiệp thiết kế AI (19 UTs)
     │       ├── TDD-036/                       # Tạo lại thiệp từ lịch sử (12 UTs)
@@ -165,7 +166,7 @@ Tài liệu thiết kế chi tiết kiến trúc, ERD, Sequence Diagram, API Con
 Toàn bộ các test cases được chuẩn hóa định dạng khớp 100% với giao diện nhập liệu Web Form quản lý kiểm thử:
 
 * **Phân hệ Material Management ([`hoatheomua/UnitTest/MaterialManagement/`](file:///d:/VNZ/document-first-brief/hoatheomua/UnitTest/MaterialManagement/)):** 11 Test Cases chuẩn hóa cho US-006 và US-002.
-* **Phân hệ Flourist AI (Tổng cộng 121 Test Cases theo từng TDD Module):**
+* **Phân hệ Flourist AI (Tổng cộng 121 Test Cases — Xem chi tiết tại [`COVERAGE.md`](file:///d:/VNZ/document-first-brief/hoatheomua/TDD/FlouristAI/COVERAGE.md)):**
   * [`TDD-030`](file:///d:/VNZ/document-first-brief/hoatheomua/TDD/FlouristAI/TDD-030/): 18 UTs (`UT-030-01` $\rightarrow$ `UT-030-18`) — Tạo mẫu hoa AI
   * [`TDD-035`](file:///d:/VNZ/document-first-brief/hoatheomua/TDD/FlouristAI/TDD-035/): 19 UTs (`UT-035-01` $\rightarrow$ `UT-035-19`) — Tạo thiệp AI tại checkout
   * [`TDD-036`](file:///d:/VNZ/document-first-brief/hoatheomua/TDD/FlouristAI/TDD-036/): 12 UTs (`UT-036-01` $\rightarrow$ `UT-036-12`) — Tạo lại thiệp từ lịch sử

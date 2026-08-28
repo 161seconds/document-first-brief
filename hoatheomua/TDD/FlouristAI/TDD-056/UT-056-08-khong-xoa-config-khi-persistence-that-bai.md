@@ -1,33 +1,59 @@
 # UT-056-08: Không xóa Config khi persistence thất bại
 
 ## Thông tin tài liệu
+- **Tiêu đề (bắt buộc)**: Không xóa Config khi persistence thất bại
+- **Ghi chú**: Kịch bản error - khi save thất bại, config giữ nguyên IsDeleted=false.
 
+## Metadata quản trị tài liệu
 - **Mã tài liệu**: UT-056-08
-- **Phiên bản**: v1.0
+- **Phiên bản**: v0.1
+- **Author (bắt buộc)**: Codex
+- **Reviewer**: Chưa chỉ định
+- **Approver**: Chưa chỉ định
+- **Owner (bắt buộc)**: Nhóm Hoa Theo Mùa
 - **Cập nhật gần nhất**: 2026-08-28
 
 ## Đơn vị kiểm thử
-
-- **Module**: CARD CONFIG
+- **Module (bắt buộc)**: CARD CONFIG
+- **Unit under test (bắt buộc)**: ConfigService.DeleteConfigAsync(id)
 - **Loại**: Error
-- **Unit under test**: Service/handler của TDD-056.
-- **Kịch bản**: Không xóa Config khi persistence thất bại.
-- **Expected output**: Trả lỗi theo TDD; transaction/state được rollback và quota không bị tiêu hao sai.
+- **Precondition / Mock setup**:
+  - User đã đăng nhập với quyền Admin
+  - Database có config:
+    - config-001: id="uuid-config", is_deleted=false
+  - SaveChangesAsync mock throw exception khi update
+- **Input**:
+  ```
+  DELETE /api/v1/configs/uuid-config
+  ```
+- **Expected output (bắt buộc)**:
+  ```
+  HTTP 500
+  Response body:
+  {
+    "error": {
+      "code": "INTERNAL_SERVER_ERROR",
+      "message": "Đã xảy ra lỗi. Vui lòng thử lại sau."
+    }
+  }
+  
+  Kiểm tra database:
+  - config.is_deleted vẫn = false
+  - config.updated_at không thay đổi
+  
+  Lý do: Khi save thất bại, transaction rollback và config giữ nguyên trạng thái cũ.
+  ```
 
-## Thiết lập và assertion
-
-- Dùng mock phù hợp cho repository, AI/storage và current user.
-- Kiểm tra response, số lần gọi dependency và state cuối cùng của dữ liệu liên quan.
+## Phân loại và trách nhiệm
+- **Suite**: REGRESSION
+- **Priority**: P2
+- **Owner**: Nhóm Hoa Theo Mùa
+- **Rationale (bắt buộc)**: Xác nhận rằng khi save thất bại, dữ liệu không bị thay đổi (rollback).
 
 ## TEST_LINKS
 
 **Link 1**
-- **Loại**: Business Rule
-- **Mã**: BR-056
-- **Section**: Kịch bản UT-056-08
-
-**Link 2**
 - **Loại**: TDD
 - **Mã**: TDD-056
-- **Section**: Business Rules / API examples
-
+- **Section**: Mã lỗi - INTERNAL_SERVER_ERROR
+- **Ghi chú**: Liên kết đến mã lỗi khi persistence thất bại.

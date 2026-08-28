@@ -1,33 +1,59 @@
 # UT-055-09: Từ chối tạo Card Config khi chưa đăng nhập
 
 ## Thông tin tài liệu
+- **Tiêu đề (bắt buộc)**: Từ chối tạo Card Config khi chưa đăng nhập
+- **Ghi chú**: Kịch bản authentication - user chưa đăng nhập không được phép tạo config.
 
+## Metadata quản trị tài liệu
 - **Mã tài liệu**: UT-055-09
-- **Phiên bản**: v1.0
+- **Phiên bản**: v0.1
+- **Author (bắt buộc)**: Codex
+- **Reviewer**: Chưa chỉ định
+- **Approver**: Chưa chỉ định
+- **Owner (bắt buộc)**: Nhóm Hoa Theo Mùa
 - **Cập nhật gần nhất**: 2026-08-28
 
 ## Đơn vị kiểm thử
+- **Module (bắt buộc)**: CARD CONFIG
+- **Unit under test (bắt buộc)**: ConfigController.CreateConfig (authentication)
+- **Loại**: Error
+- **Precondition / Mock setup**:
+  - User chưa đăng nhập (không có token hoặc token không hợp lệ)
+- **Input**:
+  ```
+  POST /api/v1/configs
+  {
+    "group": "card_size",
+    "key": "size_A",
+    "kind": "Setting",
+    "value": { "name": "A" }
+  }
+  (không có Authorization header)
+  ```
+- **Expected output (bắt buộc)**:
+  ```
+  HTTP 401
+  Response body:
+  {
+    "error": {
+      "code": "UNAUTHORIZED",
+      "message": "Bạn cần đăng nhập để thực hiện thao tác này."
+    }
+  }
+  
+  Lý do: User chưa đăng nhập phải nhận HTTP 401 trước khi kiểm tra authorization.
+  ```
 
-- **Module**: CARD CONFIG
-- **Loại**: Validation / Authorization
-- **Unit under test**: Service/handler của TDD-055.
-- **Kịch bản**: Từ chối tạo Card Config khi chưa đăng nhập.
-- **Expected output**: Trả đúng HTTP/messageCode theo TDD; không gọi dependency không cần thiết và không thay đổi dữ liệu.
-
-## Thiết lập và assertion
-
-- Dùng mock phù hợp cho repository, AI/storage và current user.
-- Kiểm tra response, số lần gọi dependency và state cuối cùng của dữ liệu liên quan.
+## Phân loại và trách nhiệm
+- **Suite**: SMOKE
+- **Priority**: P1
+- **Owner**: Nhóm Hoa Theo Mùa
+- **Rationale (bắt buộc)**: Xác nhận rằng authentication được enforce - user chưa đăng nhập bị từ chối với HTTP 401.
 
 ## TEST_LINKS
 
 **Link 1**
-- **Loại**: Business Rule
-- **Mã**: BR-055
-- **Section**: Kịch bản UT-055-09
-
-**Link 2**
 - **Loại**: TDD
 - **Mã**: TDD-055
-- **Section**: Business Rules / API examples
-
+- **Section**: Mã lỗi - UNAUTHORIZED
+- **Ghi chú**: Liên kết đến mã lỗi authentication.

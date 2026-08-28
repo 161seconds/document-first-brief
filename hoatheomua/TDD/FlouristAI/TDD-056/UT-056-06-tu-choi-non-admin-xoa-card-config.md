@@ -1,33 +1,58 @@
 # UT-056-06: Từ chối non-Admin xóa Card Config
 
 ## Thông tin tài liệu
+- **Tiêu đề (bắt buộc)**: Từ chối non-Admin xóa Card Config
+- **Ghi chú**: Kịch bản authorization - chỉ Admin mới được phép xóa config.
 
+## Metadata quản trị tài liệu
 - **Mã tài liệu**: UT-056-06
-- **Phiên bản**: v1.0
+- **Phiên bản**: v0.1
+- **Author (bắt buộc)**: Codex
+- **Reviewer**: Chưa chỉ định
+- **Approver**: Chưa chỉ định
+- **Owner (bắt buộc)**: Nhóm Hoa Theo Mùa
 - **Cập nhật gần nhất**: 2026-08-28
 
 ## Đơn vị kiểm thử
+- **Module (bắt buộc)**: CARD CONFIG
+- **Unit under test (bắt buộc)**: ConfigController.DeleteConfig (authorization)
+- **Loại**: Error
+- **Precondition / Mock setup**:
+  - User đã đăng nhập với quyền Staff (không phải Admin)
+- **Input**:
+  ```
+  DELETE /api/v1/configs/550e8400-e29b-41d4-a716-446655440001
+  ```
+- **Expected output (bắt buộc)**:
+  ```
+  HTTP 403
+  Response body:
+  {
+    "error": {
+      "code": "ACCESS_DENIED",
+      "message": "Bạn không có quyền thực hiện thao tác này."
+    }
+  }
+  
+  Lý do: Theo BR-056-01, chỉ Admin mới có quyền xóa card config. Staff phải bị chặn với HTTP 403.
+  ```
 
-- **Module**: CARD CONFIG
-- **Loại**: Validation / Authorization
-- **Unit under test**: Service/handler của TDD-056.
-- **Kịch bản**: Từ chối non-Admin xóa Card Config.
-- **Expected output**: Trả đúng HTTP/messageCode theo TDD; không gọi dependency không cần thiết và không thay đổi dữ liệu.
-
-## Thiết lập và assertion
-
-- Dùng mock phù hợp cho repository, AI/storage và current user.
-- Kiểm tra response, số lần gọi dependency và state cuối cùng của dữ liệu liên quan.
+## Phân loại và trách nhiệm
+- **Suite**: SMOKE
+- **Priority**: P1
+- **Owner**: Nhóm Hoa Theo Mùa
+- **Rationale (bắt buộc)**: Xác nhận rằng authorization được enforce - chỉ Admin mới được phép xóa Card Config.
 
 ## TEST_LINKS
 
 **Link 1**
-- **Loại**: Business Rule
-- **Mã**: BR-056
-- **Section**: Kịch bản UT-056-06
+- **Loại**: TDD
+- **Mã**: TDD-056
+- **Section**: BR-056-01
+- **Ghi chú**: Liên kết đến Business Rule về quyền Admin.
 
 **Link 2**
 - **Loại**: TDD
 - **Mã**: TDD-056
-- **Section**: Business Rules / API examples
-
+- **Section**: Ví dụ 4 - Authorization: Non-admin user
+- **Ghi chú**: Liên kết đến API Contract example.

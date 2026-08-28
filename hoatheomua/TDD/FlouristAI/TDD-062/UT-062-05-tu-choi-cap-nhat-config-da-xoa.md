@@ -1,33 +1,57 @@
 # UT-062-05: Từ chối cập nhật Config đã xóa
 
 ## Thông tin tài liệu
+- **Tiêu đề (bắt buộc)**: Từ chối cập nhật Config đã xóa
+- **Ghi chú**: Kịch bản error - config có IsDeleted=true không thể cập nhật.
 
+## Metadata quản trị tài liệu
 - **Mã tài liệu**: UT-062-05
-- **Phiên bản**: v1.0
+- **Phiên bản**: v0.1
+- **Author (bắt buộc)**: Codex
+- **Reviewer**: Chưa chỉ định
+- **Approver**: Chưa chỉ định
+- **Owner (bắt buộc)**: Nhóm Hoa Theo Mùa
 - **Cập nhật gần nhất**: 2026-08-28
 
 ## Đơn vị kiểm thử
+- **Module (bắt buộc)**: CARD CONFIG
+- **Unit under test (bắt buộc)**: ConfigService.UpdateConfigAsync(id, request)
+- **Loại**: Error
+- **Precondition / Mock setup**:
+  - User đã đăng nhập với quyền Admin
+  - Database có config đã xóa:
+    - config-deleted: id="uuid-config", is_deleted=true
+- **Input**:
+  ```
+  PUT /api/v1/configs/uuid-config
+  {
+    "value": { "base_price": 120000 }
+  }
+  ```
+- **Expected output (bắt buộc)**:
+  ```
+  HTTP 404
+  Response body:
+  {
+    "error": {
+      "code": "NOT_FOUND",
+      "message": "Config not found."
+    }
+  }
+  
+  Lý do: Theo BR-062-07, không thể cập nhật config đã bị xóa (IsDeleted=true). Config đã xóa không được tìm thấy.
+  ```
 
-- **Module**: CARD CONFIG
-- **Loại**: Validation / Authorization
-- **Unit under test**: Service/handler của TDD-062.
-- **Kịch bản**: Từ chối cập nhật Config đã xóa.
-- **Expected output**: Trả đúng HTTP/messageCode theo TDD; không gọi dependency không cần thiết và không thay đổi dữ liệu.
-
-## Thiết lập và assertion
-
-- Dùng mock phù hợp cho repository, AI/storage và current user.
-- Kiểm tra response, số lần gọi dependency và state cuối cùng của dữ liệu liên quan.
+## Phân loại và trách nhiệm
+- **Suite**: REGRESSION
+- **Priority**: P2
+- **Owner**: Nhóm Hoa Theo Mùa
+- **Rationale (bắt buộc)**: Xác nhận rằng soft-deleted configs không thể cập nhật.
 
 ## TEST_LINKS
 
 **Link 1**
-- **Loại**: Business Rule
-- **Mã**: BR-062
-- **Section**: Kịch bản UT-062-05
-
-**Link 2**
 - **Loại**: TDD
 - **Mã**: TDD-062
-- **Section**: Business Rules / API examples
-
+- **Section**: BR-062-07
+- **Ghi chú**: Liên kết đến Business Rule về không cập nhật config đã xóa.
