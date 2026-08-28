@@ -47,7 +47,7 @@
 
 ## References
 - **TDDs**: 
-  - [TDD-010](file:///d:/VNZ/document-first-brief/hoatheomua/TDD/TDD-010.md) (Xem, tìm kiếm và filter theo sản phẩm có nhãn là vật liệu)
+  - [TDD-010](file:///d:/VNZ/document-first-brief/hoatheomua/TDD/MaterialManagement/TDD-010.md) (Xem, tìm kiếm và filter theo sản phẩm có nhãn là vật liệu)
 
 ## Non-Functional
 - Khối cảnh báo tải trong dưới 2 giây và không chặn hiển thị các khối khác của dashboard.

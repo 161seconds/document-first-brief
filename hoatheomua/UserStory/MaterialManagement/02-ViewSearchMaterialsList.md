@@ -97,7 +97,7 @@
 
 ## References
 - **TDDs (1)**: 
-  - [TDD-010](file:///d:/VNZ/document-first-brief/hoatheomua/TDD/TDD-010.md) (Xem, tìm kiếm và filter theo sản phẩm có nhãn là vật liệu)
+  - [TDD-010](file:///d:/VNZ/document-first-brief/hoatheomua/TDD/MaterialManagement/TDD-010.md) (Xem, tìm kiếm và filter theo sản phẩm có nhãn là vật liệu)
 - **Unit Tests (5)**:
   - `UT-002-01`: Xem và search list material
   - `UT-002-02`: Lọc Product - sản phẩm thường

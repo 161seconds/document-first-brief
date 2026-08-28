@@ -88,12 +88,12 @@
 
 ## References
 - **TDDs (1)**: 
-  - [TDD-011](file:///d:/VNZ/document-first-brief/hoatheomua/TDD/TDD-011.md) (Xem công thức định lượng của combo hoa)
+  - [TDD-011](file:///d:/VNZ/document-first-brief/hoatheomua/TDD/MaterialManagement/TDD-011.md) (Xem công thức định lượng của combo hoa)
 - **Rules (4)**:
-  - [`BR-013`](file:///d:/VNZ/document-first-brief/hoatheomua/BusinessRules/BR-013.md): Giữ dòng tham chiếu vật liệu ngừng kinh doanh
-  - [`BR-014`](file:///d:/VNZ/document-first-brief/hoatheomua/BusinessRules/BR-014.md): Thứ tự hiển thị theo vai trò
-  - [`BR-018`](file:///d:/VNZ/document-first-brief/hoatheomua/BusinessRules/BR-018.md): Hoa phụ không giới hạn khả năng bán
-  - [`BR-019`](file:///d:/VNZ/document-first-brief/hoatheomua/BusinessRules/BR-019.md): Combo không đủ điều kiện thì bằng 0
+  - [`BR-013`](file:///d:/VNZ/document-first-brief/hoatheomua/BusinessRules/MaterialManagement/BR-013.md): Giữ dòng tham chiếu vật liệu ngừng kinh doanh
+  - [`BR-014`](file:///d:/VNZ/document-first-brief/hoatheomua/BusinessRules/MaterialManagement/BR-014.md): Thứ tự hiển thị theo vai trò
+  - [`BR-018`](file:///d:/VNZ/document-first-brief/hoatheomua/BusinessRules/MaterialManagement/BR-018.md): Hoa phụ không giới hạn khả năng bán
+  - [`BR-019`](file:///d:/VNZ/document-first-brief/hoatheomua/BusinessRules/MaterialManagement/BR-019.md): Combo không đủ điều kiện thì bằng 0
 - **Dependencies**: 
   - [STORY-002](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/MaterialManagement/02-ViewSearchMaterialsList.md)
 - **Unit Tests (6)**:
