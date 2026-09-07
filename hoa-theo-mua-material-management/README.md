@@ -1,6 +1,6 @@
-# HTM_Material_Management — Phân hệ Quản lý Vật liệu & Định lượng Combo (`htm-material-management`)
+# HTM_Material_Management — Phân hệ Quản lý Vật liệu & Định lượng Combo (`hoa-theo-mua-material-management`)
 
-> **Mã dự án (Key)**: `htm-material-management`  
+> **Mã dự án (Key)**: `hoa-theo-mua-material-management`  
 > **Tên dự án**: `HTM_Material_Management`  
 > **Phương pháp tiếp cận**: Document-First System Specification  
 
@@ -19,7 +19,7 @@
 ## 📂 Cấu trúc Thư mục
 
 ```text
-htm-material-management/
+hoa-theo-mua-material-management/
 ├── README.md                              # Tài liệu tổng quan phân hệ
 ├── BusinessRules/                         # Quy tắc nghiệp vụ hệ thống (Business Rules)
 │   ├── BR-013.md                          # Giữ dòng tham chiếu vật liệu ngừng kinh doanh
@@ -53,16 +53,16 @@ htm-material-management/
 
 | Mã Story | Tên tài liệu | TDD liên kết | Mô tả tóm tắt |
 | :--- | :--- | :--- | :--- |
-| **STORY-002** | [`02-ViewSearchMaterialsList.md`](file:///d:/VNZ/document-first-brief/htm-material-management/UserStory/02-ViewSearchMaterialsList.md) | [TDD-010](file:///d:/VNZ/document-first-brief/htm-material-management/TDD/TDD-010.md) | Xem, tìm kiếm và lọc danh sách nguyên vật liệu có nhãn "thành phần". |
-| **STORY-006** | [`06-ViewComboFormula.md`](file:///d:/VNZ/document-first-brief/htm-material-management/UserStory/06-ViewComboFormula.md) | [TDD-011](file:///d:/VNZ/document-first-brief/htm-material-management/TDD/TDD-011.md) | Xem chi tiết công thức định lượng và số lượng có thể bán của Combo hoa. |
-| **STORY-007** | [`07-AddMaterialsToComboFormula.md`](file:///d:/VNZ/document-first-brief/htm-material-management/UserStory/07-AddMaterialsToComboFormula.md) | — | Thêm nguyên vật liệu mới vào công thức Combo hoa. |
-| **STORY-008** | [`08-UpdateMaterialsInComboFormula.md`](file:///d:/VNZ/document-first-brief/htm-material-management/UserStory/08-UpdateMaterialsInComboFormula.md) | — | Chỉnh sửa định lượng và vai trò (Chính / Phụ) của vật liệu trong Combo. |
-| **STORY-009** | [`09-RemoveMaterialsFromComboFormula.md`](file:///d:/VNZ/document-first-brief/htm-material-management/UserStory/09-RemoveMaterialsFromComboFormula.md) | — | Xóa nguyên vật liệu khỏi công thức cấu thành Combo hoa. |
-| **STORY-012** | [`12-InventoryAndSellabilityAlerts.md`](file:///d:/VNZ/document-first-brief/htm-material-management/UserStory/12-InventoryAndSellabilityAlerts.md) | [TDD-010](file:///d:/VNZ/document-first-brief/htm-material-management/TDD/TDD-010.md) | Hiển thị cảnh báo vật liệu sắp hết tồn kho và combo hết hàng trên Dashboard. |
-| **STORY-013** | [`13-ViewComboSellableQuantity.md`](file:///d:/VNZ/document-first-brief/htm-material-management/UserStory/13-ViewComboSellableQuantity.md) | [TDD-011](file:///d:/VNZ/document-first-brief/htm-material-management/TDD/TDD-011.md) | Xem số lượng tối đa có thể bán của combo hoa theo thời gian thực. |
-| **STORY-014** | [`14-DisplayComboAvailabilityStatus.md`](file:///d:/VNZ/document-first-brief/htm-material-management/UserStory/14-DisplayComboAvailabilityStatus.md) | — | Hiển thị trạng thái còn hàng / hết hàng của Combo trên giao diện. |
-| **STORY-015** | [`15-ValidateSellableQuantityBeforeOrder.md`](file:///d:/VNZ/document-first-brief/htm-material-management/UserStory/15-ValidateSellableQuantityBeforeOrder.md) | — | Kiểm tra và chặn đặt hàng vượt quá số lượng tồn kho khả dụng. |
-| **STORY-016** | [`16-ManageMaterialsReservationAndInventoryLifecycle.md`](file:///d:/VNZ/document-first-brief/htm-material-management/UserStory/16-ManageMaterialsReservationAndInventoryLifecycle.md) | — | Quản lý vòng đời giữ hàng (Reservation) và trừ tồn kho vật liệu. |
-| **STORY-017** | [`17-CopyComboFormula.md`](file:///d:/VNZ/document-first-brief/htm-material-management/UserStory/17-CopyComboFormula.md) | — | Sao chép công thức định lượng từ Combo này sang Combo khác. |
-| **STORY-018** | [`18-AdjustMaterialsInventory.md`](file:///d:/VNZ/document-first-brief/htm-material-management/UserStory/18-AdjustMaterialsInventory.md) | — | Điều chỉnh tồn kho thực tế của nguyên vật liệu. |
-| **STORY-019** | [`19-ViewMaterialsInventoryHistory.md`](file:///d:/VNZ/document-first-brief/htm-material-management/UserStory/19-ViewMaterialsInventoryHistory.md) | — | Xem lịch sử biến động tồn kho nguyên vật liệu. |
+| **STORY-002** | [`02-ViewSearchMaterialsList.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/UserStory/02-ViewSearchMaterialsList.md) | [TDD-010](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/TDD/TDD-010.md) | Xem, tìm kiếm và lọc danh sách nguyên vật liệu có nhãn "thành phần". |
+| **STORY-006** | [`06-ViewComboFormula.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/UserStory/06-ViewComboFormula.md) | [TDD-011](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/TDD/TDD-011.md) | Xem chi tiết công thức định lượng và số lượng có thể bán của Combo hoa. |
+| **STORY-007** | [`07-AddMaterialsToComboFormula.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/UserStory/07-AddMaterialsToComboFormula.md) | — | Thêm nguyên vật liệu mới vào công thức Combo hoa. |
+| **STORY-008** | [`08-UpdateMaterialsInComboFormula.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/UserStory/08-UpdateMaterialsInComboFormula.md) | — | Chỉnh sửa định lượng và vai trò (Chính / Phụ) của vật liệu trong Combo. |
+| **STORY-009** | [`09-RemoveMaterialsFromComboFormula.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/UserStory/09-RemoveMaterialsFromComboFormula.md) | — | Xóa nguyên vật liệu khỏi công thức cấu thành Combo hoa. |
+| **STORY-012** | [`12-InventoryAndSellabilityAlerts.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/UserStory/12-InventoryAndSellabilityAlerts.md) | [TDD-010](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/TDD/TDD-010.md) | Hiển thị cảnh báo vật liệu sắp hết tồn kho và combo hết hàng trên Dashboard. |
+| **STORY-013** | [`13-ViewComboSellableQuantity.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/UserStory/13-ViewComboSellableQuantity.md) | [TDD-011](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/TDD/TDD-011.md) | Xem số lượng tối đa có thể bán của combo hoa theo thời gian thực. |
+| **STORY-014** | [`14-DisplayComboAvailabilityStatus.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/UserStory/14-DisplayComboAvailabilityStatus.md) | — | Hiển thị trạng thái còn hàng / hết hàng của Combo trên giao diện. |
+| **STORY-015** | [`15-ValidateSellableQuantityBeforeOrder.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/UserStory/15-ValidateSellableQuantityBeforeOrder.md) | — | Kiểm tra và chặn đặt hàng vượt quá số lượng tồn kho khả dụng. |
+| **STORY-016** | [`16-ManageMaterialsReservationAndInventoryLifecycle.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/UserStory/16-ManageMaterialsReservationAndInventoryLifecycle.md) | — | Quản lý vòng đời giữ hàng (Reservation) và trừ tồn kho vật liệu. |
+| **STORY-017** | [`17-CopyComboFormula.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/UserStory/17-CopyComboFormula.md) | — | Sao chép công thức định lượng từ Combo này sang Combo khác. |
+| **STORY-018** | [`18-AdjustMaterialsInventory.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/UserStory/18-AdjustMaterialsInventory.md) | — | Điều chỉnh tồn kho thực tế của nguyên vật liệu. |
+| **STORY-019** | [`19-ViewMaterialsInventoryHistory.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/UserStory/19-ViewMaterialsInventoryHistory.md) | — | Xem lịch sử biến động tồn kho nguyên vật liệu. |
