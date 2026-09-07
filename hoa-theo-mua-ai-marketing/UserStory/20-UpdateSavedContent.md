@@ -149,15 +149,12 @@
 ---
 
 ## References
-- **Rules**:
-  - [BR-025](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/421d8701-2950-41f8-908f-4a6838c5b7cb)
-  - [BR-026](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/900ead81-d7af-4e4e-87a8-b093e883833d)
-  - [BR-027](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/d1720b9d-f09b-4541-9c1e-d305c6fb22a8)
-  - [BR-061](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/94d6e933-928d-47fd-a918-f8e0f9f0935b)
-  - [BR-062](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/9376331f-36e6-4f4d-9ff4-2b6514d88fa8)
-- **Dependencies**:
-  - STORY-017 (Tự động viết content và hashtag - quy tắc định dạng nội dung & hashtag).
-  - STORY-018 (Xem content đã lưu).
+
+### Business Rules
+- [BR-025: Giới hạn độ dài nội dung Content](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-025.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/421d8701-2950-41f8-908f-4a6838c5b7cb))
+- [BR-026: Đồng bộ giao dịch khi sửa Content](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-026.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/900ead81-d7af-4e4e-87a8-b093e883833d))
+- [BR-061: Phạm vi chỉnh sửa Content](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-061.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/94d6e933-928d-47fd-a918-f8e0f9f0935b))
+- [BR-062: Không ghi đè Content đã thay đổi trong lúc sửa](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-062.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/9376331f-36e6-4f4d-9ff4-2b6514d88fa8))
 
 ---
 

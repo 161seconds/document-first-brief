@@ -191,18 +191,16 @@
 ---
 
 ## References
-- **Rules**:
-  - [BR-072](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/869a0fdc-0466-49ed-974b-4b32e56637a8)
-  - [BR-073](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/dff4b12d-1e46-495d-84fa-24e0b40acafd)
-  - [BR-074](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/ebee11e8-268d-45ff-bcef-26e35f4e25db)
-  - [BR-075](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/02a51e91-1297-48e7-851a-7aeed98a73ba)
-  - [BR-076](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/2d88ab0a-7bad-4790-b5fc-69e45531f229)
-  - [BR-077](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/63972f8f-2185-44ae-9bf6-e1b0b1dbdfc1)
-  - [BR-078](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/5b8ac8cd-3750-4a12-a0c1-6b8dc3a7f317)
-  - [BR-079](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/f58fe6a9-b92b-44c6-bb0b-84b3505b9366)
-- **Dependencies**:
-  - Kết nối API với các nền tảng mạng xã hội: Facebook Graph API, Instagram Graph API, Zalo OA API.
-  - Thư viện xuất tệp bảng tính XLSX (ví dụ: openpyxl, SheetJS hoặc ExcelJS).
+
+### Business Rules
+- [BR-072: Loại lịch thu thập báo cáo và dữ liệu bắt buộc](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-072.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/869a0fdc-0466-49ed-974b-4b32e56637a8))
+- [BR-073: Múi giờ và ngày thực hiện lịch hằng tháng](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-073.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/dff4b12d-1e46-495d-84fa-24e0b40acafd))
+- [BR-074: Một lần thu thập cho mỗi nền tảng tại một thời điểm](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-074.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/ebee11e8-268d-45ff-bcef-26e35f4e25db))
+- [BR-075: Điều kiện nền tảng được thu thập báo cáo](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-075.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/02a51e91-1297-48e7-851a-7aeed98a73ba))
+- [BR-076: Thu thập báo cáo độc lập theo từng nền tảng](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-076.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/2d88ab0a-7bad-4790-b5fc-69e45531f229))
+- [BR-077: Chỉ tạo báo cáo từ dữ liệu đầy đủ](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-077.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/63972f8f-2185-44ae-9bf6-e1b0b1dbdfc1))
+- [BR-078: Thông tin bắt buộc của báo cáo nền tảng](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-078.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/5b8ac8cd-3750-4a12-a0c1-6b8dc3a7f317))
+- [BR-079: Định dạng tệp báo cáo tải xuống](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-079.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/f58fe6a9-b92b-44c6-bb0b-84b3505b9366))
 
 ---
 

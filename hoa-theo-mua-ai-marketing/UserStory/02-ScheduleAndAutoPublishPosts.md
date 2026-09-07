@@ -170,16 +170,16 @@
 ## References
 
 ### Business Rules
-- [BR-001](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/f47d6261-cae6-4ed8-b879-249b26d17464)
-- [BR-002](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/4f9d052b-085c-404f-a824-3aba19aff7a1)
-- [BR-003](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/829d7c04-6572-41e0-99ab-bde96247c61f)
-- [BR-004](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/0b6c451c-d250-4513-aa5d-7354e6e4537b)
-- [BR-005](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/b69f2298-64eb-4355-ab2d-d8f18afdc46e)
-- [BR-006](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/94ad04a1-10ed-4d41-9345-aa73112ca1cb)
-- [BR-046](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/a90db8e1-0a6f-4bac-90d1-637449f6c024)
-- [BR-047](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/f8a54fb3-59bc-4856-a49f-ad5155633da0)
-- [BR-048](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/853f7ce5-9493-499a-8304-68c56403ac74)
-- [BR-049](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/841ae103-814f-49d5-bba4-2f3a7e354756)
+- [BR-001: Định dạng file ảnh đính kèm bài đăng](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-001.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/f47d6261-cae6-4ed8-b879-249b26d17464))
+- [BR-002: Dung lượng tối đa của ảnh đính kèm](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-002.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/4f9d052b-085c-404f-a824-3aba19aff7a1))
+- [BR-003: Giới hạn số lượng ảnh đính kèm bài đăng](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-003.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/829d7c04-6572-41e0-99ab-bde96247c61f))
+- [BR-004: Thời điểm hẹn giờ đăng bài hợp lệ](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-004.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/0b6c451c-d250-4513-aa5d-7354e6e4537b))
+- [BR-005: Bắt buộc chọn nền tảng mạng xã hội](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-005.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/b69f2298-64eb-4355-ab2d-d8f18afdc46e))
+- [BR-006: Chống trùng lặp lịch đăng bài](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-006.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/94ad04a1-10ed-4d41-9345-aa73112ca1cb))
+- [BR-046: Nội dung hợp lệ của lịch đăng bài](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-046.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/a90db8e1-0a6f-4bac-90d1-637449f6c024))
+- [BR-047: Nền tảng hợp lệ và không trùng trong lịch đăng](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-047.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/f8a54fb3-59bc-4856-a49f-ad5155633da0))
+- [BR-048: Trạng thái đăng được ghi nhận riêng theo nền tảng](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-048.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/853f7ce5-9493-499a-8304-68c56403ac74))
+- [BR-049: Xử lý lỗi từ nền tảng khi tự động đăng](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-049.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/841ae103-814f-49d5-bba4-2f3a7e354756))
 
 ---
 

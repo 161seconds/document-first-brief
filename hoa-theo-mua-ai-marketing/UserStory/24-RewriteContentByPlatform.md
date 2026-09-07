@@ -174,14 +174,12 @@
 ---
 
 ## References
-- **Rules**:
-  - [BR-068](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/34dcdf09-ae77-4289-a543-4dc358144acc)
-  - [BR-069](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/6d7ccf54-c00a-47ac-8188-1f8e34bd84d4)
-  - [BR-070](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/4b698021-f4a6-4a2f-aed8-ce74dfd9d546)
-  - [BR-071](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/0c1b3d9d-e24c-465c-9d58-12563df8cb90)
-- **Dependencies**:
-  - STORY-017 (Tự động viết content và hashtag - dịch vụ AI sinh nội dung).
-  - STORY-018 (Xem content đã lưu lại - nguồn lấy content gốc).
+
+### Business Rules
+- [BR-068: Xử lý viết lại độc lập theo từng nền tảng](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-068.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/34dcdf09-ae77-4289-a543-4dc358144acc))
+- [BR-069: Kết quả viết lại (paraphrase) phải hợp lệ theo nền tảng](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-069.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/6d7ccf54-c00a-47ac-8188-1f8e34bd84d4))
+- [BR-070: Lưu kết quả viết lại thành Content mới](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-070.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/4b698021-f4a6-4a2f-aed8-ce74dfd9d546))
+- [BR-071: Lưu toàn vẹn Content viết lại](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-071.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/0c1b3d9d-e24c-465c-9d58-12563df8cb90))
 
 ---
 

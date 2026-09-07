@@ -130,7 +130,7 @@
 ## References
 
 ### Business Rules
-- [BR-040](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/1610ca66-ea96-494a-a1fe-b80ee018ce9a)
+- [BR-040: Sắp xếp danh sách System Prompt](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-040.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/1610ca66-ea96-494a-a1fe-b80ee018ce9a))
 
 ---
 

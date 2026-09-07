@@ -194,14 +194,14 @@
 ## References
 
 ### Business Rules
-- [BR-032](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/422cb56a-ad99-48c9-8598-7d518003905c)
-- [BR-033](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/a35a33f1-0c45-4939-97fd-6c9b231db023)
-- [BR-034](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/975e2c2e-6677-4299-a158-632a1a8a7317)
-- [BR-035](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/9e4b0677-442e-4a96-9a9e-ff0f17eabf9f)
-- [BR-036](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/bfeef817-f4cd-4491-b81b-8fde08a6a752)
-- [BR-037](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/861df50a-8c52-4214-bd53-aaa6e06fd86a)
-- [BR-050](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/a3b24a75-f5c8-430c-8b8a-70d840b1ee7a)
-- [BR-051](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/39702271-8c70-45ec-befc-8dd7e5b20aa0)
+- [BR-032: Định dạng file ảnh gốc (Core Image)](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-032.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/422cb56a-ad99-48c9-8598-7d518003905c))
+- [BR-033: Dung lượng ảnh gốc tối đa](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-033.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/a35a33f1-0c45-4939-97fd-6c9b231db023))
+- [BR-034: Hỗ trợ các tỷ lệ sinh ảnh AI](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-034.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/975e2c2e-6677-4299-a158-632a1a8a7317))
+- [BR-035: Ràng buộc giữ vùng an toàn (Safe Zone)](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-035.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/9e4b0677-442e-4a96-9a9e-ff0f17eabf9f))
+- [BR-036: Độ dài tên hình ảnh lưu trữ](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-036.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/bfeef817-f4cd-4491-b81b-8fde08a6a752))
+- [BR-037: Độ dài mô tả hình ảnh](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-037.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/861df50a-8c52-4214-bd53-aaa6e06fd86a))
+- [BR-050: Một yêu cầu sinh ảnh chỉ có một ảnh nguồn và một tỷ lệ](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-050.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/a3b24a75-f5c8-430c-8b8a-70d840b1ee7a))
+- [BR-051: Lưu toàn vẹn ảnh kết quả và thông tin liên quan](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-051.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/39702271-8c70-45ec-befc-8dd7e5b20aa0))
 
 ---
 

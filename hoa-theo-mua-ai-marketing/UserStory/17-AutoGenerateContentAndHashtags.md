@@ -179,22 +179,20 @@
 ---
 
 ## References
-- **Rules**:
-  - [BR-015](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/bd997782-4580-4519-b96d-91ef12536a20)
-  - [BR-016](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/87f9f8f0-515f-48c1-8f46-4aa57ffef4bf)
-  - [BR-017](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/f2b1c31e-65cf-4fe1-be04-b4fe035b0779)
-  - [BR-018](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/8b93f9ae-a327-48be-8e1d-78f40bdd9c23)
-  - [BR-019](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/2dd59a4b-f4ed-489b-8788-ab3684cd7da4)
-  - [BR-020](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/8c0f117b-25fe-4070-9e3f-682a955ddd4c)
-  - [BR-021](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/af6d57ef-0350-4009-a454-7f8f04f37eaf)
-  - [BR-022](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/1b8d95f0-954e-48d3-8a45-fee5ddcfe830)
-  - [BR-055](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/960037a7-033a-4ea1-8ab1-3cf6820e5e7b)
-  - [BR-056](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/8d6b4823-8fd0-4af2-a63e-e13ad7e5844c)
-  - [BR-057](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/918f53c2-dd63-4962-98d7-b4383ae5cf2e)
-  - [BR-058](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/6a28f2d2-9f3e-44e4-9d4a-8855cd933f99)
-- **Dependencies**:
-  - Tích hợp dịch vụ AI xử lý ngôn ngữ tự nhiên (LLM).
-  - Tích hợp với System Prompt quản lý cấu hình sinh nội dung.
+
+### Business Rules
+- [BR-015: Độ dài Chủ đề (Topic) khi sinh content](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-015.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/bd997782-4580-4519-b96d-91ef12536a20))
+- [BR-016: Độ dài Đối tượng (Target Audience)](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-016.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/87f9f8f0-515f-48c1-8f46-4aa57ffef4bf))
+- [BR-017: Giới hạn số lượng hashtag](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-017.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/f2b1c31e-65cf-4fe1-be04-b4fe035b0779))
+- [BR-018: Định dạng bắt đầu của Hashtag](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-018.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/8b93f9ae-a327-48be-8e1d-78f40bdd9c23))
+- [BR-019: Không chứa khoảng trắng trong Hashtag](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-019.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/2dd59a4b-f4ed-489b-8788-ab3684cd7da4))
+- [BR-020: Độ dài cho phép của một Hashtag](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-020.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/8c0f117b-25fe-4070-9e3f-682a955ddd4c))
+- [BR-021: Ký tự hợp lệ trong Hashtag](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-021.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/af6d57ef-0350-4009-a454-7f8f04f37eaf))
+- [BR-022: Loại bỏ Hashtag trùng lặp](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-022.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/1b8d95f0-954e-48d3-8a45-fee5ddcfe830))
+- [BR-055: Giá trị Mục tiêu và Giọng văn khi tạo Content](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-055.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/960037a7-033a-4ea1-8ab1-3cf6820e5e7b))
+- [BR-056: Chỉ tạo Content cho một nền tảng hợp lệ](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-056.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/8d6b4823-8fd0-4af2-a63e-e13ad7e5844c))
+- [BR-057: Kết quả AI hợp lệ trước khi sử dụng](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-057.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/918f53c2-dd63-4962-98d7-b4383ae5cf2e))
+- [BR-058: Lưu toàn vẹn Content và hashtag do AI tạo](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-058.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/6a28f2d2-9f3e-44e4-9d4a-8855cd933f99))
 
 ---
 

@@ -139,12 +139,10 @@
 ## References
 
 ### Business Rules
-- [BR-041](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/7fcca618-4169-41e1-9191-35ad76d245d6)
-- [BR-042](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/8e47c852-d79c-4345-946a-e3fd36e9ab53)
-- `BR-043`
-- `BR-044`
-- [BR-045](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/aa2f2bab-03a7-4455-a2e5-c638749cb6f4)
-- [BR-052](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/0bc478ae-bb1f-4f44-ba13-46f161d807de)
+- [BR-041: Độ dài System Prompt](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-041.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/7fcca618-4169-41e1-9191-35ad76d245d6))
+- [BR-042: Định dạng text của System Prompt](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-042.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/8e47c852-d79c-4345-946a-e3fd36e9ab53))
+- [BR-045: Xử lý xung đột khi nhiều người sửa Prompt (Optimistic Locking)](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-045.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/aa2f2bab-03a7-4455-a2e5-c638749cb6f4))
+- [BR-052: Không tạo phiên bản Prompt khi nội dung không thay đổi](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-052.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/0bc478ae-bb1f-4f44-ba13-46f161d807de))
 
 ---
 

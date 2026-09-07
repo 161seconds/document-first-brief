@@ -104,13 +104,10 @@
 ## References
 
 ### Business Rules
-- [BR-007](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/64397395-3bee-4810-b0fb-36a88065b493)
-- [BR-012](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/82bb5dcd-988b-449a-9f8d-0676025e2e25)
-- [BR-013](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/ea2b2e70-3b1b-4843-af44-02c91f3c6050)
-- [BR-014](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/4792eb80-b0dd-4e70-9238-cee45ac86922)
-
-### Dependencies
-- [STORY-002](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/f5539aa1-f2b9-4857-9618-ad3fcb6b3e9e) — Lên lịch và tự động đăng bài
+- [BR-007: Sắp xếp danh sách lịch đăng bài](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-007.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/64397395-3bee-4810-b0fb-36a88065b493))
+- [BR-012: Thứ tự ổn định khi nhiều lịch có cùng thời điểm](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-012.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/82bb5dcd-988b-449a-9f8d-0676025e2e25))
+- [BR-013: Tổng số lịch phải khớp danh sách hiển thị](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-013.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/ea2b2e70-3b1b-4843-af44-02c91f3c6050))
+- [BR-014: Không hiển thị danh sách lịch chưa đầy đủ](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-014.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/4792eb80-b0dd-4e70-9238-cee45ac86922))
 
 ---
 

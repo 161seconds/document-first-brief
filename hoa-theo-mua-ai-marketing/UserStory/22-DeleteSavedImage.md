@@ -136,12 +136,10 @@
 ---
 
 ## References
-- **Rules**:
-  - [BR-039](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/590b277d-94d2-4b88-9adb-469ac97b7554)
-  - [BR-065](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/69f06c2b-30d2-4cca-95bb-624a2f01b648)
-- **Dependencies**:
-  - STORY-003 (Tự động sinh ảnh đa tỷ lệ từ ảnh core - quan hệ phân cấp Parent Core Image và Child Variants).
-  - STORY-002 / STORY-016 (Lên lịch đăng bài - ràng buộc tham chiếu ảnh).
+
+### Business Rules
+- [BR-039: Ràng buộc xóa Hình ảnh](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-039.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/590b277d-94d2-4b88-9adb-469ac97b7554))
+- [BR-065: Xóa toàn vẹn ảnh](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-065.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/69f06c2b-30d2-4cca-95bb-624a2f01b648))
 
 ---
 

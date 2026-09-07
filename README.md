@@ -72,7 +72,7 @@ document-first-brief/
 │
 ├── hoa-theo-mua-ai-marketing/                     # [Dự án 2] HTM_Marketing_AI
 │   ├── README.md                                  # Tài liệu tổng quan phân hệ Marketing AI
-│   ├── BusinessRules/                             # Quy tắc nghiệp vụ (BR-015 -> BR-079)
+│   ├── BusinessRules/                             # 76 Quy tắc nghiệp vụ (BR-001 -> BR-079)
 │   ├── ConfirmedDoc/                              # Hợp đồng API
 │   ├── Context/                                   # Sơ đồ CSDL (generated_posts, post_histories)
 │   │   ├── Marketing_AI_Context.md                # Kiến trúc dữ liệu và liên kết đa hình
@@ -136,6 +136,7 @@ document-first-brief/
 
 ### 4.2. Phân hệ `HTM_Marketing_AI` (`hoa-theo-mua-ai-marketing`)
 * **Tổng quan:** [`hoa-theo-mua-ai-marketing/README.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/README.md)
+* **Quy tắc nghiệp vụ (76 Business Rules):** Danh mục 76 quy tắc chuẩn hóa độc lập (chi tiết tại [Ma trận Business Rules](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/README.md#-5-ma-trận-76-quy-tắc-nghiệp-vụ-business-rules-matrix)).
 * **Đặc tả yêu cầu (19 User Stories):**
   - [`02-ScheduleAndAutoPublishPosts.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/02-ScheduleAndAutoPublishPosts.md): **STORY-002** — Lên lịch và tự động đăng bài đa nền tảng.
   - [`03-AutoGenerateMultiRatioImagesFromCore.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/03-AutoGenerateMultiRatioImagesFromCore.md): **STORY-003** — Tự động sinh ảnh đa tỷ lệ từ ảnh core (1:1, 4:5, 9:16, 16:9, 2:1).

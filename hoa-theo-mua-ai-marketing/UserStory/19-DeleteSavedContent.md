@@ -128,12 +128,11 @@
 ---
 
 ## References
-- **Rules**:
-  - [BR-028](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/f57b8dc5-f3cc-49ad-9833-41018e846869)
-  - [BR-029](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/efe66a56-d882-4eb1-b50c-dbe53e03197d)
-  - [BR-060](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/be5d785f-b838-4112-b336-bfd9bef893a6)
-- **Dependencies**:
-  - STORY-002 / STORY-016: Lên lịch đăng bài (kiểm tra ràng buộc khóa ngoại/tham chiếu).
+
+### Business Rules
+- [BR-028: Ràng buộc dữ liệu khi xóa Content](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-028.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/f57b8dc5-f3cc-49ad-9833-41018e846869))
+- [BR-029: Xóa toàn vẹn dữ liệu Content](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-029.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/efe66a56-d882-4eb1-b50c-dbe53e03197d))
+- [BR-060: Kiểm tra lại và ghi nhận thao tác xóa Content](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-060.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/be5d785f-b838-4112-b336-bfd9bef893a6))
 
 ---
 

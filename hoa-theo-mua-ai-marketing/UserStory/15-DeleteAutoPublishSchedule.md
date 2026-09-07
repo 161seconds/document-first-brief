@@ -115,8 +115,8 @@
 ## References
 
 ### Business Rules
-- [BR-010](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/70d8230c-9045-4024-9853-595928975dfc)
-- [BR-011](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/eab55803-cba0-42a1-bf12-6f66349b3055)
+- [BR-010: Trạng thái hợp lệ để xóa lịch đăng](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-010.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/70d8230c-9045-4024-9853-595928975dfc))
+- [BR-011: Xóa lệnh Cron Job khi xóa lịch đăng](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-011.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/eab55803-cba0-42a1-bf12-6f66349b3055))
 
 ---
 

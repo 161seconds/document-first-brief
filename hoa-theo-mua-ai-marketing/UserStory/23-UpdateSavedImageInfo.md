@@ -150,12 +150,10 @@
 ---
 
 ## References
-- **Rules**:
-  - [BR-066](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/017d3150-35dc-47e7-91c9-39b0dac8e258)
-  - [BR-067](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/d1115968-e111-4cde-9899-80fd76368feb)
-- **Dependencies**:
-  - STORY-003 (Tự động sinh ảnh đa tỷ lệ từ ảnh core - ảnh nguồn ban đầu chưa có thẻ và mô tả).
-  - STORY-021 (Xem ảnh đã lưu lại).
+
+### Business Rules
+- [BR-066: Phạm vi chỉnh sửa thông tin ảnh](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-066.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/017d3150-35dc-47e7-91c9-39b0dac8e258))
+- [BR-067: Cập nhật thông tin ảnh phải toàn vẹn](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-067.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/d1115968-e111-4cde-9899-80fd76368feb))
 
 ---
 

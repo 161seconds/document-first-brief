@@ -150,12 +150,11 @@
 ---
 
 ## References
-- **Rules**:
-  - [BR-038](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/a474fc1f-80af-466d-b19c-a026976db2d2)
-  - [BR-063](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/f377e9a9-7114-47cc-885c-6b0934720ec7)
-  - [BR-064](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/1a495c4d-33e8-423a-9116-ce2b21e362e4)
-- **Dependencies**:
-  - STORY-003 (Tự động sinh ảnh đa tỷ lệ từ ảnh core - nguồn dữ liệu ảnh tự động).
+
+### Business Rules
+- [BR-038: Sắp xếp danh sách Ảnh lưu trữ](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-038.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/a474fc1f-80af-466d-b19c-a026976db2d2))
+- [BR-063: Tìm kiếm và lọc ảnh đã lưu](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-063.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/f377e9a9-7114-47cc-885c-6b0934720ec7))
+- [BR-064: Chi tiết ảnh ở chế độ chỉ xem](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-064.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/1a495c4d-33e8-423a-9116-ce2b21e362e4))
 
 ---
 

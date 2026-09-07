@@ -119,14 +119,13 @@
 ---
 
 ## References
-- **Rules**:
-  - [BR-023](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/d8931e9c-6c78-4fed-be86-63cc33ab6ee2)
-  - [BR-024](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/6d8234f3-f64e-4b81-8417-937717758ab5)
-  - [BR-030](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/915eefb3-ff1d-42fe-b434-a0fbf3da89d6)
-  - [BR-031](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/863f2aac-4f15-4862-8f19-d916ba861707)
-  - [BR-059](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/9fa969b5-cc09-4247-b9a0-852771d49c18)
-- **Dependencies**:
-  - STORY-017 (Tự động viết content và hashtag - tạo nguồn dữ liệu content đã lưu).
+
+### Business Rules
+- [BR-023: Sắp xếp danh sách Content](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-023.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/d8931e9c-6c78-4fed-be86-63cc33ab6ee2))
+- [BR-024: Xem chi tiết Content (Read-only)](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-024.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/6d8234f3-f64e-4b81-8417-937717758ab5))
+- [BR-030: Tìm kiếm Content theo từ khóa](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-030.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/915eefb3-ff1d-42fe-b434-a0fbf3da89d6))
+- [BR-031: Lọc Content theo Hashtag](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-031.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/863f2aac-4f15-4862-8f19-d916ba861707))
+- [BR-059: Bộ lọc Content đã lưu](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-059.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/9fa969b5-cc09-4247-b9a0-852771d49c18))
 
 ---
 

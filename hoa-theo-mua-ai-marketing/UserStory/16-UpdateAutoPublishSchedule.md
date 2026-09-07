@@ -169,10 +169,10 @@
 ## References
 
 ### Business Rules
-- [BR-008](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/c90b51f9-dde9-4ad8-8374-d7a0f1ba3c2e)
-- [BR-009](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/13ba9f66-51a7-4cc9-9596-bb5725b8aac1)
-- [BR-053](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/9c59b3ec-029f-420a-8eae-643b64d2319d)
-- [BR-054](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/fb457dd2-6461-4c3d-8732-fdbd18217696)
+- [BR-008: Trạng thái hợp lệ để chỉnh sửa lịch đăng](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-008.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/c90b51f9-dde9-4ad8-8374-d7a0f1ba3c2e))
+- [BR-009: Cập nhật dữ liệu khi sửa lịch đăng](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-009.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/13ba9f66-51a7-4cc9-9596-bb5725b8aac1))
+- [BR-053: Dữ liệu hợp lệ khi sửa lịch đăng](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-053.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/9c59b3ec-029f-420a-8eae-643b64d2319d))
+- [BR-054: Không ghi đè lịch đã thay đổi trong lúc sửa](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-054.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/fb457dd2-6461-4c3d-8732-fdbd18217696))
 
 ---
 
