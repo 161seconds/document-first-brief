@@ -1,21 +1,20 @@
 // AI Customize Database Schema
 // Project: HTM_Flourist_AI
-// Date: 2026-08-27
+// Date: 2026-09-04
 //
 // Flower generation is synchronous. There are no flower_requests or
 // flower_ai_jobs tables: request data is passed to the AI module and only a
 // successful result is persisted.
 
+Project HTM_Flourist_AI {
+  database_type: 'PostgreSQL'
+  Note: 'AI Customize schema. Checkout and Order are outside the current scope.'
+}
+
 Enum platform_type {
   zalo
   facebook
   instagram
-}
-
-Enum generation_type {
-  flower
-  card
-  post
 }
 
 Enum system_prompt_types {
@@ -32,7 +31,7 @@ Enum form_type {
 // Prompt hệ thống cho từng loại generation
 Table system_prompts {
   id uuid [pk]
-  type system_prompt_types
+  type system_prompt_types [not null, unique]
   content text
 }
 
@@ -55,24 +54,29 @@ Table Config {
   created_at timestamp
   updated_at timestamp
   is_deleted boolean
+  // Tối đa một record is_public=true, is_deleted=false cho exact (group,key)
 }
 
-// Template dùng để tạo card
+// Template dùng cho flow AI hoặc mẫu thiệp HandMade do Admin tạo.
 Table card_templates {
   id uuid [pk]
   name varchar
   description text
-  character_limit int
   image_url varchar
   metadata json
+  template_type varchar [not null] // ai | handmade; lowercase and immutable
+  is_active boolean
   created_at timestamp
   updated_at timestamp
   is_deleted boolean
 }
 
-// Bảng products ở Core Database; chỉ biểu diễn khóa tham chiếu.
+// Bảng products ở Core Database. sellableQuantity là derived value tính bằng
+// CalculateAvailableQty từ dữ liệu live; không thêm column sellableQuantity.
 Table products {
   id uuid [pk]
+  is_active boolean
+  is_deleted boolean
 }
 
 Table base_posts {
@@ -89,11 +93,13 @@ Table generated_posts {
   created_at timestamp
 }
 
-// Chỉ lưu kết quả tạo hoa thành công, không lưu input tạm hoặc AI job.
+// Chỉ lưu kết quả tạo hoa thành công; input_snapshot là snapshot bất biến đã
+// validate trước AI, gồm Product/Mockup, bytes hoặc version/hash ảnh và full prompt.
 Table generated_flowers {
   id uuid [pk]
   image_url varchar
   user_id uuid
+  input_snapshot json
   created_at timestamp
 }
 
@@ -103,13 +109,14 @@ Table generated_cards {
   image_url varchar
   user_id uuid
   created_at timestamp
+  card_type varchar [not null] // ai | handmade; lowercase
 
   form_type form_type
   size_key varchar
   sender_name varchar
   receiver_name varchar
   message_content text
-  attached_image_url varchar
+  attached_image_url varchar // null with handmade
 
   size_name varchar
   size_width decimal
@@ -119,7 +126,6 @@ Table generated_cards {
   word_count int
   word_config_snapshot json
 
-  is_confirmed boolean
   base_price decimal
   extra_price decimal
   total_price decimal
@@ -147,13 +153,16 @@ Table mockup {
   updated_at timestamp
 }
 
-// Lịch sử kết quả thành công. base_id và output_id là polymorphic references.
+// Lịch sử kết quả thành công. metadata là JSON snapshot/provenance bất biến.
+// Flower metadata lưu Product/Mockup/prompt/validated_at. AI Card metadata lưu
+// source_type, provenance và template/config/prompt. HandMade Card metadata lưu
+// provenance + Template/Size/Calligraphy snapshot nhưng không có system prompt.
 Table client_histories {
   id uuid [pk]
   user_id uuid
   input text
-  type generation_type
-  system_prompt_id uuid
+  type varchar // flower | card | handmade_card | post
+  system_prompt_id uuid // nullable; null với handmade_card
   metadata json
   created_at timestamp
   base_id uuid
@@ -162,13 +171,22 @@ Table client_histories {
 
 // Config card sử dụng: group = "card_size" hoặc "card_config",
 // kind = "Setting"; value chứa JSON của size hoặc calligraphy_words.
+// Before enabling NOT NULL, backfill existing card_templates.template_type and
+// generated_cards.card_type to "ai". For handmade cards: form_type=calligraphy,
+// attached_image_url=null, base_price=0 and total_price=extra_price; size_base_price
+// keeps the configured Size price for audit.
 
 Ref: post_histories.system_prompt_id > system_prompts.id
 Ref: client_histories.system_prompt_id > system_prompts.id
 
 // Polymorphic references in client_histories.
-Ref: client_histories.base_id > products.id             // flower; card từ combo thường
-Ref: client_histories.base_id > generated_flowers.id    // card từ bó hoa AI
-Ref: client_histories.output_id > generated_flowers.id  // flower
-Ref: client_histories.output_id > generated_cards.id    // card
-Ref: client_histories.output_id > generated_posts.id    // post
+Ref history_base_product: client_histories.base_id > products.id [inactive]
+Ref history_base_flower: client_histories.base_id > generated_flowers.id [inactive]
+Ref history_output_flower: client_histories.output_id > generated_flowers.id [inactive]
+Ref history_output_card: client_histories.output_id > generated_cards.id [inactive]
+Ref history_output_post: client_histories.output_id > generated_posts.id [inactive]
+
+// Resolve lineage: generated_card -> client_histories(type=card|handmade_card); nếu base_id là
+// generated_flower thì tìm client_histories(type=flower) bằng output_id. Không thêm
+// generated_cards.source_flower_id. Soft-delete không xóa history/snapshot;
+// HandMade mới bắt buộc provenance đầy đủ và không hỗ trợ Regenerate.

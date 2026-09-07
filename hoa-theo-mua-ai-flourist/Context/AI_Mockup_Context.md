@@ -2,7 +2,7 @@
 
 > Document First Project: hoa-theo-mua-ai-customize
 > Date: 2026-08-27
-> Last Updated: 2026-08-27
+> Last Updated: 2026-09-04
 
 ---
 
@@ -44,10 +44,10 @@ Mockup là hình ảnh dùng làm tham chiếu cho kiểu dáng, bố cục hoa.
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                      CUSTOMER FLOW                                         │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│  Create Flower Request (STORY-030)                                        │
+│  Create hoặc Regenerate Flower                                            │
 │      │                                                                      │
 │      ▼                                                                      │
-│  Chọn Mockup → Sử dụng Mockup có is_active=true và is_deleted=false      │
+│  Create/chọn mới → validate live; Regenerate bỏ trống → dùng snapshot cũ │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -139,8 +139,8 @@ Admin chọn chức năng "Thêm Mockup".
 |---------|--------|
 | Hiển thị | Không hiển thị trong danh sách Mockup mặc định của Admin |
 | Khách hàng | Không hiển thị cho khách hàng trong quy trình tạo mẫu hoa mới |
-| Sử dụng | Không được sử dụng cho yêu cầu mới hoặc generate lại |
-| Dữ liệu | Vẫn giữ dữ liệu, ảnh Preview và liên kết với các yêu cầu đã tồn tại |
+| Sử dụng | Không được chọn cho request Flower mới hoặc làm Mockup được chọn mới khi Regenerate; snapshot lịch sử vẫn được dùng lại khi client không chọn Mockup |
+| Dữ liệu | Vẫn giữ dữ liệu, ảnh Preview, snapshot trong `generated_flowers`/`client_histories` và kết quả lịch sử |
 
 ---
 
@@ -165,7 +165,6 @@ Table mockup {
 
 ```mermaid
 erDiagram
-    mockup ||--o{ flower_requests : "selected"
     mockup ||--o{ client_histories : "metadata_flower"
 
     mockup {
@@ -179,20 +178,10 @@ erDiagram
         timestamp updated_at
     }
 
-    flower_requests {
-        uuid id PK
-        uuid user_id
-        string name
-        uuid combo_id
-        uuid mockup_id
-        string status
-        timestamp created_at
-    }
-
     client_histories {
         uuid id PK
         uuid user_id
-        string type
+        string type "flower | card | handmade_card | post"
         json metadata
         uuid base_id
         uuid output_id
@@ -206,39 +195,50 @@ erDiagram
 
 ### 4.1 Hiển thị danh sách Mockup (STORY-050)
 
-- **BR-050-01**: Danh sách Mockup chỉ hiển thị các Mockup có `is_deleted = false`
-- **BR-050-02**: Danh sách hiển thị cả Mockup Active và Inactive
-- **BR-050-03**: Danh sách được sắp xếp theo `created_at` giảm dần (mới nhất trước)
-- **BR-050-04**: Hỗ trợ phân trang với các tùy chọn: 5, 10, 20, 30, 40, 50 dòng/trang
-- **BR-050-05**: Mặc định hiển thị 10 dòng/trang
+- **BR-012-01**: Cùng `GET /api/mockups` phục vụ theo role và chỉ trả Mockup có `is_deleted = false`
+- **BR-012-02**: Admin thấy cả Active/Inactive và được filter `is_active`; Customer luôn chỉ thấy Active, kể cả khi truyền filter khác
+- **BR-012-03**: Danh sách được sắp xếp theo `created_at` giảm dần (mới nhất trước)
+- **BR-012-04**: Hỗ trợ phân trang với các tùy chọn: 5, 10, 20, 30, 40, 50 dòng/trang
+- **BR-012-05**: Mặc định hiển thị 10 dòng/trang
 
 ### 4.2 Thêm Mockup (STORY-051)
 
-- **BR-051-01**: Tên Mockup bắt buộc, từ 1 đến 50 ký tự sau khi trim
-- **BR-051-02**: Tên Mockup không chỉ chứa khoảng trắng
-- **BR-051-03**: Mô tả tùy chọn, tối đa 200 ký tự
-- **BR-051-04**: Ảnh Mockup bắt buộc, định dạng PNG hoặc JPG
-- **BR-051-05**: Kích thước file ảnh tối đa 10MB
-- **BR-051-06**: Mockup mới được tạo với `is_active = true` (mặc định)
-- **BR-051-07**: Mockup mới được tạo với `is_deleted = false`
-- **BR-051-08**: Chống duplicate bằng cách kiểm tra trùng lặp request
+- **BR-013-01**: Tên Mockup bắt buộc, từ 1 đến 50 ký tự sau khi trim
+- **BR-013-02**: Tên Mockup không chỉ chứa khoảng trắng
+- **BR-013-03**: Mô tả tùy chọn, tối đa 200 ký tự
+- **BR-013-04**: Ảnh Mockup bắt buộc, định dạng PNG hoặc JPG
+- **BR-013-05**: Kích thước file ảnh tối đa 10MB
+- **BR-013-06**: Mockup mới được tạo với `is_active = true` (mặc định)
+- **BR-013-07**: Mockup mới được tạo với `is_deleted = false`
 
 ### 4.3 Chuyển trạng thái Mockup (STORY-052)
 
-- **BR-052-01**: Mockup Active (`is_active = true`) có thể chuyển sang Inactive
-- **BR-052-02**: Mockup Inactive (`is_active = false`) có thể chuyển sang Active
-- **BR-052-03**: Chỉ Admin có quyền mới được phép chuyển trạng thái
-- **BR-052-04**: Mockup Inactive không hiển thị cho khách hàng
-- **BR-052-05**: Kiểm tra lại trạng thái Mockup khi khách hàng hoàn thành yêu cầu
+- **BR-014-01**: Mockup Active (`is_active = true`) có thể chuyển sang Inactive
+- **BR-014-02**: Mockup Inactive (`is_active = false`) có thể chuyển sang Active
+- **BR-014-03**: Chỉ Admin có quyền mới được phép chuyển trạng thái
+- **BR-014-04**: Mockup Inactive không hiển thị cho khách hàng
+- **BR-014-05**: Request Flower mới kiểm tra trạng thái Mockup đúng một lần tại admission; thay đổi trạng thái sau snapshot không ảnh hưởng request đang chạy
+- **BR-014-06**: Regenerate Flower chỉ kiểm tra live khi client truyền ID Mockup khác nguồn; bỏ trống/null/đúng ID nguồn thì dùng Mockup snapshot nguồn dù record live đã inactive
 
 ### 4.4 Xóa Mockup (STORY-053)
 
-- **BR-053-01**: Sử dụng xóa mềm với `is_deleted = true`
-- **BR-053-02**: Không xóa vật lý dữ liệu hoặc ảnh
-- **BR-053-03**: Mockup đã xóa không hiển thị trong danh sách mặc định
-- **BR-053-04**: Mockup đã xóa không hiển thị cho khách hàng
-- **BR-053-05**: Dữ liệu và liên kết với yêu cầu đã tồn tại được giữ nguyên
-- **BR-053-06**: Kiểm tra `is_deleted` khi khách hàng hoàn thành yêu cầu
+- **BR-015-01**: Sử dụng xóa mềm với `is_deleted = true`
+- **BR-015-02**: Không xóa vật lý dữ liệu hoặc ảnh
+- **BR-015-03**: Mockup đã xóa không hiển thị trong danh sách mặc định
+- **BR-015-04**: Mockup đã xóa không hiển thị cho khách hàng
+- **BR-015-05**: Dữ liệu và liên kết với yêu cầu đã tồn tại được giữ nguyên
+- **BR-015-06**: Request Flower mới kiểm tra `is_deleted` đúng một lần tại admission; không revalidate trước persist/history
+- **BR-015-07**: Soft-delete không vô hiệu hóa Mockup snapshot của Flower lịch sử. Regenerate bỏ trống/null/đúng ID nguồn dùng snapshot đó mà không query record live; nếu client chọn ID khác nguồn thì Mockup mới đã xóa trả `MOCKUP_DELETED/410`
+
+### 4.5 Validation boundary của Generate/Regenerate Flower
+
+- Create Flower và Regenerate có ID Mockup khác nguồn đều validate theo thứ tự cố định: không tồn tại → `MOCKUP_NOT_FOUND/404`; `is_deleted=true` → `MOCKUP_DELETED/410`; chưa xóa nhưng `is_active=false` → `MOCKUP_INACTIVE/409`.
+- Regenerate bỏ trống/null hoặc truyền đúng ID Mockup nguồn dùng nguyên snapshot của Flower nguồn, không query live và không kiểm tra active/soft-delete. Trạng thái record Mockup nguồn không chặn flow này.
+- Khi hợp lệ, service đóng băng metadata và nội dung ảnh bằng bytes đã tải hoặc `url + object_key/version_id + sha256` trong `generated_flowers.input_snapshot` và `client_histories.metadata` trước AI.
+- AI và mọi retry dùng cùng snapshot; không tải lại URL live và không query lại Mockup.
+- Admin inactive/soft-delete Mockup sau admission không được hủy AI, retry, gắn logo, persist `generated_flowers` hoặc persist history.
+- Generated Flower đã thành công vẫn được xem và dùng tạo Card dù Mockup gốc đổi trạng thái. Mockup không phải dependency tồn kho và không được dùng để chặn Checkout/Order.
+- Không có bảng `flower_requests`; toàn bộ Flower/Card history là các record phân loại bởi `client_histories.type`.
 
 ---
 
@@ -248,7 +248,7 @@ erDiagram
 
 | Story | Chức năng | Method | Route | Ghi chú |
 |-------|-----------|--------|-------|----------|
-| STORY-050 | Lấy danh sách Mockup | GET | `/api/mockups` | Phân trang, lọc theo trạng thái |
+| STORY-050, STORY-030 | Lấy danh sách Mockup | GET | `/api/mockups` | Cùng route theo role: Admin thấy active/inactive; Customer chỉ thấy active |
 | STORY-051 | Thêm Mockup | POST | `/api/mockups` | Upload ảnh |
 | STORY-052 | Chuyển trạng thái | PATCH | `/api/mockups/{id}/status` | Toggle Active/Inactive |
 | STORY-053 | Xóa Mockup | DELETE | `/api/mockups/{id}` | Xóa mềm |
@@ -258,10 +258,10 @@ erDiagram
 ## TDDs liên quan
 
 ### Mockup CRUD
-- TDD-050: Lấy danh sách Mockup
-- TDD-051: Thêm Mockup
-- TDD-052: Chuyển trạng thái Mockup
-- TDD-053: Xóa Mockup
+- TDD-012: Lấy danh sách Mockup
+- TDD-013: Thêm Mockup
+- TDD-014: Chuyển trạng thái Mockup
+- TDD-015: Xóa Mockup
 
 ---
 
@@ -270,4 +270,4 @@ erDiagram
 - **Mockup là nguồn tham chiếu**: Dùng làm tham chiếu cho kiểu dáng, bố cục hoa
 - **Trạng thái Active/Inactive**: Kiểm soát Mockup nào được hiển thị cho khách hàng
 - **Xóa mềm**: Không xóa vật lý, giữ nguyên dữ liệu lịch sử
-- **Kiểm tra trạng thái**: Luôn kiểm tra cả `is_active` và `is_deleted` khi sử dụng Mockup
+- **Kiểm tra trạng thái**: Create và Regenerate chọn ID Mockup khác nguồn kiểm tra `is_active`/`is_deleted` một lần tại admission; Regenerate bỏ trống/null/đúng ID nguồn dùng snapshot nguồn không kiểm tra live; không revalidate sau snapshot
