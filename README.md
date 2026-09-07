@@ -75,7 +75,9 @@ document-first-brief/
 │   ├── BusinessRules/                             # Quy tắc nghiệp vụ (BR-015 -> BR-079)
 │   ├── ConfirmedDoc/                              # Hợp đồng API
 │   ├── Context/                                   # Sơ đồ CSDL (generated_posts, post_histories)
-│   │   └── Marketing_AI_Context.md                # Kiến trúc dữ liệu và liên kết đa hình
+│   │   ├── Marketing_AI_Context.md                # Kiến trúc dữ liệu và liên kết đa hình
+│   │   ├── Marketing_AI_DB.dbdiagram              # Sơ đồ CSDL định dạng DBML (dbdiagram.io)
+│   │   └── Marketing_AI_DB_Diagram.md             # Sơ đồ ERD (Mermaid) và đặc tả chi tiết 10 Entities EF Core
 │   ├── UserStory/                                 # 19 User Stories (STORY-002 -> STORY-025)
 │   │   ├── 02-ScheduleAndAutoPublishPosts.md      # STORY-002: Lên lịch và tự động đăng bài
 │   │   ├── 03-AutoGenerateMultiRatioImagesFromCore.md # STORY-003: Tự động sinh ảnh đa tỷ lệ
@@ -154,8 +156,10 @@ document-first-brief/
   - [`23-UpdateSavedImageInfo.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/23-UpdateSavedImageInfo.md): **STORY-023** — Cập nhật metadata của ảnh (tên ảnh, mô tả, thẻ tags).
   - [`24-RewriteContentByPlatform.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/24-RewriteContentByPlatform.md): **STORY-024** — Tự động viết lại nội dung theo từng nền tảng (Facebook, Instagram, Zalo OA).
   - [`25-CollectAndManagePlatformReports.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/25-CollectAndManagePlatformReports.md): **STORY-025** — Thu thập và quản lý báo cáo từ các nền tảng (XLSX).
-* **Tài liệu kiến trúc:**
+* **Tài liệu kiến trúc & CSDL:**
   - [`Marketing_AI_Context.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/Context/Marketing_AI_Context.md) — Kiến trúc dữ liệu `generated_posts`, `post_histories` và liên kết đa hình với `client_histories`.
+  - [`Marketing_AI_DB.dbdiagram`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/Context/Marketing_AI_DB.dbdiagram) — Sơ đồ CSDL định dạng DBML chuẩn cho dbdiagram.io.
+  - [`Marketing_AI_DB_Diagram.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/Context/Marketing_AI_DB_Diagram.md) — Sơ đồ ERD (Mermaid) và đặc tả chi tiết 10 Entities EF Core.
 
 ---
 

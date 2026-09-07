@@ -1,0 +1,190 @@
+// Marketing AI & Repository Database Schema
+// Project: HTM_Marketing_AI (Hoa Theo Mùa)
+// Derived from HoaTheoMua.Repository.Configurations
+
+Project HTM_Marketing_AI {
+  database_type: 'PostgreSQL'
+  Note: 'Database schema for HoaTheoMua.Repository configurations, spanning Marketing AI, Prompts, Posts, Cards, Flowers and Histories.'
+}
+
+// ----------------------------------------------------
+// ENUMS & CUSTOM TYPES
+// ----------------------------------------------------
+
+Enum system_prompt_types {
+  flower
+  card
+  post
+}
+
+Enum platform_type {
+  zalo
+  facebook
+  instagram
+}
+
+Enum form_type {
+  go_may
+  calligraphy
+}
+
+// ----------------------------------------------------
+// TABLES & ENTITY CONFIGURATIONS
+// ----------------------------------------------------
+
+Table system_prompts {
+  id uuid [pk]
+  type system_prompt_types [not null, unique, note: 'Unique index trên type']
+  content text [not null]
+
+  Note: 'Cấu hình System Prompt cho từng loại generation (flower, card, post).'
+}
+
+Table platform_standards {
+  id uuid [pk]
+  platform platform_type [not null, note: 'Index trên platform']
+  description text [not null]
+
+  Note: 'Tiêu chuẩn văn phong và định dạng nội dung cho từng mạng xã hội.'
+}
+
+Table card_templates {
+  id uuid [pk]
+  name varchar(200) [not null]
+  description text
+  image_url varchar(2048) [not null]
+  template_type varchar(20) [not null, note: 'CK: template_type IN (ai, handmade)']
+  is_active boolean [default: true]
+  is_deleted boolean [default: false]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp
+
+  indexes {
+    (template_type, is_active, created_at) [name: 'IX_card_templates_filter', note: 'WHERE is_deleted = false']
+  }
+
+  Note: 'Mẫu thiệp AI hoặc thiệp Handmade thủ công.'
+}
+
+Table mockup {
+  id uuid [pk]
+  name varchar(50) [not null]
+  description varchar(200)
+  image_url varchar(2048) [not null]
+  is_active boolean [default: true]
+  is_deleted boolean [default: false]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp
+
+  indexes {
+    (is_active, created_at) [name: 'IX_mockup_filter', note: 'WHERE is_deleted = false']
+  }
+
+  Note: 'Mockup bình hoa/hộp hoa dùng cho việc dựng ảnh sản phẩm AI.'
+}
+
+Table base_posts {
+  id uuid [pk]
+  content text [not null]
+  image_url varchar(2048) [not null]
+
+  Note: 'Bài viết gốc hoặc bài mẫu truyền thông.'
+}
+
+Table generated_posts {
+  id uuid [pk]
+  content text [not null]
+  image_url varchar(2048) [not null]
+  user_id uuid
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    (user_id, created_at) [name: 'IX_generated_posts_user_created']
+  }
+
+  Note: 'Nội dung bài viết marketing do AI tự động sinh.'
+}
+
+Table generated_flowers {
+  id uuid [pk]
+  image_url varchar(2048) [not null]
+  user_id uuid
+  input_snapshot jsonb [not null]
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    (user_id, created_at) [name: 'IX_generated_flowers_user_created']
+  }
+
+  Note: 'Hình ảnh mẫu hoa do AI phối và sinh ra.'
+}
+
+Table generated_cards {
+  id uuid [pk]
+  content text [not null]
+  image_url varchar(2048) [not null]
+  raw_image varchar(2048)
+  user_id uuid
+  created_at timestamp [default: `now()`]
+  card_type varchar(20) [not null, note: 'CK: card_type IN (ai, handmade)']
+  form_type form_type [not null]
+  size_key varchar(100) [not null]
+  sender_name varchar(500) [not null]
+  receiver_name varchar(500) [not null]
+  message_content text [not null]
+  attached_image_url varchar(2048)
+  size_name varchar(100) [not null]
+  size_width decimal(10,2)
+  size_height decimal(10,2)
+  size_base_price decimal(18,2)
+  size_max_words int
+  word_count int
+  word_config_snapshot jsonb
+  base_price decimal(18,2)
+  extra_price decimal(18,2)
+  total_price decimal(18,2)
+
+  indexes {
+    (user_id, created_at) [name: 'IX_generated_cards_user_created']
+    (card_type, created_at) [name: 'IX_generated_cards_type_created']
+  }
+
+  Note: 'Thiệp chúc mừng cá nhân hóa do AI sinh hoặc do nghệ nhân viết calligraphy thủ công.'
+}
+
+Table post_histories {
+  id uuid [pk]
+  input jsonb [not null]
+  base_id uuid [note: 'Logical reference -> base_posts.id']
+  output_id uuid [unique, note: 'Logical 1:1 -> generated_posts.id']
+  system_prompt_id uuid [ref: > system_prompts.id]
+  metadata jsonb
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    output_id [unique]
+    (base_id, created_at) [name: 'IX_post_histories_base_created']
+  }
+
+  Note: 'Lịch sử sinh bài viết marketing, ghi nhận prompt đầu vào và snapshot metadata.'
+}
+
+Table client_histories {
+  id uuid [pk]
+  user_id uuid
+  input jsonb [not null]
+  type varchar(50) [not null, note: 'flower | card | handmade_card | post']
+  system_prompt_id uuid [ref: > system_prompts.id, note: 'NULL với handmade_card']
+  metadata jsonb [not null]
+  created_at timestamp [default: `now()`]
+  base_id uuid [note: 'Polymorphic logical ref: products.id | base_posts.id | generated_flowers.id']
+  output_id uuid [note: 'Polymorphic logical ref: generated_flowers.id | generated_cards.id | generated_posts.id']
+
+  indexes {
+    (type, output_id) [unique, name: 'UQ_client_histories_type_output']
+    (user_id, type, created_at) [name: 'IX_client_histories_user_type_created']
+    (base_id, type, created_at) [name: 'IX_client_histories_base_type_created']
+  }
+
+  Note: 'Sổ cái lịch sử tạo nội dung đa hình của người dùng.'
+}

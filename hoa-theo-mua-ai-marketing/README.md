@@ -31,7 +31,9 @@ hoa-theo-mua-ai-marketing/
 ├── ConfirmedDoc/                                  # Hợp đồng API & tài liệu kỹ thuật đã thống nhất
 │   └── .gitkeep
 ├── Context/                                       # Ngữ cảnh kiến trúc hệ thống & Mô hình dữ liệu
-│   └── Marketing_AI_Context.md                    # Kiến trúc CSDL: generated_posts, post_histories, client_histories
+│   ├── Marketing_AI_Context.md                    # Kiến trúc CSDL: generated_posts, post_histories, client_histories
+│   ├── Marketing_AI_DB.dbdiagram                  # Sơ đồ CSDL định dạng DBML (dbdiagram.io)
+│   └── Marketing_AI_DB_Diagram.md                 # Sơ đồ ERD (Mermaid) và đặc tả chi tiết 10 Entities EF Core
 ├── UserStory/                                     # Toàn bộ 19 User Stories đặc tả theo chuẩn BDD
 │   ├── 02-ScheduleAndAutoPublishPosts.md          # STORY-002: Lên lịch và tự động đăng bài đa nền tảng
 │   ├── 03-AutoGenerateMultiRatioImagesFromCore.md # STORY-003: Tự động sinh ảnh đa tỷ lệ từ ảnh core
