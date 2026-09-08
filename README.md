@@ -6,15 +6,17 @@ Kho lưu trữ áp dụng triệt để phương pháp tiếp cận **Document-F
 
 ---
 
-## 🏢 1. Danh Mục 3 Phân Hệ Dự Án
+## 🏢 1. Danh Mục Các Phân Hệ Dự Án
 
-Hệ sinh thái **Hoa Theo Mùa** được chia tách thành 3 phân hệ dự án độc lập tương ứng với hệ thống quản lý công việc:
+Hệ thống kho lưu trữ bao gồm 5 phân hệ dự án độc lập tương ứng với hệ thống quản lý công việc:
 
 | # | Mã dự án (Key) | Tên phân hệ | Thư mục tài liệu | Mô tả phạm vi phân hệ |
 | :-: | :--- | :--- | :--- | :--- |
 | **1** | `hoa-theo-mua-ai-customize` | **HTM_Flourist_AI** | [`hoa-theo-mua-ai-flourist/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/README.md) | **Cá nhân hóa mua sắm bằng AI**: Tạo mẫu phối hoa độc bản theo prompt, tạo thiệp AI tại checkout (`gõ máy` / `calligraphy`), thiệp handmade, quản lý mockup và quy tắc giá thiệp. |
 | **2** | `hoa-theo-mua-ai-marketing` | **HTM_Marketing_AI** | [`hoa-theo-mua-ai-marketing/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/README.md) | **Marketing & Truyền thông AI**: Tự động sinh caption & hashtag bằng AI, viết lại nội dung theo từng nền tảng, sinh ảnh đa tỷ lệ (1:1, 4:5, 9:16, 16:9, 2:1), lên lịch & tự động đăng bài đa kênh, thu thập báo cáo đa nền tảng (XLSX). |
 | **3** | `hoa-theo-mua-material-management` | **HTM_Material_Management** | [`hoa-theo-mua-material-management/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/README.md) | **Quản lý Vật liệu & Định lượng Combo**: Bóc tách nguyên vật liệu thô (hoa cành, hoa phụ, phụ kiện), thiết lập công thức BOM cho Combo hoa, tính toán số lượng khả dụng có thể bán (AvailableForSale) theo thời gian thực và quản lý vòng đời giữ hàng (Reservation). |
+| **4** | `meetly` | **Meetly** | [`meetly/`](file:///d:/VNZ/document-first-brief/meetly/README.md) | **Khảo sát & Tối ưu Lịch họp Nhóm qua Heatmap**: Khảo sát thời gian đa mô hình (`Dates and Times`, `Weekdays`), ma trận Heatmap trực quan chia lưới 15 phút, bình chọn 2 chế độ (Rảnh/Bận) kéo thả và định danh phi tập trung theo sự kiện. |
+| **5** | `swp391-cross-border-racehorse-transport-system` | **Cross-Border Racehorse Transport** | [`swp391-cross-border-racehorse-transport-system/`](file:///d:/VNZ/document-first-brief/swp391-cross-border-racehorse-transport-system/README.md) | **Vận Chuyển Ngựa Đua Xuyên Biên Giới**: Logistics quốc tế, kiểm dịch thú y, thủ tục hải quan và giám sát hành trình thời gian thực. |
 
 ---
 
@@ -101,15 +103,35 @@ document-first-brief/
 │   ├── TDD/                                       # Thiết kế kỹ thuật
 │   └── UnitTest/                                  # Kịch bản kiểm thử
 │
-└── hoa-theo-mua-material-management/              # [Dự án 3] HTM_Material_Management
-    ├── README.md                                  # Tài liệu tổng quan phân hệ Quản lý Vật liệu
-    ├── BusinessRules/                             # BR-013, BR-014, BR-018, BR-019
-    ├── ConfirmedDoc/                              # DanhSach_API.md, HTM_MATERIAL_API.md
-    ├── Context/                                   # Ngữ cảnh kiến trúc vật liệu
-    ├── UserStory/                                 # 13 User Stories (US-002, US-006 -> US-019)
-    ├── TDD/                                       # TDD-010, TDD-011, DiagramUS002, DiagramUS006
-    ├── UnitTest/                                  # 11 Test Cases chuẩn hóa Form Web
-    └── Code/                                      # Mã nguồn trích xuất phục vụ kiểm thử (Product.cs)
+├── hoa-theo-mua-material-management/              # [Dự án 3] HTM_Material_Management
+│   ├── README.md                                  # Tài liệu tổng quan phân hệ Quản lý Vật liệu
+│   ├── BusinessRules/                             # BR-013, BR-014, BR-018, BR-019
+│   ├── ConfirmedDoc/                              # DanhSach_API.md, HTM_MATERIAL_API.md
+│   ├── Context/                                   # Ngữ cảnh kiến trúc vật liệu
+│   ├── UserStory/                                 # 13 User Stories (US-002, US-006 -> US-019)
+│   ├── TDD/                                       # TDD-010, TDD-011, DiagramUS002, DiagramUS006
+│   ├── UnitTest/                                  # 11 Test Cases chuẩn hóa Form Web
+│   └── Code/                                      # Mã nguồn trích xuất phục vụ kiểm thử (Product.cs)
+│
+├── meetly/                                        # [Dự án 4] Meetly Polling Platform
+│   ├── README.md                                  # Cổng tra cứu tổng quan toàn diện phân hệ Meetly
+│   ├── BusinessRules/                             # 16 Quy tắc nghiệp vụ chuẩn hóa (BR-01 -> BR-16)
+│   ├── ConfirmedDoc/                              # Hợp đồng API & tài liệu đã chốt
+│   ├── Context/                                   # Ngữ cảnh kiến trúc & CSDL Heatmap
+│   ├── UserStory/                                 # 6 User Stories đặc tả BDD (US-01 -> US-06)
+│   ├── SystemTest/                                # 65 Kịch bản System Test chuẩn hóa chia dòng (ST-US01-01 -> ST-US06-16)
+│   ├── TDD/                                       # Thiết kế kỹ thuật chi tiết
+│   └── UnitTest/                                  # Kiểm thử đơn vị
+│
+└── swp391-cross-border-racehorse-transport-system/ # [Dự án 5] Cross-Border Racehorse Transport
+    ├── README.md                                  # Cổng tra cứu tổng quan dự án vận chuyển ngựa đua
+    ├── BusinessRules/                             # Quy tắc nghiệp vụ kiểm dịch, hải quan
+    ├── ConfirmedDoc/                              # Hợp đồng API & tài liệu đã chốt
+    ├── Context/                                   # Ngữ cảnh kiến trúc & CSDL
+    ├── UserStory/                                 # User Stories đặc tả BDD
+    ├── SystemTest/                                # Kịch bản kiểm thử hệ thống
+    ├── TDD/                                       # Thiết kế kỹ thuật chi tiết
+    └── UnitTest/                                  # Kiểm thử đơn vị
 ```
 
 ---
@@ -184,8 +206,28 @@ document-first-brief/
 
 ---
 
+### 4.4. Phân hệ `Meetly` (`meetly`)
+* **Tổng quan:** [`meetly/README.md`](file:///d:/VNZ/document-first-brief/meetly/README.md)
+* **User Stories (6 Stories BDD):**
+  - [`01-CreateSurveyEvent.md`](file:///d:/VNZ/document-first-brief/meetly/UserStory/01-CreateSurveyEvent.md): **US-01** — Tạo sự kiện cần khảo sát.
+  - [`02-EditSurveyEvent.md`](file:///d:/VNZ/document-first-brief/meetly/UserStory/02-EditSurveyEvent.md): **US-02** — Chỉnh sửa thông tin của sự kiện đã tạo.
+  - [`03-JoinEvent.md`](file:///d:/VNZ/document-first-brief/meetly/UserStory/03-JoinEvent.md): **US-03** — Tham gia sự kiện qua URL/ShortCode.
+  - [`04-RegisterParticipantIdentity.md`](file:///d:/VNZ/document-first-brief/meetly/UserStory/04-RegisterParticipantIdentity.md): **US-04** — Đăng ký tài khoản định danh trong sự kiện.
+  - [`05-ViewResultsViaHeatmap.md`](file:///d:/VNZ/document-first-brief/meetly/UserStory/05-ViewResultsViaHeatmap.md): **US-05** — Xem kết quả khảo sát qua Heatmap trực quan.
+  - [`06-VoteMeetingTime.md`](file:///d:/VNZ/document-first-brief/meetly/UserStory/06-VoteMeetingTime.md): **US-06** — Bình chọn thời gian họp (click/drag, mode Rảnh/Bận, xuyên ngày).
+* **Quy tắc nghiệp vụ (Business Rules):** 16 BRs chuẩn hóa ([`BR-01.md`](file:///d:/VNZ/document-first-brief/meetly/BusinessRules/BR-01.md) đến [`BR-16.md`](file:///d:/VNZ/document-first-brief/meetly/BusinessRules/BR-16.md)).
+* **Kiểm thử hệ thống (SystemTest):** 65 kịch bản kiểm thử chuẩn hóa theo dòng ([`ST-US01-01.md`](file:///d:/VNZ/document-first-brief/meetly/SystemTest/ST-US01-01.md) đến [`ST-US06-16.md`](file:///d:/VNZ/document-first-brief/meetly/SystemTest/ST-US06-16.md)).
+
+---
+
+### 4.5. Phân hệ `Cross-Border Racehorse Transport` (`swp391-cross-border-racehorse-transport-system`)
+* **Tổng quan:** [`swp391-cross-border-racehorse-transport-system/README.md`](file:///d:/VNZ/document-first-brief/swp391-cross-border-racehorse-transport-system/README.md)
+* **Trạng thái:** Đã thiết lập cấu trúc thư mục chuẩn `BusinessRules/`, `ConfirmedDoc/`, `Context/`, `SystemTest/`, `TDD/`, `UnitTest/`, `UserStory/`.
+
+---
+
 ## 🛠 5. Hướng Dẫn Đóng Góp & Quy Chuẩn Tài Liệu
 
-1. **Tuân thủ phân vùng thư mục**: Truy cập trực tiếp vào phân hệ cần làm việc ([`hoa-theo-mua-ai-flourist/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/), [`hoa-theo-mua-ai-marketing/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/), hoặc [`hoa-theo-mua-material-management/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/)). Không tạo file rời ngoài phạm vi 3 phân hệ.
+1. **Tuân thủ phân vùng thư mục**: Truy cập trực tiếp vào phân hệ cần làm việc ([`hoa-theo-mua-ai-flourist/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/), [`hoa-theo-mua-ai-marketing/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/), [`hoa-theo-mua-material-management/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/), hoặc [`meetly/`](file:///d:/VNZ/document-first-brief/meetly/)). Không tạo file rời ngoài phạm vi các phân hệ.
 2. **Quy chuẩn Document-First**: Mọi tính năng phát triển phải có User Story theo mẫu [`template-US.md`](file:///d:/VNZ/document-first-brief/template-US.md), kèm Business Rules [`template-BR.md`](file:///d:/VNZ/document-first-brief/template-BR.md), thiết kế kỹ thuật [`template-TDD.md`](file:///d:/VNZ/document-first-brief/template-TDD.md) và kịch bản Unit Test [`template-UnitTest.md`](file:///d:/VNZ/document-first-brief/template-UnitTest.md).
 3. **Bảo toàn tính liên kết**: Sử dụng markdown links tuyệt đối chuẩn GitHub (`file:///...`) để bảo đảm khả năng điều hướng tức thì trong IDE và tài liệu số.
