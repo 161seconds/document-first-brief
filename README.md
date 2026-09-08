@@ -222,6 +222,7 @@ document-first-brief/
 
 ### 4.5. Phân hệ `Cross-Border Racehorse Transport` (`swp391-cross-border-racehorse-transport-system`)
 * **Tổng quan:** [`swp391-cross-border-racehorse-transport-system/README.md`](file:///d:/VNZ/document-first-brief/swp391-cross-border-racehorse-transport-system/README.md)
+* **Tài liệu kiến trúc & Ngữ cảnh:** [`Racehorse_Transport_Context.md`](file:///d:/VNZ/document-first-brief/swp391-cross-border-racehorse-transport-system/Context/Racehorse_Transport_Context.md) — Đặc tả 5 nhóm tác nhân (Actors), 6 luồng nghiệp vụ (Flows), mô hình dữ liệu ERD và ma trận phân quyền RACI.
 * **Trạng thái:** Đã thiết lập cấu trúc thư mục chuẩn `BusinessRules/`, `ConfirmedDoc/`, `Context/`, `SystemTest/`, `TDD/`, `UnitTest/`, `UserStory/`.
 
 ---
