@@ -16,9 +16,9 @@
   - Không được cập nhật lịch dẫn đến trùng đồng thời cả Content, Nền tảng và Thời điểm đăng với một lịch khác đang "Đã lên lịch".
 - **Sprint**: S1
 - **Priority**: Must
-- **Phiên bản**: v0.1
-- **Phê duyệt tài liệu**: Nháp
-- **Cập nhật**: 04/09/2026
+- **Phiên bản**: v0.2
+- **Phê duyệt tài liệu**: Đang duyệt
+- **Cập nhật**: 09/09/2026
 - **Author**: Hồ Hoàng Nam
 - **Reviewer**: Nguyễn Đức Bình
 - **Approver**: Chưa chỉ định
@@ -28,6 +28,11 @@
 - **Creator**: Nguyễn Anh Quân
 - **Feedback gần nhất**:
   > *"Context không cho sửa ảnh hả? Chưa liệt kê trạng thái cho phép sửa. US này không có NFR hả? Chưa có AC cho việc lịch trùng."* — Nguyễn Đức Bình · 09:47 03/09/2026
+  - **Phản hồi & Cập nhật**:
+    1. **Cho phép sửa ảnh**: Đã bổ sung trường hình ảnh vào danh mục các trường được phép sửa tại Context (JPG/JPEG/PNG $\le$ 10MB, tối đa 10 ảnh).
+    2. **Liệt kê trạng thái cho phép sửa**: Đã quy định rõ tại Context & BR-008: Chỉ được sửa khi lịch đang ở trạng thái **"Đã lên lịch"**; không được sửa khi đang đăng hoặc đã "Đăng thành công".
+    3. **Bổ sung Non-Functional Requirements**: Đã bổ sung đầy đủ yêu cầu về hiệu năng ($\le$ 2s), tính đồng bộ của Cron Job và kiểm tra an toàn backend.
+    4. **Bổ sung AC kiểm tra trùng lịch**: Đã có **AC-013 — Chặn cập nhật thành lịch bị trùng** (tương ứng BR-006 và EXC-02).
 
 ---
 

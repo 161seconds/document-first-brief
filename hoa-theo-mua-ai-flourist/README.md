@@ -32,9 +32,13 @@ hoa-theo-mua-ai-customize/
 │   ├── AI_Card_Context.md                 # Ngữ cảnh nghiệp vụ Tạo thiệp AI
 │   └── AI_Mockup_Context.md               # Ngữ cảnh nghiệp vụ Quản lý Mockup
 ├── UserStory/                             # 17 Tài liệu User Stories
-└── TDD/                                   # 12 Tài liệu Thiết kế Kỹ thuật (TDD) + 121 Unit Tests
+└── TDD/                                   # Thiết kế Kỹ thuật (TDD) + Unit Tests
     ├── COVERAGE.md                        # Ma trận bao phủ kiểm thử (Test Coverage Matrix)
+    ├── TDD-006/                           # TDD Tạo thiệp thiết kế AI (v1.3)
+    ├── TDD-007/                           # TDD Tạo lại thiệp từ lịch sử (v1.3)
+    ├── TDD-016/                           # TDD Tạo và tạo lại mẫu hoa AI (v1.1)
     ├── TDD-017/                           # TDD Chọn và tạo thiệp handmade
+    ├── TDD-027/                           # TDD Tạo lại thiệp AI giữ thiết kế gốc (v1.5)
     ├── TDD-030/                           # TDD & 18 UTs: Tạo mẫu hoa AI
     ├── TDD-035/                           # TDD & 19 UTs: Tạo thiệp thiết kế AI
     ├── TDD-036/                           # TDD & 12 UTs: Tạo lại thiệp từ lịch sử
@@ -55,11 +59,11 @@ hoa-theo-mua-ai-customize/
 | Mã Story | Nhóm tính năng | TDD liên quan | Mô tả |
 | :--- | :--- | :--- | :--- |
 | **STORY-003** | Duyệt sản phẩm | — | Xem danh sách Combo hoa khả dụng |
-| **STORY-030** | Khởi tạo yêu cầu | [TDD-030](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-030/TDD-030_tao-yeu-cau-va-mau-hoa-ai.md) | Khởi tạo form yêu cầu tạo mẫu hoa AI |
-| **STORY-033** | Sinh ảnh AI | [TDD-030](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-030/TDD-030_tao-yeu-cau-va-mau-hoa-ai.md) | Tạo mẫu hoa với AI, retry & đóng logo |
-| **STORY-034** | Tải ảnh | [TDD-030](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-030/TDD-030_tao-yeu-cau-va-mau-hoa-ai.md) | Tải ảnh mẫu hoa AI độ phân giải cao |
-| **STORY-035** | Thiệp chúc mừng | [TDD-035](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-035/TDD-035_tao-thep-thiet-ke-ai.md) | Tạo thiệp cá nhân hóa tại trang Checkout |
-| **STORY-036** | Tái tạo thiệp | [TDD-036](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-036/TDD-036_tao-lai-thep-tu-lich-su.md) | Tạo lại thiệp từ lịch sử đơn hàng cũ |
+| **STORY-030** | Khởi tạo yêu cầu | [TDD-016](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-016/TDD-016-tao-yeu-cau-va-mau-hoa-ai.md), [TDD-030](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-030/TDD-030_tao-yeu-cau-va-mau-hoa-ai.md) | Khởi tạo form yêu cầu tạo mẫu hoa AI |
+| **STORY-033** | Sinh ảnh AI | [TDD-016](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-016/TDD-016-tao-yeu-cau-va-mau-hoa-ai.md), [TDD-030](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-030/TDD-030_tao-yeu-cau-va-mau-hoa-ai.md) | Tạo mẫu hoa với AI, retry & đóng logo |
+| **STORY-034** | Tải ảnh | [TDD-030](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-030/TDD-030_tao-yeu-cau-va-mau-hoa-ai.md) | Tải ảnh mẫu hoa AI độ phân giải cao |
+| **STORY-035** | Thiệp chúc mừng | [TDD-006](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-006/TDD-006-tao-thiep-thiet-ke-ai.md), [TDD-035](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-035/TDD-035_tao-thep-thiet-ke-ai.md) | Tạo thiệp cá nhân hóa tại trang Checkout |
+| **STORY-036** | Tái tạo thiệp | [TDD-007](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-007/TDD-007-tao-lai-thiep-tu-lich-su.md), [TDD-036](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-036/TDD-036_tao-lai-thep-tu-lich-su.md) | Tạo lại thiệp từ lịch sử đơn hàng cũ |
 | **STORY-038** | Checkout | — | Khởi tạo Checkout từ mẫu hoa AI |
 | **STORY-039** | Thanh toán | — | Hoàn tất đặt hàng và thanh toán |
 | **STORY-040** | Lịch sử hoa AI | — | Xem lịch sử các mẫu hoa AI của khách hàng |
@@ -71,6 +75,7 @@ hoa-theo-mua-ai-customize/
 | **STORY-046** | Admin tải thiệp | — | Quản trị viên tải file ảnh thiệp phục vụ in ấn |
 | **STORY-047** | Admin DS hoa AI | — | Quản trị viên duyệt danh sách mẫu hoa AI |
 | **STORY-048** | Admin chi tiết hoa | — | Xem chi tiết prompt & tham số sinh hoa AI |
-| — | Thiệp Handmade | [TDD-017](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-017/TDD-017-chon-va-tao-thiep-handmade.md) | Quy trình chọn và tạo thiệp thủ công |
-| — | Quản lý Mockup | [TDD-050](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-050/TDD-050_lay-danh-sach-mockup.md), [TDD-051](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-051/TDD-051_tao-mockup.md), [TDD-052](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-052/TDD-052_chuyen-trang-thai-mockup.md), [TDD-053](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-053/TDD-053_xoa-mockup.md) | CRUD Mockup |
-| — | Quản lý Card Config | [TDD-054](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-054/TDD-054_lay-danh-sach-card-configs.md), [TDD-055](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-055/TDD-055_tao-card-config.md), [TDD-056](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-056/TDD-056_xoa-card-config.md), [TDD-062](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-062/TDD-062_cap-nhat-card-config.md) | Cấu hình kích thước & quy tắc giá thiệp |
+| — | Tái tạo giữ gốc | [TDD-027](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-027/TDD-027-tao-lai-thiep-ai-giu-thiet-ke-goc.md) | Tạo Card AI mới giữ nguyên thiết kế/size, đổi nội dung |
+| — | Thiệp Handmade | [TDD-017](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-017/TDD-017-chon-va-tao-thiep-handmade.md) | Quy trình chọn và tạo thiệp thủ công |
+| — | Quản lý Mockup | [TDD-050](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-050/TDD-050_lay-danh-sach-mockup.md), [TDD-051](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-051/TDD-051_tao-mockup.md), [TDD-052](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-052/TDD-052_chuyen-trang-thai-mockup.md), [TDD-053](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-053/TDD-053_xoa-mockup.md) | CRUD Mockup |
+| — | Quản lý Card Config | [TDD-054](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-054/TDD-054_lay-danh-sach-card-configs.md), [TDD-055](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-055/TDD-055_tao-card-config.md), [TDD-056](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-056/TDD-056_xoa-card-config.md), [TDD-062](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-062/TDD-062_cap-nhat-card-config.md) | Cấu hình kích thước & quy tắc giá thiệp |

@@ -5,9 +5,9 @@
 - **Context**: Admin cần tra cứu các content và hashtag đã lưu trong quá trình tạo nội dung. Hệ thống phải hiển thị danh sách, hỗ trợ tìm kiếm và cho phép xem đầy đủ thông tin của từng content. Hệ thống chỉ lưu trữ và hiển thị phiên bản hiện tại mới nhất của từng content; không hỗ trợ quản lý lịch sử các phiên bản (Version History) hay khôi phục nội dung cũ. Chức năng này chỉ bao gồm xem dữ liệu đã lưu ở chế độ chỉ đọc (Read-only), không bao gồm tạo mới, chỉnh sửa, xóa, lên lịch hoặc đăng bài.
 - **Sprint**: S2
 - **Priority**: Must
-- **Phiên bản**: v0.1
-- **Phê duyệt tài liệu**: Nháp
-- **Cập nhật**: 04/09/2026
+- **Phiên bản**: v0.2
+- **Phê duyệt tài liệu**: Đang duyệt
+- **Cập nhật**: 09/09/2026
 - **Author**: Nguyễn Anh Quân
 - **Reviewer**: Nguyễn Đức Bình
 - **Approver**: Chưa chỉ định
@@ -17,6 +17,9 @@
 - **Creator**: Nguyễn Anh Quân
 - **Feedback gần nhất**:
   > *"Sai định dạng ở AC 007, 008, 009 Cần làm rõ Content có version history hay không?"* — Nguyễn Đức Bình · 09:57 03/09/2026
+  - **Phản hồi & Cập nhật**:
+    1. **Làm rõ Version History**: Đã xác nhận rõ ràng tại Context và Out of Scope: **Content KHÔNG CÓ version history**, hệ thống chỉ lưu trữ và hiển thị phiên bản hiện tại mới nhất của từng content; không hỗ trợ xem hay khôi phục phiên bản cũ.
+    2. **Chuẩn hóa định dạng AC 007, 008, 009**: Đã chuẩn hóa toàn bộ cấu trúc tiêu đề và các mệnh đề BDD Given - When - Then - And cho AC-007 (Xử lý khi xem content không còn khả dụng), AC-008 (Lỗi tải chi tiết content), và AC-009 (Duy trì trạng thái bộ lọc khi quay lại).
 
 ---
 

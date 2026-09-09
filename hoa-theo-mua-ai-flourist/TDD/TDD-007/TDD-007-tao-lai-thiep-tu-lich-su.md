@@ -1,19 +1,19 @@
 # TDD-007: Tạo lại thiệp từ lịch sử
 
 ## Thông tin tài liệu
-- **Tiêu đề**: Tạo lại thiệp thiết kế AI từ lịch sử
-- **Ghi chú**: API cho phép khách hàng tạo lại thiệp từ một thiệp thuộc lịch sử của mình. Hệ thống giữ nguyên nội dung, nguồn hoa, size, giá và Config snapshot của Card nguồn; người dùng có thể chọn Template khác hoặc để trống để dùng Template nguồn. Có giới hạn quota riêng theo mẫu hoa (3 lần/ngày cho mỗi mẫu hoa đã generate). **Mối quan hệ với hoa được xác định qua `client_histories`, không qua `generated_cards.source_flower_id`**.
+- **Tiêu đề**: Regenerate Card AI từ History và cho phép đổi Template
+- **Ghi chú**: API tạo Card mới từ snapshot của Card nguồn, giữ nguyên nội dung/Size/giá và chỉ cho chọn Template AI khác. Service gọi `AIModule` bằng snapshot đã resolve và không quản lý chính sách vận hành nội bộ của lời gọi AI.
 
 ## Metadata quản trị tài liệu
 | Trường | Giá trị |
 |---|---|
 | Mã tài liệu | TDD-007 |
-| Phiên bản | v0.7 |
-| Author | Codex |
-| Reviewer | |
+| Phiên bản | v1.3 |
+| Author | Nguyễn Tùng Dương |
+| Reviewer | Tân Trần |
 | Approver | Chưa chỉ định |
-| Owner | Nhóm Hoa Theo Mùa |
-| Cập nhật gần nhất | 2026-09-04 |
+| Owner | Nguyễn Tùng Dương |
+| Cập nhật gần nhất | 2026-09-09 |
 
 ---
 
@@ -21,240 +21,148 @@
 
 ### Thông tin tài liệu
 - **Mã tài liệu**: TDD-007
-- **Tính năng**: Tạo lại thiệp từ lịch sử
-- **Tác giả**: Codex
-- **Người review**: 
-- **Phiên bản**: v0.7
-- **Cập nhật (YYYY-MM-DD)**: 2026-09-04
+- **Tính năng**: Regenerate Card AI từ History
+- **Tác giả**: Nguyễn Tùng Dương
+- **Người review**: Tân Trần
+- **Phiên bản**: v1.3
+- **Cập nhật (YYYY-MM-DD)**: 2026-09-09
 - **Story liên quan**:
   - STORY-036
 
 ### Business Rules
-- BR-007-01: Khi tạo lại, hệ thống giữ nguyên sender, receiver, message, ảnh đính kèm, form type, size, giá, Config snapshot và lineage của Card nguồn; Template được xác định riêng theo BR-007-02.
-- BR-007-02: Không mở form chỉnh sửa nội dung. `card_template_id` là tùy chọn: null, không truyền hoặc đúng ID nguồn thì dùng Template snapshot nguồn; ID khác thì dùng Template AI mới sau validation. Người dùng được chọn lại Template AI cũ hoặc Template AI khác, không được chuyển sang HandMade.
-- BR-007-03: `source_card_id` bắt buộc tồn tại, thuộc khách hàng hiện tại và có history `type="card"`. History `type="handmade_card"` không được tạo lại.
-- BR-007-04: base_id trong client_histories mới được xác định từ client_histories cũ của thiệp nguồn
-- BR-007-05: Thiệp mới sử dụng snapshot config từ thiệp nguồn (`size_name`, `size_width`, `size_height`, `size_base_price`, `size_max_words`, `word_config_snapshot`) và không query/validate Config live.
-- BR-007-06: Trước khi gọi AI, kiểm tra theo thứ tự:
-  - user và source card ownership
-  - source Card + record `client_histories(type=card)` + snapshot
-  - Effective Template: validate live chỉ khi client chọn ID khác nguồn; bỏ trống/null/đúng ID nguồn thì dùng Template snapshot nguồn, không query trạng thái live
-  - system prompt hiện hành hợp lệ; nếu không có hoặc content rỗng/không hợp lệ thì fallback sang full prompt snapshot của Card nguồn
-  - atomically reserve quota tạo thiệp (10/ngày) và quota theo mẫu hoa (3/mẫu/ngày) nếu có flower base; sau đó tạo immutable regeneration snapshot
-- BR-007-07: Mỗi mẫu hoa đã generate ra chỉ được tạo tối đa 3 lần/ngày
-- BR-007-08: Khi tạo thành công:
-  - Consume 1 quota slot tạo thiệp
-  - Consume 1 quota slot theo mẫu hoa (nếu có flower base)
-  - Tạo client_histories mới với base_id và output_id tương ứng
-  - Tạo record generated_cards mới (KHÔNG ghi đè thiệp nguồn)
-- BR-007-09: Reserve quota atomically sau dependency validation; một lần đầu + tối đa 2 retry dùng cùng snapshot/slot; success consume, AI/persistence fail release
-- BR-007-10: client_histories chỉ được tạo khi có ảnh hợp lệ
-- BR-007-11: Thiệp nguồn KHÔNG bị xóa hoặc ghi đè
-- BR-007-12: Kết quả mới không tự động gắn vào Checkout (vì thao tác từ lịch sử)
-- **BR-007-13: base_id trong client_histories mới = base_id của client_histories thiệp nguồn**
-- **BR-007-14: output_id trong client_histories mới = id thiệp mới vừa tạo**
-- **BR-007-15**: Nếu client bỏ trống/null hoặc truyền đúng ID Template nguồn, dùng nguyên Template snapshot nguồn và không query/validate active hay soft-delete. Chỉ khi client chọn ID Template khác nguồn, validate Template mới theo `CARD_TEMPLATE_NOT_FOUND/404` → `CARD_TEMPLATE_DELETED/410` → `CARD_TEMPLATE_INACTIVE/409`, sau đó bắt buộc `template_type="ai"`; chọn Template HandMade trả `CARD_TEMPLATE_TYPE_INVALID/409`. Trạng thái Template cũ không chặn request. Mọi Template AI tương thích với mọi size/form type.
-- **BR-007-16**: Regenerate không query hoặc validate Size/Calligraphy Config live; snapshot Card nguồn phải tự chứa đủ dữ liệu cần dùng.
-- **BR-007-17**: Template mới hợp lệ tại admission nhưng bị inactive/soft-delete khi AI chạy không ảnh hưởng retry/persist; không revalidate sau snapshot. Template snapshot nguồn được dùng khi request bỏ trống/null/đúng ID nguồn không có bước kiểm tra live.
-- **BR-007-18**: Regenerate dùng nguyên nội dung, giá và Config snapshot của Card nguồn; Template snapshot lấy từ Effective Template.
-- **BR-007-19**: Product/Mockup gốc inactive, deleted hoặc out-of-stock không chặn Regenerate; chỉ Order kiểm tra Product live.
-- **BR-007-20**: Card nguồn không có snapshot đủ dùng → `CARD_SOURCE_HISTORY_INVALID/409`. Với Card tạo từ Generated Flower thiếu provenance nhưng snapshot Card đủ, vẫn regenerate và giữ `origin_product_id=null`, `provenance_status=unavailable`.
-- **BR-007-22**: Mỗi `system_prompts.type` có đúng một prompt hiện hành. Ưu tiên prompt hiện hành type `card`; record không tồn tại hoặc content rỗng/không hợp lệ đều được xem là không khả dụng và phải fallback sang full prompt snapshot của Card nguồn, không kiểm tra trạng thái record nguồn. Metadata ghi `system_prompt_source=current|source_card_fallback`.
-- **BR-007-23**: Card mới có ID, ảnh và `created_at` mới, lấy `user_id` từ phiên đăng nhập; không sao chép identity/audit/output của Card nguồn.
-- **BR-007-24**: History mới ghi `input={operation,source_card_id,card_template_id}`; metadata giữ snapshot đã dùng và bổ sung `operation=regenerate`, `regenerated_from_card_id`. `base_id` vẫn kế thừa history nguồn.
-- **BR-007-25**: Source history `type="handmade_card"` trả `HANDMADE_CARD_REGENERATE_NOT_SUPPORTED/409` trước khi kiểm Template/quota/AI.
+- **BR-007-01**: Endpoint yêu cầu đăng nhập. `sourceCardId` là `generated_cards.id` được chọn từ `client_histories.output_id`.
+- **BR-007-02**: Source Card phải tồn tại, thuộc user hiện tại, có `card_type=ai` và có History `type=card` với snapshot, `base_id` và `root` Product hợp lệ. `root` bắt buộc khác `Guid.Empty`. Card HandMade trả `HANDMADE_CARD_REGENERATE_NOT_SUPPORTED`.
+- **BR-007-03**: Request chỉ nhận `cardTemplateId` tùy chọn; không mở form chỉnh sửa nội dung.
+- **BR-007-04**: `cardTemplateId` bỏ trống/null/đúng ID Template nguồn dùng Template snapshot nguồn mà không query live. ID khác nguồn phải validate `CARD_TEMPLATE_NOT_FOUND` → `CARD_TEMPLATE_DELETED` → `CARD_TEMPLATE_INACTIVE` và bắt buộc `templateType=ai`; HandMade Template trả `CARD_TEMPLATE_TYPE_INVALID`.
+- **BR-007-05**: Giữ nguyên `senderName`, `receiverName`, `messageContent`, `attachedImageUrl`, `formType`, toàn bộ Size snapshot, `wordCount`, Calligraphy snapshot và giá từ Card nguồn.
+- **BR-007-06**: Không query/validate live Product, Generated Flower, Mockup, Size Config hoặc Price Config nguồn. Trạng thái live thay đổi không chặn Regenerate.
+- **BR-007-07**: Prompt ưu tiên prompt hiện hành type `card`; nếu không usable thì fallback `client_histories.system_form` của source. Cả hai không usable trả `CARD_SOURCE_HISTORY_INVALID`.
+- **BR-007-08**: Source thiếu Template/Size/pricing/prompt snapshot tối thiểu hoặc thiếu `base_id/root` Product hợp lệ trả `CARD_SOURCE_HISTORY_INVALID`.
+- **BR-007-09**: Service tạo `CardRegenerationSnapshot` từ Card/History nguồn, Effective Template và prompt thực tế trước khi gọi AI.
+- **BR-007-10**: Service gọi `AIModule` bằng snapshot và chỉ xử lý kết quả cuối cùng `{rawImage,imageUrl}` hoặc lỗi. Không mô tả chính sách vận hành nội bộ của lời gọi AI trong TDD này.
+- **BR-007-11**: Chỉ persist khi cả `rawImage` và `imageUrl` usable. Lỗi AI/upload/persistence không tạo Card/History hoàn chỉnh.
+- **BR-007-12**: Transaction thành công tạo Card AI mới và History mới; không ghi đè/xóa source Card hoặc source History.
+- **BR-007-13**: History mới kế thừa cả `baseId` và `root` của History nguồn, `outputId` là Card mới; `root` tiếp tục là Product ID gốc, không được tính lại từ metadata. Metadata có `operation=regenerate`, `regeneratedFromCardId`, Effective Template và `systemPromptSource=current|source_card_fallback`.
+- **BR-007-14**: Generated Card mới có ID, hai ảnh, `createdAt`, `userId` mới; các snapshot nội dung/giá giữ nguyên source.
+- **BR-007-15**: Kết quả không tự gắn Checkout/Order.
 
 ### Bối cảnh & Mục tiêu
 
 **Vấn đề**
-> Khách hàng muốn tạo phiên bản mới của một thiệp AI đã có mà không cần nhập lại nội dung, nhưng có thể đổi Template AI. Hệ thống giữ nguyên snapshot config/giá và lineage; HandMade Card không thuộc flow này.
+> Khách hàng muốn tạo thêm một phiên bản ảnh của Card AI đã có mà không nhập lại nội dung. Template có thể giữ theo snapshot hoặc được đổi sang Template AI khác.
 
 **Mục tiêu**
-- Tạo thiệp mới từ thiệp nguồn mà không cần form chỉnh sửa nội dung; chỉ cho phép chọn Template
-- Giữ nguyên thông tin: sender_name, receiver_name, message_content, attached_image_url, form_type, size_key, và các snapshot giá
-- Kiểm tra và quản lý quota (10 lượt/ngày + 3 lượt/mẫu hoa/ngày)
-- Không ghi đè hoặc xóa thiệp nguồn
-- Ghi nhận source card và lineage trong `client_histories.metadata`; không có column `source_flower_id`
-- Không phụ thuộc trạng thái live của Product/Mockup/Config nguồn khi regenerate
+- Tạo Card mới mà không thay source.
+- Giữ nguyên dữ liệu cá nhân hóa, Size và pricing snapshot.
+- Resolve Template và prompt theo policy rõ ràng.
+- Gọi AIModule với snapshot hoàn chỉnh và persist hai ảnh cùng History.
 
 **Ngoài phạm vi** (Out of scope)
-- AI generation thực tế (được tách trong module riêng)
-- Chi tiết implementation của nhà cung cấp AI; TDD chỉ quy định tối đa ba lần gọi bằng cùng snapshot
-- Tự động gắn kết quả vào Checkout
-- Chỉnh sửa thông tin khác ngoài Template trước khi tạo lại
+- Chỉnh sửa nội dung; xem TDD-027.
+- Regenerate HandMade Card.
+- Kiểm tra live Product/Mockup/Card Config nguồn.
+- Tự gắn kết quả vào Checkout.
+- Cách AIModule thực thi bên trong.
 
 ---
 
 ## BƯỚC 2 — Kiến trúc & Sơ đồ
 
 ### Kiến trúc tổng quan (Architecture)
-**Tiêu đề**: Trình tự tạo lại thiệp từ lịch sử
-**Mô tả**: Client gọi API với Template tùy chọn → xác thực ownership/source snapshot và chặn HandMade → dùng Template snapshot nguồn nếu bỏ trống/null/đúng ID nguồn hoặc validate live Template AI có ID khác → lấy prompt hiện hành hợp lệ hoặc fallback prompt nguồn → reserve quota → tạo immutable RegenerationSnapshot → AI/retry cùng snapshot → persist Card/history mới → consume quota; lỗi thì release.
+**Tiêu đề**: Regenerate từ Card History
+**Mô tả**: Service đọc source snapshot, resolve Template/prompt, gọi AIModule và tạo Card/History mới.
 
 ```mermaid
 flowchart LR
-    Client["Khách hàng"]
-    FE["Frontend"]
-    API["AICardController"]
-    Svc["AICardService"]
-    AI["AIModule<br/>(Generate ảnh)"]
-    DB[("Database")]
-
-    Client --> FE
-    FE -->|"POST /api/ai-cards/{source_card_id}/regenerate<br/>Template tùy chọn"| API
-    API --> Svc
-    Svc -->|"Lấy thiệp nguồn<br/>(với snapshot)"| DB
-    Svc -->|"Validate Template nếu ID khác nguồn<br/>Load prompt/fallback<br/>Reserve quota"| DB
-    Svc -->|"RegenerationSnapshot<br/>từ dữ liệu lịch sử"| Svc
-    Svc -->|"AI/retry cùng snapshot"| AI
-    AI -->|"Ảnh thiệp"| Svc
-    Svc -->|"Lưu thiệp MỚI"| DB
-    Svc -->|"Tạo client_histories<br/>+ consume quota"| DB
-    Svc --> API
-    API --> FE
-    FE --> Client
+    Client --> FE[Frontend]
+    FE -->|"POST /api/ai-cards/{sourceCardId}/regenerate"| API[AICardController]
+    API --> Svc[AICardService]
+    Svc --> DB[(Generated Card / History / Template / Prompt)]
+    Svc -->|"CardRegenerationSnapshot"| AI[AIModule]
+    AI -->|"rawImage + imageUrl hoặc lỗi"| Svc
+    Svc --> Persist[(Card mới / History mới)]
+    Svc --> API --> FE
 ```
+**Ghi chú**: TDD-007 không dùng `rawImage` của source làm image-reference; đó là TDD-027.
 
 ### Sequence Diagram
-**Tiêu đề**: Trình tự tạo lại thiệp từ lịch sử
-**Mô tả**: Từng bước gọi qua lại giữa các thành phần
+**Tiêu đề**: Trình tự Regenerate Card
+**Mô tả**: Các dependency nguồn dùng snapshot; chỉ Template khác source được validate live.
 
 ```mermaid
 sequenceDiagram
     autonumber
     actor Client
-    participant FE as Frontend
     participant C as AICardController
     participant S as AICardService
-    participant AI as AIModule
     participant DB as Database
-
-    Client->>FE: Chọn "Tạo lại" và có thể chọn Template
-    FE->>C: POST /api/ai-cards/{source_card_id}/regenerate
-
-    Note over S: GIAI ĐOẠN 1: Admission validation một lần
-    S->>DB: Xác thực ownership; load source Card + client_histories snapshot
-    alt Thiệp nguồn không tồn tại
-        S-->>C: Trả lỗi not found
-        C-->>FE: HTTP 404
-    end
-    alt Thiệp nguồn không thuộc khách hàng
-        S-->>C: Trả lỗi unauthorized
-        C-->>FE: HTTP 403
-    end
-    alt History nguồn là handmade_card
-        S-->>C: HANDMADE_CARD_REGENERATE_NOT_SUPPORTED/409
-        C-->>FE: HTTP 409
-    end
-    alt Client chọn ID Template khác nguồn
-        S->>DB: Validate Template mới live
-    else Bỏ trống/null/đúng ID nguồn
-        S->>S: Dùng Template snapshot nguồn, không query live
-    end
-    S->>DB: Load System Prompt hiện hành hợp lệ; nếu thiếu/rỗng/invalid thì dùng prompt snapshot nguồn
-
-    Note over S: GIAI ĐOẠN 2: Reserve quota và snapshot
-    S->>DB: Atomically reserve daily slot + flower slot nếu base là GeneratedFlower
-    alt Bất kỳ quota bắt buộc nào đã hết
-        S-->>C: Trả lỗi quota tương ứng, không giữ slot nào
-        C-->>FE: HTTP 403
-    end
-    S->>S: Tạo immutable RegenerationSnapshot từ dữ liệu/giá/Config nguồn + Effective Template + prompt thực tế
-
-    Note over S: GIAI ĐOẠN 3: AI/retry không revalidate dependency
-    S->>AI: Generate(regeneration snapshot), tối đa 3 lần gọi
-    AI-->>S: Ảnh thiệp (thành công/thất bại)
-
-    alt AI thất bại (sau retry)
-        S->>DB: Release mọi quota slot đã reserve
-        S-->>C: Trả lỗi AI failed
-    else AI trả ảnh hợp lệ
-        Note over S: GIAI ĐOẠN 4: Persist từ RegenerationSnapshot đã đóng băng
-        S->>DB: Transaction lưu Card MỚI + client_histories
-        alt Persistence thất bại
-            S->>DB: Rollback và release mọi quota slot
-            S-->>C: Trả lỗi persistence
-        else Persistence thành công
-            S->>DB: Consume daily slot + flower slot nếu có
-            S-->>C: GeneratedCard result
-            C-->>FE: HTTP 200 {card}
-            FE-->>Client: Hiển thị thiệp mới (source giữ nguyên)
+    participant AI as AIModule
+    Client->>C: POST /api/ai-cards/{sourceCardId}/regenerate
+    C->>S: sourceCardId + cardTemplateId?
+    Note over S: GIAI ĐOẠN 1: Source
+    S->>DB: Load source Card + History và verify owner/type/snapshot
+    alt Source lỗi
+        S-->>C: ErrorResponse 403/404/409
+    else Source hợp lệ
+        Note over S: GIAI ĐOẠN 2: Effective Template và prompt
+        alt cardTemplateId khác source
+            S->>DB: Validate Template AI live
+        else null/bỏ trống/đúng source
+            S->>S: Dùng Template snapshot source
+        end
+        S->>DB: Load current prompt; fallback source system_form khi cần
+        S->>S: Tạo CardRegenerationSnapshot
+        Note over S: GIAI ĐOẠN 3: AI và persistence
+        S->>AI: Generate(snapshot)
+        AI-->>S: rawImage + imageUrl hoặc lỗi
+        alt Kết quả không usable
+            S-->>C: INTERNAL_SERVER_ERROR/500
+        else Kết quả usable
+            S->>DB: Transaction Card mới + History mới
+            S-->>C: HTTP 200 Card mới
         end
     end
 ```
+**Ghi chú**: Không load live Size/Price Config hay nguồn Product/Flower trong flow này.
 
-### Activity Diagram
-**Tiêu đề**: Quy trình tạo lại thiệp từ lịch sử
-**Mô tả**: Sơ đồ quyết định khi tạo lại thiệp
+### Activity Diagram (optional — chỉ điền nếu logic có nhiều nhánh điều kiện phức tạp)
+**Tiêu đề**: Nhánh source và Template
+**Mô tả**: Thể hiện các quyết định thuộc trách nhiệm AICardService.
 
 ```mermaid
 flowchart TD
-    A[Bắt đầu] --> B{Ownership + source Card/history<br/>snapshot hợp lệ?}
-    B -->|Không tìm thấy| E[Trả lỗi 404]
-    B -->|Không thuộc KH| F[Trả lỗi 403]
-    B -->|Snapshot thiếu| XH[Trả 409 CARD_SOURCE_HISTORY_INVALID]
-    B -->|HandMade| XHM[Trả 409 HANDMADE_CARD_REGENERATE_NOT_SUPPORTED]
-    B -->|Card AI hợp lệ| DEP{Template được chọn usable<br/>hoặc snapshot nguồn có sẵn?<br/>Prompt current/fallback hợp lệ?}
-    DEP -->|Không| XD[Trả đúng lỗi dependency]
-    DEP -->|Có| C{Reserve atomically mọi<br/>quota slot bắt buộc?}
-
-    C -->|Hết quota| G[Trả lỗi 403, không giữ slot]
-    C -->|Còn quota| SNAP[Tạo RegenerationSnapshot<br/>từ giá/config lịch sử]
-    SNAP --> I{AI/retry cùng snapshot}
-
-    I -->|Thất bại| K[Release quota slot<br/>Trả lỗi tương ứng]
-    I -->|Thành công| L{Persist Card + client_histories<br/>thành công?}
-    L -->|Không| K
-    L -->|Có| OK[Consume quota slot<br/>Trả Card mới]
-
-    E --> Z[Kết thúc]
-    F --> Z
-    G --> Z
-    XH --> Z
-    XHM --> Z
-    XD --> Z
-    K --> Z
-    OK --> Z
+    A[Bắt đầu] --> B{Source AI Card + History hợp lệ?}
+    B -->|Không| X[Trả lỗi source]
+    B -->|Có| C{Template ID khác source?}
+    C -->|Có| D{Template AI live hợp lệ?}
+    D -->|Không| Y[Trả lỗi Template]
+    D -->|Có| E[Use Template mới]
+    C -->|Không| F[Use Template snapshot]
+    E --> G[Resolve prompt và tạo snapshot]
+    F --> G
+    G --> H[Gọi AIModule]
+    H --> I{Hai ảnh usable?}
+    I -->|Không| Z[Trả lỗi, không persist]
+    I -->|Có| J[Persist Card + History mới]
 ```
 
-### State Diagram
-
-- **Không áp dụng**: Regenerate tạo một generated_cards mới và không thay đổi trạng thái Card nguồn; TDD này không định nghĩa state machine cho entity.
+### State Diagram (optional — chỉ điền nếu entity chính có vòng đời trạng thái)
+- **Không áp dụng**: Source không đổi; kết quả chỉ xuất hiện sau transaction thành công.
 
 ### Mô hình dữ liệu (Data Model / ERD)
-**Tiêu đề**: Các bảng liên quan đến tạo lại thiệp
-**Mô tả**: Config (bảng có sẵn), generated_cards (nguồn và mới), client_histories (polymorphic)
+**Tiêu đề**: Dữ liệu source và kết quả Regenerate
+**Mô tả**: Chỉ liệt kê bảng/field, không vẽ dây quan hệ.
 
 ```mermaid
 erDiagram
-    Config ||--o{ generated_cards : "size_snapshot"
-    products ||--o{ client_histories : "base_normal"
-    generated_flowers ||--o{ client_histories : "base_ai"
-    generated_cards ||--o{ client_histories : "output"
-    card_templates ||--o{ client_histories : "metadata"
-    system_prompts ||--o{ client_histories : "prompt"
-
-    Config {
-        uuid id PK
-        string key
-        jsonb value
-        string group
-        string kind
-        bool is_public
-        bool is_deleted
-        guid user_id
-        timestamp created_at
-        timestamp updated_at
-    }
-
     generated_cards {
         uuid id PK
-        string content
         string image_url
+        string raw_image
         uuid user_id
         timestamp created_at
+        string card_type
         string form_type
-        string size_key
         string sender_name
         string receiver_name
         string message_content
@@ -266,61 +174,37 @@ erDiagram
         int size_max_words
         int word_count
         json word_config_snapshot
-        string card_type "ai; required for source and result"
         decimal base_price
         decimal extra_price
         decimal total_price
     }
-
-    generated_flowers {
+    client_histories {
         uuid id PK
-        string image_url
         uuid user_id
-        json input_snapshot
+        string type
+        json system_form
+        json metadata
+        uuid root "Product ID gốc; NOT NULL; no FK"
+        uuid base_id
+        uuid output_id
+        timestamp created_at
     }
-
-    products {
-        uuid id PK
-    }
-
     card_templates {
         uuid id PK
         string name
         string image_url
-        json metadata
-        string template_type "ai | handmade; required; immutable"
+        string template_type
         boolean is_active
         boolean is_deleted
     }
-
     system_prompts {
         uuid id PK
         string type UK
         text content
     }
-
-    client_histories {
-        uuid id PK
-        uuid user_id
-        text input
-        string type "flower | card | handmade_card | post"
-        uuid system_prompt_id "nullable với handmade_card"
-        json metadata
-        timestamp created_at
-        uuid base_id "polymorphic: product.id hoặc generated_flowers.id"
-        uuid output_id "polymorphic: generated_flowers.id hoặc generated_cards.id"
-    }
 ```
 
-**LƯU Ý:** `generated_cards` KHÔNG có trường `source_flower_id`. Mối quan hệ với bó hoa được xác định qua `client_histories.base_id`:
-- Thiệp cho bó hoa bình thường: `base_id = products.id`
-- Thiệp cho bó hoa AI: `base_id = generated_flowers.id`
-
-Khi tạo lại:
-- `base_id` mới = `base_id` cũ của thiệp nguồn
-- `output_id` mới = id thiệp mới vừa tạo
-- `client_histories.input` mới = `{ "operation": "regenerate", "source_card_id": "...", "card_template_id": "uuid-or-null" }`
-- `client_histories.metadata` giữ lineage/giá/Config snapshot nguồn, thay bằng Effective Template snapshot và bổ sung `operation="regenerate"`, `regenerated_from_card_id`, `system_prompt_source`.
+**Ghi chú dữ liệu**: History mới kế thừa nguyên `base_id` và `root` của History Card nguồn. `root` là Product ID gốc, bắt buộc, khác `Guid.Empty`, không có FK và không nằm trong response API.
 
 ---
 
@@ -328,79 +212,76 @@ Khi tạo lại:
 
 ### API Contract nội bộ
 
-#### Endpoint #1: Tạo lại thiệp từ lịch sử
+#### Endpoint #1
 - **Method**: POST
-- **Endpoint**: `/api/ai-cards/{source_card_id}/regenerate`
+- **Endpoint**: `/api/ai-cards/{sourceCardId}/regenerate`
 - **Tên endpoint**: Tạo lại thiệp từ lịch sử
-- **Mô tả**: Tạo Card mới từ Card nguồn, giữ nguyên nội dung/giá/Config snapshot và cho phép chọn Template khác
+- **Mô tả**: Tạo Card mới, giữ source content/size/price và tùy chọn đổi Template AI.
 
-**Request Body:**
+#### Path parameter specification
+| Field | Type | Required | Mô tả |
+|---|---|---:|---|
+| `sourceCardId` | uuid | Có | `generated_cards.id` của Card được chọn; phải có History `type=card` thuộc user. |
 
-```json
-{
-  "card_template_id": "uuid-or-null"
-}
-```
+#### Request body specification
+| Field | Type | Required | Mô tả |
+|---|---|---:|---|
+| `cardTemplateId` | uuid/null | Không | Null/bỏ field/đúng source dùng Template snapshot; ID khác source được validate live và phải là Template AI. |
 
-`card_template_id` là tùy chọn. Null, bỏ field, body rỗng hoặc truyền đúng ID Template nguồn thì dùng Template snapshot nguồn mà không validate live. Chỉ ID khác nguồn mới được validate như Template mới và Template đó bắt buộc có `template_type="ai"`.
+Body `{}` là hợp lệ.
 
-Mỗi type có đúng một System Prompt hiện hành. Regenerate dùng prompt hiện hành type `card` nếu record tồn tại và content hợp lệ. Khi record không tồn tại hoặc content rỗng/không hợp lệ, service dùng full prompt snapshot của Card nguồn mà không kiểm tra trạng thái record nguồn; nếu snapshot cũng thiếu/không hợp lệ thì trả `CARD_SOURCE_HISTORY_INVALID/409`.
+#### Response field specification
+| Field | Type | Mô tả |
+|---|---|---|
+| `id` | uuid | ID Card mới. |
+| `content` | string/null | Content của Card mới. |
+| `imageUrl` | string | Ảnh hoàn chỉnh mới. |
+| `rawImage` | string | Ảnh gốc mới trước chèn chữ. |
+| `userId` | uuid | User hiện tại. |
+| `createdAt` | datetime UTC | Thời điểm tạo mới. |
+| `cardType` | string | `ai`. |
+| `formType` | string | Giữ từ source. |
+| `senderName` | string | Giữ từ source. |
+| `receiverName` | string | Giữ từ source. |
+| `messageContent` | string | Giữ từ source. |
+| `attachedImageUrl` | string/null | Giữ từ source. |
+| `sizeName/sizeWidth/sizeHeight` | string/decimal | Size snapshot nguồn. |
+| `sizeBasePrice/sizeMaxWords` | decimal/integer | Giá/giới hạn Size nguồn. |
+| `wordCount` | integer | Giữ từ source. |
+| `wordConfigSnapshot` | object/null | Giữ rule nguồn. |
+| `basePrice/extraPrice/totalPrice` | decimal | Giữ pricing nguồn. |
 
-**Ví dụ 1 — Happy path: Tạo lại thành công** — HTTP `200`
-
-Request:
-```http
-POST /api/ai-cards/550e8400-e29b-41d4-a716-446655440001/regenerate
-
-{}
-```
-
-Response:
-```json
-{
-  "value": {
-    "id": "880e8400-e29b-41d4-a716-446655440099",
-    "content": "...",
-    "image_url": "https://storage.example.com/cards/880e8400.png",
-    "user_id": "770e8400-e29b-41d4-a716-446655440003",
-    "created_at": "2026-08-26T11:00:00Z",
-    "form_type": "go_may",
-    "size_key": "size_A",
-    "sender_name": "Nguyễn An",
-    "receiver_name": "Trần Bình",
-    "message_content": "Chúc bạn sinh nhật vui vẻ",
-    "attached_image_url": null,
-    "size_name": "A",
-    "size_width": 10,
-    "size_height": 15,
-    "size_base_price": 100000,
-    "size_max_words": 100,
-    "word_count": 5,
-    "word_config_snapshot": null,
-    "base_price": 100000,
-    "extra_price": 0,
-    "total_price": 100000
-  }
-}
-```
-
-**Ghi chú:** Thiệp nguồn (id: 550e8400...) vẫn tồn tại trong DB với snapshot giá cũ, không bị ghi đè.
-
-**Ví dụ 2 — Happy path: Chọn Template khác** — HTTP `200`
+**Ví dụ 1 — Dùng Template snapshot nguồn** — HTTP `200`
 
 Request:
 ```http
 POST /api/ai-cards/550e8400-e29b-41d4-a716-446655440001/regenerate
 Content-Type: application/json
 
-{
-  "card_template_id": "660e8400-e29b-41d4-a716-446655440010"
-}
+{}
 ```
 
-Kết quả giữ nguyên nội dung, size, giá và Config snapshot của Card nguồn; `metadata.card_template` là snapshot Template mới và `metadata.regenerated_from_card_id` là ID Card nguồn. Trạng thái Template cũ không được dùng để chặn request.
+Response:
+```json
+{"value":{"id":"880e8400-e29b-41d4-a716-446655440099","content":"...","imageUrl":"https://storage.example.com/cards/new-final.png","rawImage":"https://storage.example.com/cards/new-raw.png","userId":"770e8400-e29b-41d4-a716-446655440003","createdAt":"2026-09-08T11:00:00Z","cardType":"ai","formType":"go_may","senderName":"Nguyễn An","receiverName":"Trần Bình","messageContent":"Chúc bạn sinh nhật vui vẻ","attachedImageUrl":null,"sizeName":"Kích thước chung","sizeWidth":15,"sizeHeight":25,"sizeBasePrice":15000,"sizeMaxWords":150,"wordCount":5,"wordConfigSnapshot":null,"basePrice":15000,"extraPrice":0,"totalPrice":15000}}
+```
 
-**Ví dụ 3 — Happy path: Tạo lại thiệp Calligraphy từ mẫu hoa** — HTTP `200`
+**Ví dụ 2 — Chọn Template AI khác** — HTTP `200`
+
+Request:
+```http
+POST /api/ai-cards/550e8400-e29b-41d4-a716-446655440001/regenerate
+Content-Type: application/json
+
+{"cardTemplateId":"660e8400-e29b-41d4-a716-446655440010"}
+```
+
+Response:
+```json
+{"value":{"id":"880e8400-e29b-41d4-a716-446655440100","imageUrl":"https://storage.example.com/cards/template-new-final.png","rawImage":"https://storage.example.com/cards/template-new-raw.png","cardType":"ai","formType":"go_may","senderName":"Nguyễn An","receiverName":"Trần Bình","messageContent":"Chúc bạn sinh nhật vui vẻ","sizeName":"Kích thước chung","sizeWidth":15,"sizeHeight":25,"sizeBasePrice":15000,"sizeMaxWords":150,"wordCount":5,"wordConfigSnapshot":null,"basePrice":15000,"extraPrice":0,"totalPrice":15000}}
+```
+
+**Ví dụ 3 — Giữ snapshot Calligraphy** — HTTP `200`
 
 Request:
 ```http
@@ -411,280 +292,157 @@ POST /api/ai-cards/550e8400-e29b-41d4-a716-446655440002/regenerate
 
 Response:
 ```json
-{
-  "value": {
-    "id": "990e8400-e29b-41d4-a716-446655440100",
-    "form_type": "calligraphy",
-    "size_key": "size_B",
-    "sender_name": "Hoàng Thị Lan",
-    "receiver_name": "Lê Văn Minh",
-    "message_content": "Chúc mừng năm mới...",
-    "attached_image_url": "https://storage.example.com/images/flower-002.jpg",
-    "size_name": "B",
-    "size_width": 15,
-    "size_height": 20,
-    "size_base_price": 150000,
-    "size_max_words": 150,
-    "word_count": 45,
-    "word_config_snapshot": {
-      "min_words": 36,
-      "max_words": 70,
-      "extra_price": 39000
-    },
-    "base_price": 150000,
-    "extra_price": 39000,
-    "total_price": 189000
-  }
-}
+{"value":{"id":"990e8400-e29b-41d4-a716-446655440100","imageUrl":"https://storage.example.com/cards/calligraphy-final.png","rawImage":"https://storage.example.com/cards/calligraphy-raw.png","cardType":"ai","formType":"calligraphy","senderName":"Hoàng Lan","receiverName":"Lê Minh","messageContent":"Nội dung nguồn","sizeName":"Kích thước chung","sizeWidth":15,"sizeHeight":25,"sizeBasePrice":15000,"sizeMaxWords":150,"wordCount":45,"wordConfigSnapshot":{"min_words":36,"max_words":70,"extra_price":39000},"basePrice":15000,"extraPrice":39000,"totalPrice":54000}}
 ```
 
-**Ví dụ 4 — Thiệp nguồn không tồn tại** — HTTP `404`
+**Ví dụ 4 — Card nguồn không tồn tại** — HTTP `404`
 
 Request:
-```
+```http
 POST /api/ai-cards/00000000-0000-0000-0000-000000000000/regenerate
+
+{}
 ```
 
 Response:
 ```json
-{
-  "error": {
-    "code": "CARD_NOT_FOUND",
-    "message": "Thiệp không tồn tại."
-  }
-}
+{"title":"Not Found","status":404,"detail":"Thiệp không tồn tại.","messageCode":"CARD_NOT_FOUND"}
 ```
 
-**Ví dụ 5 — Thiệp nguồn không thuộc khách hàng** — HTTP `403`
+**Ví dụ 5 — Card nguồn khác owner** — HTTP `403`
 
 Request:
-```
+```http
 POST /api/ai-cards/550e8400-e29b-41d4-a716-446655440003/regenerate
+
+{}
 ```
 
 Response:
 ```json
-{
-  "error": {
-    "code": "ACCESS_DENIED",
-    "message": "Bạn không có quyền truy cập thiệp này."
-  }
-}
+{"title":"Forbidden","status":403,"detail":"Bạn không có quyền truy cập thiệp này.","messageCode":"ACCESS_DENIED"}
 ```
 
-**Ví dụ 6 — Hết quota tạo thiệp trong ngày** — HTTP `403`
+**Ví dụ 6 — Template mới không tồn tại** — HTTP `404`
 
 Request:
-```
+```http
 POST /api/ai-cards/550e8400-e29b-41d4-a716-446655440001/regenerate
+
+{"cardTemplateId":"00000000-0000-0000-0000-000000000000"}
 ```
 
 Response:
 ```json
-{
-  "error": {
-    "code": "FORBIDDEN",
-    "message": "Bạn đã sử dụng hết 10 lượt tạo thiệp AI trong ngày."
-  }
-}
+{"title":"Not Found","status":404,"detail":"Không tìm thấy mẫu thiệp được chọn.","messageCode":"CARD_TEMPLATE_NOT_FOUND"}
 ```
 
-**Ví dụ 7 — Hết quota theo mẫu hoa** — HTTP `403`
+**Ví dụ 7 — Template mới đã xóa** — HTTP `410`
 
-Request:
-```
-POST /api/ai-cards/550e8400-e29b-41d4-a716-446655440001/regenerate
-```
+Request: dùng source hợp lệ và `cardTemplateId` của Template có `isDeleted=true`.
 
 Response:
 ```json
-{
-  "error": {
-    "code": "FORBIDDEN",
-    "message": "Bạn đã sử dụng hết số lượt tạo thiệp cho mẫu hoa này."
-  }
-}
+{"title":"Gone","status":410,"detail":"Mẫu thiệp được chọn đã bị xóa.","messageCode":"CARD_TEMPLATE_DELETED"}
 ```
 
-**Ví dụ 8 — AI thất bại sau retry** — HTTP `500`
+**Ví dụ 8 — Template mới inactive** — HTTP `409`
+
+Request: dùng source hợp lệ và `cardTemplateId` của Template inactive.
 
 Response:
 ```json
-{
-  "error": {
-    "code": "INTERNAL_SERVER_ERROR",
-    "message": "Không thể tạo ảnh thiệp. Vui lòng thử lại sau."
-  }
-}
+{"title":"Conflict","status":409,"detail":"Mẫu thiệp được chọn đang bị ngưng.","messageCode":"CARD_TEMPLATE_INACTIVE"}
 ```
 
-**Ví dụ 9 — Chưa đăng nhập** — HTTP `401`
+**Ví dụ 9 — Chọn Template HandMade** — HTTP `409`
 
-Request:
-```
-POST /api/ai-cards/550e8400-e29b-41d4-a716-446655440001/regenerate
-```
+Request: dùng source hợp lệ và `cardTemplateId` của Template có `templateType=handmade`.
 
 Response:
 ```json
-{
-  "error": {
-    "code": "UNAUTHORIZED",
-    "message": "Bạn cần đăng nhập để thực hiện thao tác này."
-  }
-}
+{"title":"Conflict","status":409,"detail":"Template không phù hợp với Regenerate AI.","messageCode":"CARD_TEMPLATE_TYPE_INVALID"}
 ```
 
-**Ví dụ 10 — Template được client chọn không tồn tại** — HTTP `404`
+**Ví dụ 10 — Source History không đủ dữ liệu** — HTTP `409`
 
 Request:
 ```http
-POST /api/ai-cards/card-source-001/regenerate
-Content-Type: application/json
+POST /api/ai-cards/550e8400-e29b-41d4-a716-446655440004/regenerate
 
-{ "card_template_id": "template-not-found" }
+{}
 ```
 
 Response:
 ```json
-{
-  "error": {
-    "code": "CARD_TEMPLATE_NOT_FOUND",
-    "message": "Không tìm thấy mẫu thiệp được chọn."
-  }
-}
+{"title":"Conflict","status":409,"detail":"Lịch sử Card nguồn không đủ snapshot hoặc Product gốc để tạo lại.","messageCode":"CARD_SOURCE_HISTORY_INVALID"}
 ```
 
-**Ví dụ 11 — Template được client chọn đã soft-delete** — HTTP `410`
+**Ví dụ 11 — Source HandMade** — HTTP `409`
 
 Request:
 ```http
-POST /api/ai-cards/card-source-001/regenerate
-Content-Type: application/json
+POST /api/ai-cards/550e8400-e29b-41d4-a716-446655440005/regenerate
 
-{ "card_template_id": "template-deleted" }
+{}
 ```
 
 Response:
 ```json
-{
-  "error": {
-    "code": "CARD_TEMPLATE_DELETED",
-    "message": "Mẫu thiệp được chọn đã bị xóa."
-  }
-}
+{"title":"Conflict","status":409,"detail":"Thiệp HandMade không hỗ trợ tạo lại.","messageCode":"HANDMADE_CARD_REGENERATE_NOT_SUPPORTED"}
 ```
 
-**Ví dụ 12 — Template được client chọn inactive** — HTTP `409`
+**Ví dụ 12 — AIModule không trả kết quả usable** — HTTP `500`
 
-Request:
-```http
-POST /api/ai-cards/card-source-001/regenerate
-Content-Type: application/json
-
-{ "card_template_id": "template-inactive" }
-```
+Request: dùng source/body hợp lệ của Ví dụ 1.
 
 Response:
 ```json
-{
-  "error": {
-    "code": "CARD_TEMPLATE_INACTIVE",
-    "message": "Mẫu thiệp được chọn đang bị ngưng."
-  }
-}
+{"title":"Internal Server Error","status":500,"detail":"Không thể tạo ảnh thiệp.","messageCode":"INTERNAL_SERVER_ERROR"}
 ```
 
-**Ví dụ 13 — Card source history không đủ snapshot** — HTTP `409`
+**Ví dụ 13 — Chưa đăng nhập** — HTTP `401`
 
-Request:
-```json
-POST /api/ai-cards/card-source-001/regenerate
-```
+Request: dùng source/body Ví dụ 1 nhưng không có phiên xác thực.
 
 Response:
 ```json
-{
-  "error": {
-    "code": "CARD_SOURCE_HISTORY_INVALID",
-    "message": "Lịch sử Card nguồn không đủ dữ liệu để tạo lại."
-  }
-}
-```
-
-**Ví dụ 14 — Từ chối tạo lại HandMade Card** — HTTP `409`
-
-Request:
-```http
-POST /api/ai-cards/handmade-card-source-001/regenerate
-```
-
-Response:
-```json
-{
-  "error": {
-    "code": "HANDMADE_CARD_REGENERATE_NOT_SUPPORTED",
-    "message": "Thiệp HandMade không hỗ trợ chức năng tạo lại."
-  }
-}
-```
-
-**Ví dụ 15 — Từ chối chọn Template HandMade cho Regenerate AI** — HTTP `409`
-
-```http
-POST /api/ai-cards/card-source-001/regenerate
-Content-Type: application/json
-
-{ "card_template_id": "template-handmade-001" }
-```
-
-```json
-{
-  "error": {
-    "code": "CARD_TEMPLATE_TYPE_INVALID",
-    "message": "Mẫu thiệp được chọn không phù hợp với chức năng tạo lại thiệp AI."
-  }
-}
+{"title":"Unauthorized","status":401,"detail":"Bạn cần đăng nhập.","messageCode":"UNAUTHORIZED"}
 ```
 
 #### Mã lỗi
 | Code | HTTP | Khi nào xảy ra |
-|---|---|---|
-| CARD_NOT_FOUND | 404 | Thiệp nguồn không tồn tại |
-| ACCESS_DENIED | 403 | Thiệp này không thuộc về bạn |
-| CARD_SOURCE_HISTORY_INVALID | 409 | Thiệp nguồn không có snapshot đủ để regenerate |
-| CARD_TEMPLATE_NOT_FOUND | 404 | Template client chủ động chọn không tồn tại |
-| CARD_TEMPLATE_DELETED | 410 | Template client chủ động chọn đã soft-delete |
-| CARD_TEMPLATE_INACTIVE | 409 | Template client chủ động chọn inactive |
-| CARD_TEMPLATE_TYPE_INVALID | 409 | Template mới được chọn không có `template_type="ai"` |
-| HANDMADE_CARD_REGENERATE_NOT_SUPPORTED | 409 | Source history có `type="handmade_card"` |
-| FORBIDDEN | 403 | Bạn đã sử dụng hết 10 lượt tạo thiệp trong ngày hoặc đã tạo tối đa 3 lần cho mẫu hoa này trong ngày |
-| UNAUTHORIZED | 401 | Bạn cần đăng nhập để thực hiện thao tác này |
-| INTERNAL_SERVER_ERROR | 500 | Không thể tạo thiệp thiết kế AI. Vui lòng thử lại sau |
+|---|---:|---|
+| `CARD_NOT_FOUND` | 404 | Source Card không tồn tại |
+| `ACCESS_DENIED` | 403 | Source không thuộc user |
+| `CARD_SOURCE_HISTORY_INVALID` | 409 | History/snapshot/prompt fallback hoặc `base_id/root` Product không đủ hay không hợp lệ |
+| `CARD_TEMPLATE_NOT_FOUND` | 404 | Template khác source không tồn tại |
+| `CARD_TEMPLATE_DELETED` | 410 | Template khác source đã xóa |
+| `CARD_TEMPLATE_INACTIVE` | 409 | Template khác source inactive |
+| `CARD_TEMPLATE_TYPE_INVALID` | 409 | Template khác source không phải AI |
+| `HANDMADE_CARD_REGENERATE_NOT_SUPPORTED` | 409 | Source là HandMade Card |
+| `UNAUTHORIZED` | 401 | Chưa đăng nhập |
+| `INTERNAL_SERVER_ERROR` | 500 | AIModule, upload hoặc persistence không tạo kết quả hoàn chỉnh |
 
-### API Contract bên ngoài
-
-- **Endpoints sử dụng**: Không áp dụng ở mức TDD này. AI Module là module nội bộ; nhà cung cấp AI và endpoint bên thứ ba chưa được xác định trong codebase.
-- **Field quan trọng**: AI Module chỉ nhận immutable generation snapshot đã được tạo sau khi toàn bộ dependency vượt qua validation tại request admission.
-- **Xử lý lỗi từ đối tác**: Một lần gọi đầu và tối đa hai lần retry dùng cùng snapshot và cùng quota slot; hết retry thì release quota slot và không tạo kết quả/history.
-- **Quirks / cạm bẫy**: Không được tải lại ảnh, prompt hoặc query lại trạng thái dependency live trong retry.
+### API Contract bên ngoài (optional — chỉ điền nếu hàm/API này gọi ra service/API của bên thứ ba)
+- **Endpoints sử dụng**: `AIModule` nội bộ; provider/endpoint cụ thể chưa được xác định.
+- **Field quan trọng gửi vào**: `CardRegenerationSnapshot` gồm source snapshots, Effective Template, prompt và input/price cố định.
+- **Field quan trọng nhận về**: `rawImage`, `imageUrl`.
+- **Xử lý lỗi từ đối tác**: Service nhận kết quả cuối cùng hoặc lỗi; kết quả không usable không được persist.
+- **Quirks / cạm bẫy**: Không dùng raw image của source làm reference và không query dependency live đã snapshot.
 
 ---
 
 ## BƯỚC 4 — Tham chiếu
 
-> Chú thích: 🔴 Tham chiếu đến (tài liệu này đọc/phụ thuộc) · ⚫ Trỏ vào tài liệu này (tài liệu khác phụ thuộc vào tài liệu này) · ⋯ Bị ảnh hưởng (thay đổi ở đây có thể làm tài liệu kia sai theo)
-
 ### 🔴 Tham chiếu đến
-- TDD-006 - Tạo thiệp thiết kế AI (sử dụng chung generated_cards, quota logic, bảng Config)
-- AIModule - Module xử lý AI generation (tách riêng)
-- client_histories Entity - Để lấy base_id từ thiệp nguồn
+- TDD-006 — Response Card, validation nền và persistence.
+- TDD-022 đến TDD-026 — Card Template.
+- `AI_Card_Context.md` — snapshot/prompt và chính sách nội bộ của lời gọi AI.
 
 ### ⚫ Trỏ vào tài liệu này
-- ST-036-01-01 - System Test: Tạo lại thiệp thành công từ History
-- ST-036-02-01 - System Test: Giữ nguyên nội dung và ảnh đính kèm khi Tạo lại
-- ST-036-05-01 - System Test: Chặn Tạo lại khi hết quota ngày hoặc đủ 3 lượt theo mẫu hoa
-- AI_DB_Diagram - Tham chiếu cấu trúc client_histories
+- STORY-036 và System Test Regenerate.
+- TDD-027 để phân biệt “đổi Template” với “đổi nội dung”.
 
 ### ⋯ Bị ảnh hưởng
-- TDD-006 - Nếu thay đổi cấu trúc generated_cards hoặc quota logic, cần kiểm tra lại TDD-007
+- Schema Generated Card/History, Template snapshot và prompt fallback.

@@ -4,15 +4,16 @@
 - **Story**: Là một Quản trị viên, tôi muốn chỉnh sửa System Prompt và quản lý phiên bản để có thể điều chỉnh cách AI xử lý các chức năng của hệ thống khi yêu cầu nghiệp vụ thay đổi
 - **Context**: System Prompt là thành phần cốt lõi được sử dụng để định hướng cách AI xử lý và trả về kết quả (tạo caption, viết bài, paraphrase...). Khi cần thay đổi nội dung System Prompt, Quản trị viên thực hiện chỉnh sửa trên phiên bản hiện tại. Hệ thống cập nhật phiên bản mới từ nội dung đã chỉnh sửa và lưu trữ phiên bản cũ vào lịch sử.
 - **Quy định dữ liệu của System Prompt**:
-  - **Độ dài**: Tối thiểu 1 ký tự sau khi loại bỏ khoảng trắng ở đầu và cuối; tối đa 20.000 ký tự.
-  - **Định dạng**: Cho phép tiếng Việt, ký tự Unicode, ký tự xuống dòng và cú pháp Markdown.
+  - **Độ dài**: Tối thiểu 1 ký tự sau khi loại bỏ khoảng trắng ở đầu và cuối; tối đa 20.000 ký tự (BR-041).
+  - **Định dạng**: Cho phép tiếng Việt, ký tự Unicode, ký tự xuống dòng và cú pháp Markdown (BR-042).
   - **Ràng buộc an toàn**: Không cho phép nhập các ký tự điều khiển không hiển thị (invisible control characters).
-  - **Tính toàn vẹn**: Hệ thống không tự động thay đổi khoảng trắng, thụt dòng, xuống dòng hoặc nội dung bên trong Prompt.
+  - **Tính toàn vẹn**: Hệ thống không tự động thay đổi khoảng trắng, thụt dòng, xuống dòng hoặc nội dung bên trong Prompt (BR-042).
+  - **Phạm vi chức năng**: Chức năng này chỉ phục vụ việc cập nhật và lưu trữ nội dung System Prompt, **không bao gồm tính năng Preview/Chạy thử Prompt qua AI** (sẽ thuộc công cụ AI Playground riêng nếu triển khai sau này).
 - **Sprint**: S1
 - **Priority**: Must
-- **Phiên bản**: v0.1
+- **Phiên bản**: v0.2
 - **Phê duyệt tài liệu**: Đang duyệt
-- **Cập nhật**: 06/09/2026
+- **Cập nhật**: 09/09/2026
 - **Author**: Hồ Hoàng Nam
 - **Reviewer**: Nguyễn Đức Bình
 - **Approver**: Chưa chỉ định
@@ -22,6 +23,12 @@
 - **Creator**: Nguyễn Anh Quân
 - **Feedback gần nhất**:
   > *"Làm rõ lại chỗ preview khi thay đổi system prompt, input để AI run ra output cho phần này là gì chưa thấy đề cập. Chưa có AC cho EXC-04, 05, 01."* — Nguyễn Đức Bình · 09:01 03/09/2026
+  - **Phản hồi & Cập nhật**:
+    1. **Về tính năng Preview**: Đã làm rõ trong Context và Out of Scope rằng chức năng này **không có tính năng Preview hay chạy thử Prompt bằng AI** (phù hợp với TDD-004 mục 2.3 Non-goals). Chức năng chỉ tập trung cập nhật và kiểm tra dữ liệu nội dung System Prompt.
+    2. **Về các Acceptance Criteria**:
+       - **EXC-01** (Nội dung không hợp lệ) $\rightarrow$ đã được bao phủ bởi **AC-001** (Độ dài, ký tự điều khiển) và **AC-003** (Chặn lưu khi nội dung trống).
+       - **EXC-04** (Xung đột phiên bản) $\rightarrow$ đã được bao phủ bởi **AC-011** (Xử lý xung đột phiên bản khi lưu).
+       - **EXC-05** (Phiên đăng nhập hết hạn) $\rightarrow$ đã bổ sung **AC-012** (Xử lý phiên đăng nhập hết hạn khi lưu).
 
 ---
 
@@ -40,7 +47,7 @@
 2. Quản trị viên chọn chức năng "Chỉnh sửa".
 3. Hệ thống hiển thị nội dung phiên bản hiện tại trong biểu mẫu chỉnh sửa (editor).
 4. Quản trị viên chỉnh sửa nội dung System Prompt.
-5. Hệ thống kiểm tra tính hợp lệ của nội dung theo quy định (1 - 20.000 ký tự, không chứa ký tự điều khiển).
+5. Hệ thống kiểm tra tính hợp lệ của nội dung theo quy định (1 - 20.000 ký tự, không chứa ký tự điều khiển) (BR-041, BR-042).
 6. Quản trị viên chọn "Lưu".
 7. Hệ thống xác thực nội dung không để trống và đáp ứng đầy đủ quy tắc định dạng.
 8. Hệ thống tạo một phiên bản mới, đồng thời lưu giữ nguyên vẹn phiên bản trước đó trong lịch sử phiên bản (Version History).
@@ -53,7 +60,7 @@
   - Hệ thống hiển thị modal cảnh báo xác nhận thoát.
   - Nếu chọn "Thoát không lưu", hệ thống không lưu nội dung vừa sửa, giữ nguyên phiên bản hiện tại và quay lại màn hình chi tiết.
 - **ALT-02 — Không có thay đổi để lưu**:
-  - Quản trị viên bấm "Lưu" khi chưa thay đổi bất kỳ ký tự nào trong nội dung Prompt.
+  - Quản trị viên bấm "Lưu" khi chưa thay đổi bất kỳ ký tự nào trong nội dung Prompt (BR-052).
   - Hệ thống hiển thị thông báo: *"Không có thay đổi để lưu"* và giữ nguyên màn hình chỉnh sửa.
 - **ALT-03 — Xử lý lựa chọn trong modal xác nhận thoát**:
   - Nếu Quản trị viên chọn "Tiếp tục chỉnh sửa": hệ thống giữ nguyên màn hình và toàn bộ nội dung đang nhập dở dang.
@@ -71,8 +78,11 @@
   - Quản trị viên A mở phiên bản v1 để chỉnh sửa.
   - Trong lúc đó, Quản trị viên B đã cập nhật thành công lên phiên bản v2.
   - Quản trị viên A nhấn "Lưu" nội dung dựa trên nền tảng v1 cũ.
-  - Hệ thống phát hiện xung đột, không ghi đè lên phiên bản v2 của Quản trị viên B.
+  - Hệ thống phát hiện xung đột, không ghi đè lên phiên bản v2 của Quản trị viên B (BR-045).
   - Hệ thống thông báo: *"System Prompt đã được người khác cập nhật. Vui lòng tải lại phiên bản mới nhất."*
+- **EXC-05 — Phiên đăng nhập hết hạn**:
+  - Phiên đăng nhập hết hạn trước khi Quản trị viên bấm "Lưu".
+  - Hệ thống từ chối yêu cầu lưu, giữ nguyên phiên bản hiện tại và yêu cầu Quản trị viên đăng nhập lại.
 
 ---
 
@@ -89,7 +99,7 @@
   - **When**: Phiên bản mới được tạo trong hệ thống.
   - **Then**: Hệ thống ghi nhận đầy đủ định danh người chỉnh sửa (Admin ID/Tên) và mốc thời gian cập nhật chính xác.
 
-- **AC-003 — Chặn lưu khi nội dung trống**:
+- **AC-003 — Chặn lưu khi nội dung trống (EXC-01)**:
   - **Given**: Quản trị viên đang chỉnh sửa System Prompt.
   - **When**: Nội dung bị xóa trống hoàn toàn và nhấn "Lưu".
   - **Then**: Hệ thống không lưu và hiển thị thông báo yêu cầu nhập nội dung Prompt.
@@ -102,7 +112,7 @@
 - **AC-006 — Bấm lưu khi không có thay đổi (ALT-02)**:
   - **Given**: Quản trị viên không thay đổi bất kỳ ký tự nào của nội dung System Prompt.
   - **When**: Quản trị viên bấm "Lưu".
-  - **Then**: Hệ thống không tạo phiên bản mới.
+  - **Then**: Hệ thống không tạo phiên bản mới (BR-052).
   - **And**: Hiển thị thông báo: *"Không có thay đổi để lưu"*.
 
 - **AC-008 — Lưu phiên bản mới thành công và toàn vẹn**:
@@ -130,13 +140,22 @@
 - **AC-011 — Xử lý xung đột phiên bản (EXC-04)**:
   - **Given**: Quản trị viên A đang chỉnh sửa System Prompt dựa trên phiên bản hiện tại; trong lúc đó, Quản trị viên B đã lưu thành công một phiên bản mới hơn.
   - **When**: Quản trị viên A chọn "Lưu" nội dung đang chỉnh sửa.
-  - **Then**: Hệ thống phát hiện xung đột và từ chối lưu nội dung của Quản trị viên A.
+  - **Then**: Hệ thống phát hiện xung đột và từ chối lưu nội dung của Quản trị viên A (BR-045).
   - **And**: Không ghi đè lên phiên bản mới nhất do Quản trị viên B vừa tạo.
   - **And**: Hiển thị thông báo lỗi: *"System Prompt đã được người khác cập nhật. Vui lòng tải lại phiên bản mới nhất."*
+
+- **AC-012 — Xử lý phiên đăng nhập hết hạn khi lưu (EXC-05)**:
+  - **Given**: Quản trị viên đang ở biểu mẫu chỉnh sửa System Prompt.
+  - **When**: Phiên đăng nhập hết hạn và Quản trị viên bấm nút "Lưu".
+  - **Then**: Hệ thống từ chối cập nhật dữ liệu và không tạo phiên bản mới.
+  - **And**: Hệ thống hiển thị thông báo phiên làm việc đã hết hạn và chuyển hướng Quản trị viên đến màn hình đăng nhập.
 
 ---
 
 ## References
+
+### TDDs
+- [TDD-004: Sửa System Prompt](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/TDD/TDD-004-UpdateSystemPrompt.md)
 
 ### Business Rules
 - [BR-041: Độ dài System Prompt](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-041.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/7fcca618-4169-41e1-9191-35ad76d245d6))
@@ -154,4 +173,5 @@
 
 ## Out of Scope
 - Không bao gồm tạo mới hoặc xóa vĩnh viễn System Prompt.
-- Không bao gồm tính năng tự động gợi ý/tối ưu Prompt bằng AI.
+- Không bao gồm tính năng chạy thử (preview) hoặc gọi AI chạy thử Prompt bằng input mẫu (thuộc tính năng AI Playground riêng biệt nếu có).
+- Không bao gồm tính năng tự động tối ưu Prompt bằng AI.

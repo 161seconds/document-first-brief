@@ -68,9 +68,11 @@ hoa-theo-mua-ai-marketing/
 │   ├── 22-DeleteSavedImage.md                     # STORY-022: Xóa ảnh đã lưu & Cascade Delete biến thể con
 │   ├── 23-UpdateSavedImageInfo.md                 # STORY-023: Sửa metadata ảnh (tên, mô tả, thẻ tags)
 │   ├── 24-RewriteContentByPlatform.md             # STORY-024: Tự động viết lại nội dung theo từng nền tảng
-│   └── 25-CollectAndManagePlatformReports.md      # STORY-025: Thu thập và quản lý báo cáo từ các nền tảng (XLSX)
+│   ├── 25-CollectAndManagePlatformReports.md      # STORY-025: Thu thập và quản lý báo cáo từ các nền tảng (XLSX)
+│   └── 27-DeleteSavedReport.md                    # STORY-027: Xóa báo cáo đã lưu
 ├── TDD/                                           # Thiết kế kỹ thuật chi tiết (Technical Design Documents)
-│   └── .gitkeep
+│   ├── TDD-003-ViewSystemPromptsListAndDetail.md  # TDD-003: Xem danh sách và chi tiết System Prompt
+│   └── TDD-004-UpdateSystemPrompt.md              # TDD-004: Chỉnh sửa System Prompt
 └── UnitTest/                                      # Kịch bản kiểm thử đơn vị & Ma trận Test Cases
     └── .gitkeep
 ```
@@ -154,10 +156,11 @@ Toàn bộ các yêu cầu nghiệp vụ được chuẩn hóa đầy đủ theo
 | **STORY-023** | [`23-UpdateSavedImageInfo.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/23-UpdateSavedImageInfo.md) | Image Library | **S1** | **Must** | Bổ sung và chỉnh sửa tên ảnh, mô tả, thẻ tags cho ảnh tải lên hoặc ảnh AI sinh từ STORY-003. |
 | **STORY-024** | [`24-RewriteContentByPlatform.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/24-RewriteContentByPlatform.md) | AI Copywriting | **S1** | **Must** | AI viết lại nội dung gốc cho từng nền tảng mục tiêu (Facebook, Instagram, Zalo OA); duy trì liên kết nguồn. |
 | **STORY-025** | [`25-CollectAndManagePlatformReports.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/25-CollectAndManagePlatformReports.md) | Reporting | **S1** | **Must** | Tự động lấy báo cáo định kỳ (ngày/tuần/tháng theo múi giờ `Asia/Ho_Chi_Minh`), xem chi tiết và tải tệp XLSX. |
+| **STORY-027** | [`27-DeleteSavedReport.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/27-DeleteSavedReport.md) | Reporting | **S3** | **Must** | Xóa an toàn báo cáo không bị tham chiếu; thực thi xóa trong giao dịch ACID và lưu nhật ký kiểm toán độc lập. |
 
 ---
 
-## 📋 5. Ma trận 76 Quy tắc Nghiệp vụ (Business Rules Matrix)
+## 📋 5. Ma trận 78 Quy tắc Nghiệp vụ (Business Rules Matrix)
 
 Toàn bộ các quy tắc nghiệp vụ (Business Rules) được đặc tả độc lập theo chuẩn Document-First, liên kết chặt chẽ với từng User Story:
 
@@ -239,6 +242,8 @@ Toàn bộ các quy tắc nghiệp vụ (Business Rules) được đặc tả đ
 | [`BR-077`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-077.md) | **Chỉ tạo báo cáo từ dữ liệu đầy đủ** | Reporting | [`STORY-025`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/25-CollectAndManagePlatformReports.md) | Báo cáo chỉ được tạo khi hệ thống nhận đầy đủ dữ liệu mà nền tảng cung cấp. | Active (v0) |
 | [`BR-078`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-078.md) | **Thông tin bắt buộc của báo cáo nền tảng** | Reporting | [`STORY-025`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/25-CollectAndManagePlatformReports.md) | Mỗi báo cáo phải xác định được nguồn, thời điểm, dữ liệu từ nền tảng. | Active (v0) |
 | [`BR-079`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-079.md) | **Định dạng tệp báo cáo tải xuống** | Reporting | [`STORY-025`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/25-CollectAndManagePlatformReports.md) | Báo cáo từ từng nền tảng được Quản trị viên tải xuống phải ở định dạng Microsoft E... | Active (v0) |
+| [`BR-080`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-080.md) | **Ràng buộc dữ liệu khi xóa báo cáo** | Reporting | [`STORY-027`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/27-DeleteSavedReport.md) | Báo cáo đang được báo cáo tổng hợp hoặc nghiệp vụ khác tham chiếu không được phép xóa. | Active (v0) |
+| [`BR-081`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-081.md) | **Xóa toàn vẹn báo cáo và ghi nhật ký độc lập** | Reporting | [`STORY-027`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/27-DeleteSavedReport.md) | Xóa báo cáo trong 1 transaction, giữ nguyên dữ liệu dùng chung và lưu audit log độc lập. | Active (v0) |
 ---
 
 ## 🗄 6. Mô hình Dữ liệu Cốt lõi (Data Architecture)
