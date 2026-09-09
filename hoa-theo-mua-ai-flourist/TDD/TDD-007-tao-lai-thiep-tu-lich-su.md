@@ -110,7 +110,7 @@ sequenceDiagram
         else null/bỏ trống/đúng source
             S->>S: Dùng Template snapshot source
         end
-        S->>DB: Load current prompt; fallback source system_form khi cần
+        S->>DB: Load current prompt, fallback source system_form khi cần
         S->>S: Tạo CardRegenerationSnapshot
         Note over S: GIAI ĐOẠN 3: AI và persistence
         S->>AI: Generate(snapshot)
@@ -263,7 +263,32 @@ Content-Type: application/json
 
 Response:
 ```json
-{"value":{"id":"880e8400-e29b-41d4-a716-446655440099","content":"...","imageUrl":"https://storage.example.com/cards/new-final.png","rawImage":"https://storage.example.com/cards/new-raw.png","userId":"770e8400-e29b-41d4-a716-446655440003","createdAt":"2026-09-08T11:00:00Z","cardType":"ai","formType":"go_may","senderName":"Nguyễn An","receiverName":"Trần Bình","messageContent":"Chúc bạn sinh nhật vui vẻ","attachedImageUrl":null,"sizeName":"Kích thước chung","sizeWidth":15,"sizeHeight":25,"sizeBasePrice":15000,"sizeMaxWords":150,"wordCount":5,"wordConfigSnapshot":null,"basePrice":15000,"extraPrice":0,"totalPrice":15000}}
+{
+  "value": {
+    "id": "880e8400-e29b-41d4-a716-446655440099",
+    "content": "...",
+    "imageUrl": "https://storage.example.com/cards/new-final.png",
+    "rawImage": "https://storage.example.com/cards/new-raw.png",
+    "userId": "770e8400-e29b-41d4-a716-446655440003",
+    "createdAt": "2026-09-08T11:00:00Z",
+    "cardType": "ai",
+    "formType": "go_may",
+    "senderName": "Nguyễn An",
+    "receiverName": "Trần Bình",
+    "messageContent": "Chúc bạn sinh nhật vui vẻ",
+    "attachedImageUrl": null,
+    "sizeName": "Kích thước chung",
+    "sizeWidth": 15,
+    "sizeHeight": 25,
+    "sizeBasePrice": 15000,
+    "sizeMaxWords": 150,
+    "wordCount": 5,
+    "wordConfigSnapshot": null,
+    "basePrice": 15000,
+    "extraPrice": 0,
+    "totalPrice": 15000
+  }
+}
 ```
 
 **Ví dụ 2 — Chọn Template AI khác** — HTTP `200`
@@ -273,12 +298,35 @@ Request:
 POST /api/ai-cards/550e8400-e29b-41d4-a716-446655440001/regenerate
 Content-Type: application/json
 
-{"cardTemplateId":"660e8400-e29b-41d4-a716-446655440010"}
+{
+  "cardTemplateId": "660e8400-e29b-41d4-a716-446655440010"
+}
 ```
 
 Response:
 ```json
-{"value":{"id":"880e8400-e29b-41d4-a716-446655440100","imageUrl":"https://storage.example.com/cards/template-new-final.png","rawImage":"https://storage.example.com/cards/template-new-raw.png","cardType":"ai","formType":"go_may","senderName":"Nguyễn An","receiverName":"Trần Bình","messageContent":"Chúc bạn sinh nhật vui vẻ","sizeName":"Kích thước chung","sizeWidth":15,"sizeHeight":25,"sizeBasePrice":15000,"sizeMaxWords":150,"wordCount":5,"wordConfigSnapshot":null,"basePrice":15000,"extraPrice":0,"totalPrice":15000}}
+{
+  "value": {
+    "id": "880e8400-e29b-41d4-a716-446655440100",
+    "imageUrl": "https://storage.example.com/cards/template-new-final.png",
+    "rawImage": "https://storage.example.com/cards/template-new-raw.png",
+    "cardType": "ai",
+    "formType": "go_may",
+    "senderName": "Nguyễn An",
+    "receiverName": "Trần Bình",
+    "messageContent": "Chúc bạn sinh nhật vui vẻ",
+    "sizeName": "Kích thước chung",
+    "sizeWidth": 15,
+    "sizeHeight": 25,
+    "sizeBasePrice": 15000,
+    "sizeMaxWords": 150,
+    "wordCount": 5,
+    "wordConfigSnapshot": null,
+    "basePrice": 15000,
+    "extraPrice": 0,
+    "totalPrice": 15000
+  }
+}
 ```
 
 **Ví dụ 3 — Giữ snapshot Calligraphy** — HTTP `200`
@@ -292,7 +340,32 @@ POST /api/ai-cards/550e8400-e29b-41d4-a716-446655440002/regenerate
 
 Response:
 ```json
-{"value":{"id":"990e8400-e29b-41d4-a716-446655440100","imageUrl":"https://storage.example.com/cards/calligraphy-final.png","rawImage":"https://storage.example.com/cards/calligraphy-raw.png","cardType":"ai","formType":"calligraphy","senderName":"Hoàng Lan","receiverName":"Lê Minh","messageContent":"Nội dung nguồn","sizeName":"Kích thước chung","sizeWidth":15,"sizeHeight":25,"sizeBasePrice":15000,"sizeMaxWords":150,"wordCount":45,"wordConfigSnapshot":{"min_words":36,"max_words":70,"extra_price":39000},"basePrice":15000,"extraPrice":39000,"totalPrice":54000}}
+{
+  "value": {
+    "id": "990e8400-e29b-41d4-a716-446655440100",
+    "imageUrl": "https://storage.example.com/cards/calligraphy-final.png",
+    "rawImage": "https://storage.example.com/cards/calligraphy-raw.png",
+    "cardType": "ai",
+    "formType": "calligraphy",
+    "senderName": "Hoàng Lan",
+    "receiverName": "Lê Minh",
+    "messageContent": "Nội dung nguồn",
+    "sizeName": "Kích thước chung",
+    "sizeWidth": 15,
+    "sizeHeight": 25,
+    "sizeBasePrice": 15000,
+    "sizeMaxWords": 150,
+    "wordCount": 45,
+    "wordConfigSnapshot": {
+      "min_words": 36,
+      "max_words": 70,
+      "extra_price": 39000
+    },
+    "basePrice": 15000,
+    "extraPrice": 39000,
+    "totalPrice": 54000
+  }
+}
 ```
 
 **Ví dụ 4 — Card nguồn không tồn tại** — HTTP `404`
@@ -306,7 +379,12 @@ POST /api/ai-cards/00000000-0000-0000-0000-000000000000/regenerate
 
 Response:
 ```json
-{"title":"Not Found","status":404,"detail":"Thiệp không tồn tại.","messageCode":"CARD_NOT_FOUND"}
+{
+  "title": "Not Found",
+  "status": 404,
+  "detail": "Thiệp không tồn tại.",
+  "messageCode": "CARD_NOT_FOUND"
+}
 ```
 
 **Ví dụ 5 — Card nguồn khác owner** — HTTP `403`
@@ -320,7 +398,12 @@ POST /api/ai-cards/550e8400-e29b-41d4-a716-446655440003/regenerate
 
 Response:
 ```json
-{"title":"Forbidden","status":403,"detail":"Bạn không có quyền truy cập thiệp này.","messageCode":"ACCESS_DENIED"}
+{
+  "title": "Forbidden",
+  "status": 403,
+  "detail": "Bạn không có quyền truy cập thiệp này.",
+  "messageCode": "ACCESS_DENIED"
+}
 ```
 
 **Ví dụ 6 — Template mới không tồn tại** — HTTP `404`
@@ -329,12 +412,19 @@ Request:
 ```http
 POST /api/ai-cards/550e8400-e29b-41d4-a716-446655440001/regenerate
 
-{"cardTemplateId":"00000000-0000-0000-0000-000000000000"}
+{
+  "cardTemplateId": "00000000-0000-0000-0000-000000000000"
+}
 ```
 
 Response:
 ```json
-{"title":"Not Found","status":404,"detail":"Không tìm thấy mẫu thiệp được chọn.","messageCode":"CARD_TEMPLATE_NOT_FOUND"}
+{
+  "title": "Not Found",
+  "status": 404,
+  "detail": "Không tìm thấy mẫu thiệp được chọn.",
+  "messageCode": "CARD_TEMPLATE_NOT_FOUND"
+}
 ```
 
 **Ví dụ 7 — Template mới đã xóa** — HTTP `410`
@@ -343,7 +433,12 @@ Request: dùng source hợp lệ và `cardTemplateId` của Template có `isDele
 
 Response:
 ```json
-{"title":"Gone","status":410,"detail":"Mẫu thiệp được chọn đã bị xóa.","messageCode":"CARD_TEMPLATE_DELETED"}
+{
+  "title": "Gone",
+  "status": 410,
+  "detail": "Mẫu thiệp được chọn đã bị xóa.",
+  "messageCode": "CARD_TEMPLATE_DELETED"
+}
 ```
 
 **Ví dụ 8 — Template mới inactive** — HTTP `409`
@@ -352,7 +447,12 @@ Request: dùng source hợp lệ và `cardTemplateId` của Template inactive.
 
 Response:
 ```json
-{"title":"Conflict","status":409,"detail":"Mẫu thiệp được chọn đang bị ngưng.","messageCode":"CARD_TEMPLATE_INACTIVE"}
+{
+  "title": "Conflict",
+  "status": 409,
+  "detail": "Mẫu thiệp được chọn đang bị ngưng.",
+  "messageCode": "CARD_TEMPLATE_INACTIVE"
+}
 ```
 
 **Ví dụ 9 — Chọn Template HandMade** — HTTP `409`
@@ -361,7 +461,12 @@ Request: dùng source hợp lệ và `cardTemplateId` của Template có `templa
 
 Response:
 ```json
-{"title":"Conflict","status":409,"detail":"Template không phù hợp với Regenerate AI.","messageCode":"CARD_TEMPLATE_TYPE_INVALID"}
+{
+  "title": "Conflict",
+  "status": 409,
+  "detail": "Template không phù hợp với Regenerate AI.",
+  "messageCode": "CARD_TEMPLATE_TYPE_INVALID"
+}
 ```
 
 **Ví dụ 10 — Source History không đủ dữ liệu** — HTTP `409`
@@ -375,7 +480,12 @@ POST /api/ai-cards/550e8400-e29b-41d4-a716-446655440004/regenerate
 
 Response:
 ```json
-{"title":"Conflict","status":409,"detail":"Lịch sử Card nguồn không đủ snapshot hoặc Product gốc để tạo lại.","messageCode":"CARD_SOURCE_HISTORY_INVALID"}
+{
+  "title": "Conflict",
+  "status": 409,
+  "detail": "Lịch sử Card nguồn không đủ snapshot hoặc Product gốc để tạo lại.",
+  "messageCode": "CARD_SOURCE_HISTORY_INVALID"
+}
 ```
 
 **Ví dụ 11 — Source HandMade** — HTTP `409`
@@ -389,7 +499,12 @@ POST /api/ai-cards/550e8400-e29b-41d4-a716-446655440005/regenerate
 
 Response:
 ```json
-{"title":"Conflict","status":409,"detail":"Thiệp HandMade không hỗ trợ tạo lại.","messageCode":"HANDMADE_CARD_REGENERATE_NOT_SUPPORTED"}
+{
+  "title": "Conflict",
+  "status": 409,
+  "detail": "Thiệp HandMade không hỗ trợ tạo lại.",
+  "messageCode": "HANDMADE_CARD_REGENERATE_NOT_SUPPORTED"
+}
 ```
 
 **Ví dụ 12 — AIModule không trả kết quả usable** — HTTP `500`
@@ -398,7 +513,12 @@ Request: dùng source/body hợp lệ của Ví dụ 1.
 
 Response:
 ```json
-{"title":"Internal Server Error","status":500,"detail":"Không thể tạo ảnh thiệp.","messageCode":"INTERNAL_SERVER_ERROR"}
+{
+  "title": "Internal Server Error",
+  "status": 500,
+  "detail": "Không thể tạo ảnh thiệp.",
+  "messageCode": "INTERNAL_SERVER_ERROR"
+}
 ```
 
 **Ví dụ 13 — Chưa đăng nhập** — HTTP `401`
@@ -407,22 +527,27 @@ Request: dùng source/body Ví dụ 1 nhưng không có phiên xác thực.
 
 Response:
 ```json
-{"title":"Unauthorized","status":401,"detail":"Bạn cần đăng nhập.","messageCode":"UNAUTHORIZED"}
+{
+  "title": "Unauthorized",
+  "status": 401,
+  "detail": "Bạn cần đăng nhập.",
+  "messageCode": "UNAUTHORIZED"
+}
 ```
 
 #### Mã lỗi
-| Code | HTTP | Khi nào xảy ra |
-|---|---:|---|
-| `CARD_NOT_FOUND` | 404 | Source Card không tồn tại |
-| `ACCESS_DENIED` | 403 | Source không thuộc user |
-| `CARD_SOURCE_HISTORY_INVALID` | 409 | History/snapshot/prompt fallback hoặc `base_id/root` Product không đủ hay không hợp lệ |
-| `CARD_TEMPLATE_NOT_FOUND` | 404 | Template khác source không tồn tại |
-| `CARD_TEMPLATE_DELETED` | 410 | Template khác source đã xóa |
-| `CARD_TEMPLATE_INACTIVE` | 409 | Template khác source inactive |
-| `CARD_TEMPLATE_TYPE_INVALID` | 409 | Template khác source không phải AI |
-| `HANDMADE_CARD_REGENERATE_NOT_SUPPORTED` | 409 | Source là HandMade Card |
-| `UNAUTHORIZED` | 401 | Chưa đăng nhập |
-| `INTERNAL_SERVER_ERROR` | 500 | AIModule, upload hoặc persistence không tạo kết quả hoàn chỉnh |
+| STT | Code | HTTP | Khi nào xảy ra |
+|:---:|---|---:|---|
+| 1 | `CARD_NOT_FOUND` | 404 | Source Card không tồn tại |
+| 2 | `ACCESS_DENIED` | 403 | Source không thuộc user |
+| 3 | `CARD_SOURCE_HISTORY_INVALID` | 409 | History/snapshot/prompt fallback hoặc `base_id/root` Product không đủ hay không hợp lệ |
+| 4 | `CARD_TEMPLATE_NOT_FOUND` | 404 | Template khác source không tồn tại |
+| 5 | `CARD_TEMPLATE_DELETED` | 410 | Template khác source đã xóa |
+| 6 | `CARD_TEMPLATE_INACTIVE` | 409 | Template khác source inactive |
+| 7 | `CARD_TEMPLATE_TYPE_INVALID` | 409 | Template khác source không phải AI |
+| 8 | `HANDMADE_CARD_REGENERATE_NOT_SUPPORTED` | 409 | Source là HandMade Card |
+| 9 | `UNAUTHORIZED` | 401 | Chưa đăng nhập |
+| 10 | `INTERNAL_SERVER_ERROR` | 500 | AIModule, upload hoặc persistence không tạo kết quả hoàn chỉnh |
 
 ### API Contract bên ngoài (optional — chỉ điền nếu hàm/API này gọi ra service/API của bên thứ ba)
 - **Endpoints sử dụng**: `AIModule` nội bộ; provider/endpoint cụ thể chưa được xác định.

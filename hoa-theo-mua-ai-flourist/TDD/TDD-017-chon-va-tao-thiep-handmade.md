@@ -98,7 +98,7 @@ sequenceDiagram
         S->>DB: Validate Template live
         S->>DB: Load Size và Calligraphy Config live
         S->>S: Đếm từ, validate max_words, chọn Calligraphy rule
-        S->>S: Gán calligraphy; tính base_price=0 và total_price=extra_price
+        S->>S: Gán calligraphy, tính base_price=0 và total_price=extra_price
         S->>S: Tạo snapshot bất biến
         S->>DB: Transaction insert generated_cards + client_histories
         alt Persistence thất bại

@@ -113,7 +113,7 @@ sequenceDiagram
         Client->>API: POST /api/ai-flowers
         API->>S: product_id, mockup_id, user_input
         S->>P: Kiểm tra Product và khả năng bán
-        S->>DB: Kiểm tra Mockup; lấy prompt và logo/config
+        S->>DB: Kiểm tra Mockup, lấy prompt và logo/config
     else Regenerate
         Client->>API: POST /api/ai-flowers/{source_flower_id}/regenerate
         API->>S: source_flower_id, mockup_id tùy chọn
@@ -148,7 +148,7 @@ flowchart TD
     C -->|Có| D[Dựng snapshot]
     D --> E[Gọi AIModule]
     E --> F{Có ảnh hợp lệ?}
-    F -->|Không| E3[Trả 500; không lưu]
+    F -->|Không| E3[Trả 500, không lưu]
     F -->|Có| G[Gắn logo]
     G --> H{Lưu Flower và History thành công?}
     H -->|Không| E3
@@ -422,24 +422,24 @@ Response lỗi mẫu cho R06:
 
 ### Danh mục mã lỗi
 
-| Code | HTTP | Áp dụng | Khi nào xảy ra |
-|---|---:|---|---|
-| `VALIDATION_ERROR` | 400 | Create/Regenerate | Body, kiểu dữ liệu, field bắt buộc hoặc allowlist không hợp lệ. |
-| `UNAUTHORIZED` | 401 | Create/Regenerate | Chưa đăng nhập hoặc tài khoản không hoạt động. |
-| `PRODUCT_NOT_FOUND` | 404 | Create | Không có Product theo ID. |
-| `PRODUCT_DELETED` | 410 | Create | Product đã soft-delete. |
-| `PRODUCT_INACTIVE` | 409 | Create | Product chưa xóa nhưng inactive. |
-| `PRODUCT_OUT_OF_STOCK` | 409 | Create | Product hợp lệ nhưng lượng có thể bán bằng 0. |
-| `PRODUCT_NOT_SELLABLE` | 422 | Create | Product không có formula hoặc CORE usable. |
-| `PRODUCT_AVAILABILITY_UNAVAILABLE` | 503 | Create | Không tính/xác minh được khả năng bán. |
-| `MOCKUP_NOT_FOUND` | 404 | Create/Mockup mới | Không có Mockup theo ID. |
-| `MOCKUP_DELETED` | 410 | Create/Mockup mới | Mockup đã soft-delete. |
-| `MOCKUP_INACTIVE` | 409 | Create/Mockup mới | Mockup chưa xóa nhưng inactive. |
-| `SYSTEM_PROMPT_INVALID` | 409 | Create | Prompt `flower` hiện hành thiếu/rỗng/không hợp lệ. |
-| `FLOWER_SOURCE_NOT_FOUND` | 404 | Regenerate | Flower nguồn không tồn tại. |
-| `ACCESS_DENIED` | 403 | Regenerate | Flower nguồn không thuộc user hiện tại. |
-| `FLOWER_SOURCE_HISTORY_INVALID` | 409 | Regenerate | History, Product lineage, `base_id/root`, snapshot hoặc prompt nguồn bắt buộc không dùng được. |
-| `INTERNAL_SERVER_ERROR` | 500 | Create/Regenerate | Dependency tạo ảnh, xử lý logo hoặc persistence trả lỗi cuối cùng. |
+| STT | Code | HTTP | Áp dụng | Khi nào xảy ra |
+|:---:|---|---:|---|---|
+| 1 | `VALIDATION_ERROR` | 400 | Create/Regenerate | Body, kiểu dữ liệu, field bắt buộc hoặc allowlist không hợp lệ. |
+| 2 | `UNAUTHORIZED` | 401 | Create/Regenerate | Chưa đăng nhập hoặc tài khoản không hoạt động. |
+| 3 | `PRODUCT_NOT_FOUND` | 404 | Create | Không có Product theo ID. |
+| 4 | `PRODUCT_DELETED` | 410 | Create | Product đã soft-delete. |
+| 5 | `PRODUCT_INACTIVE` | 409 | Create | Product chưa xóa nhưng inactive. |
+| 6 | `PRODUCT_OUT_OF_STOCK` | 409 | Create | Product hợp lệ nhưng lượng có thể bán bằng 0. |
+| 7 | `PRODUCT_NOT_SELLABLE` | 422 | Create | Product không có formula hoặc CORE usable. |
+| 8 | `PRODUCT_AVAILABILITY_UNAVAILABLE` | 503 | Create | Không tính/xác minh được khả năng bán. |
+| 9 | `MOCKUP_NOT_FOUND` | 404 | Create/Mockup mới | Không có Mockup theo ID. |
+| 10 | `MOCKUP_DELETED` | 410 | Create/Mockup mới | Mockup đã soft-delete. |
+| 11 | `MOCKUP_INACTIVE` | 409 | Create/Mockup mới | Mockup chưa xóa nhưng inactive. |
+| 12 | `SYSTEM_PROMPT_INVALID` | 409 | Create | Prompt `flower` hiện hành thiếu/rỗng/không hợp lệ. |
+| 13 | `FLOWER_SOURCE_NOT_FOUND` | 404 | Regenerate | Flower nguồn không tồn tại. |
+| 14 | `ACCESS_DENIED` | 403 | Regenerate | Flower nguồn không thuộc user hiện tại. |
+| 15 | `FLOWER_SOURCE_HISTORY_INVALID` | 409 | Regenerate | History, Product lineage, `base_id/root`, snapshot hoặc prompt nguồn bắt buộc không dùng được. |
+| 16 | `INTERNAL_SERVER_ERROR` | 500 | Create/Regenerate | Dependency tạo ảnh, xử lý logo hoặc persistence trả lỗi cuối cùng. |
 
 ### Contract với AIModule
 

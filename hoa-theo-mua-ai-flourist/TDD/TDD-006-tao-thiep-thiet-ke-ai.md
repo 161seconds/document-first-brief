@@ -293,12 +293,46 @@ Request:
 POST /api/ai-cards
 Content-Type: application/json
 
-{"cardTemplateId":"550e8400-e29b-41d4-a716-446655440001","formType":"go_may","senderName":"Nguyễn An","receiverName":"Trần Bình","messageContent":"Chúc bạn sinh nhật vui vẻ","attachedImageUrl":null,"productId":"440e8400-e29b-41d4-a716-446655440010","generatedFlowerId":null}
+{
+  "cardTemplateId": "550e8400-e29b-41d4-a716-446655440001",
+  "formType": "go_may",
+  "senderName": "Nguyễn An",
+  "receiverName": "Trần Bình",
+  "messageContent": "Chúc bạn sinh nhật vui vẻ",
+  "attachedImageUrl": null,
+  "productId": "440e8400-e29b-41d4-a716-446655440010",
+  "generatedFlowerId": null
+}
 ```
 
 Response:
 ```json
-{"value":{"id":"660e8400-e29b-41d4-a716-446655440002","content":"...","imageUrl":"https://storage.example.com/cards/final.png","rawImage":"https://storage.example.com/cards/raw.png","userId":"770e8400-e29b-41d4-a716-446655440003","createdAt":"2026-09-08T10:30:00Z","cardType":"ai","formType":"go_may","senderName":"Nguyễn An","receiverName":"Trần Bình","messageContent":"Chúc bạn sinh nhật vui vẻ","attachedImageUrl":null,"sizeName":"Kích thước chung","sizeWidth":15,"sizeHeight":25,"sizeBasePrice":15000,"sizeMaxWords":150,"wordCount":5,"wordConfigSnapshot":null,"basePrice":15000,"extraPrice":0,"totalPrice":15000}}
+{
+  "value": {
+    "id": "660e8400-e29b-41d4-a716-446655440002",
+    "content": "...",
+    "imageUrl": "https://storage.example.com/cards/final.png",
+    "rawImage": "https://storage.example.com/cards/raw.png",
+    "userId": "770e8400-e29b-41d4-a716-446655440003",
+    "createdAt": "2026-09-08T10:30:00Z",
+    "cardType": "ai",
+    "formType": "go_may",
+    "senderName": "Nguyễn An",
+    "receiverName": "Trần Bình",
+    "messageContent": "Chúc bạn sinh nhật vui vẻ",
+    "attachedImageUrl": null,
+    "sizeName": "Kích thước chung",
+    "sizeWidth": 15,
+    "sizeHeight": 25,
+    "sizeBasePrice": 15000,
+    "sizeMaxWords": 150,
+    "wordCount": 5,
+    "wordConfigSnapshot": null,
+    "basePrice": 15000,
+    "extraPrice": 0,
+    "totalPrice": 15000
+  }
+}
 ```
 
 **Ví dụ 2 — Calligraphy từ Generated Flower** — HTTP `200`
@@ -308,12 +342,49 @@ Request:
 POST /api/ai-cards
 Content-Type: application/json
 
-{"cardTemplateId":"550e8400-e29b-41d4-a716-446655440001","formType":"calligraphy","senderName":"Nguyễn An","receiverName":"Trần Bình","messageContent":"Nội dung đại diện có 45 từ","attachedImageUrl":"https://storage.example.com/input.png","productId":null,"generatedFlowerId":"880e8400-e29b-41d4-a716-446655440005"}
+{
+  "cardTemplateId": "550e8400-e29b-41d4-a716-446655440001",
+  "formType": "calligraphy",
+  "senderName": "Nguyễn An",
+  "receiverName": "Trần Bình",
+  "messageContent": "Nội dung đại diện có 45 từ",
+  "attachedImageUrl": "https://storage.example.com/input.png",
+  "productId": null,
+  "generatedFlowerId": "880e8400-e29b-41d4-a716-446655440005"
+}
 ```
 
 Response:
 ```json
-{"value":{"id":"660e8400-e29b-41d4-a716-446655440003","imageUrl":"https://storage.example.com/cards/final-2.png","rawImage":"https://storage.example.com/cards/raw-2.png","userId":"770e8400-e29b-41d4-a716-446655440003","createdAt":"2026-09-08T10:35:00Z","cardType":"ai","formType":"calligraphy","senderName":"Nguyễn An","receiverName":"Trần Bình","messageContent":"Nội dung đại diện có 45 từ","attachedImageUrl":"https://storage.example.com/input.png","sizeName":"Kích thước chung","sizeWidth":15,"sizeHeight":25,"sizeBasePrice":15000,"sizeMaxWords":150,"wordCount":45,"wordConfigSnapshot":{"min_words":36,"max_words":70,"extra_price":39000},"basePrice":15000,"extraPrice":39000,"totalPrice":54000}}
+{
+  "value": {
+    "id": "660e8400-e29b-41d4-a716-446655440003",
+    "imageUrl": "https://storage.example.com/cards/final-2.png",
+    "rawImage": "https://storage.example.com/cards/raw-2.png",
+    "userId": "770e8400-e29b-41d4-a716-446655440003",
+    "createdAt": "2026-09-08T10:35:00Z",
+    "cardType": "ai",
+    "formType": "calligraphy",
+    "senderName": "Nguyễn An",
+    "receiverName": "Trần Bình",
+    "messageContent": "Nội dung đại diện có 45 từ",
+    "attachedImageUrl": "https://storage.example.com/input.png",
+    "sizeName": "Kích thước chung",
+    "sizeWidth": 15,
+    "sizeHeight": 25,
+    "sizeBasePrice": 15000,
+    "sizeMaxWords": 150,
+    "wordCount": 45,
+    "wordConfigSnapshot": {
+      "min_words": 36,
+      "max_words": 70,
+      "extra_price": 39000
+    },
+    "basePrice": 15000,
+    "extraPrice": 39000,
+    "totalPrice": 54000
+  }
+}
 ```
 
 **Ví dụ 3 — Request nguồn không hợp lệ** — HTTP `400`
@@ -322,12 +393,25 @@ Request:
 ```http
 POST /api/ai-cards
 
-{"cardTemplateId":"550e8400-e29b-41d4-a716-446655440001","formType":"go_may","senderName":"A","receiverName":"B","messageContent":"Chúc mừng","productId":null,"generatedFlowerId":null}
+{
+  "cardTemplateId": "550e8400-e29b-41d4-a716-446655440001",
+  "formType": "go_may",
+  "senderName": "A",
+  "receiverName": "B",
+  "messageContent": "Chúc mừng",
+  "productId": null,
+  "generatedFlowerId": null
+}
 ```
 
 Response:
 ```json
-{"title":"Bad Request","status":400,"detail":"Phải cung cấp đúng một nguồn hoa.","messageCode":"VALIDATION_ERROR"}
+{
+  "title": "Bad Request",
+  "status": 400,
+  "detail": "Phải cung cấp đúng một nguồn hoa.",
+  "messageCode": "VALIDATION_ERROR"
+}
 ```
 
 Trường hợp truyền đồng thời hai source có cùng output và được Ví dụ 3 đại diện.
@@ -338,12 +422,24 @@ Request:
 ```http
 POST /api/ai-cards
 
-{"cardTemplateId":"550e8400-e29b-41d4-a716-446655440001","formType":"invalid","senderName":"A","receiverName":"B","messageContent":"Chúc mừng","productId":"440e8400-e29b-41d4-a716-446655440010"}
+{
+    "cardTemplateId":"550e8400-e29b-41d4-a716-446655440001",
+    "formType":"invalid",
+    "senderName":"A",
+    "receiverName":"B",
+    "messageContent":"Chúc mừng",
+    "productId":"440e8400-e29b-41d4-a716-446655440010"
+}
 ```
 
 Response:
 ```json
-{"title":"Bad Request","status":400,"detail":"Dữ liệu tạo thiệp không hợp lệ.","messageCode":"VALIDATION_ERROR"}
+{
+    "title":"Bad Request",
+    "status":400,
+    "detail":"Dữ liệu tạo thiệp không hợp lệ.",
+    "messageCode":"VALIDATION_ERROR"
+}
 ```
 
 Ví dụ 4 đại diện form sai, sender/receiver quá 20 từ, message quá giới hạn và ảnh đính kèm sai validation.
@@ -354,12 +450,24 @@ Request:
 ```http
 POST /api/ai-cards
 
-{"cardTemplateId":"550e8400-e29b-41d4-a716-446655440001","formType":"go_may","senderName":"A","receiverName":"B","messageContent":"Chúc mừng","productId":"00000000-0000-0000-0000-000000000000"}
+{
+    "cardTemplateId":"550e8400-e29b-41d4-a716-446655440001",
+    "formType":"go_may",
+    "senderName":"A",
+    "receiverName":"B",
+    "messageContent":"Chúc mừng",
+    "productId":"00000000-0000-0000-0000-000000000000"
+}
 ```
 
 Response:
 ```json
-{"title":"Not Found","status":404,"detail":"Không tìm thấy sản phẩm nguồn.","messageCode":"PRODUCT_NOT_FOUND"}
+{
+    "title":"Not Found",
+    "status":404,
+    "detail":"Không tìm thấy sản phẩm nguồn.",
+    "messageCode":"PRODUCT_NOT_FOUND"
+}
 ```
 
 **Ví dụ 6 — Product đã xóa** — HTTP `410`
@@ -368,7 +476,12 @@ Request: dùng body Ví dụ 5 với Product có `isDeleted=true`.
 
 Response:
 ```json
-{"title":"Gone","status":410,"detail":"Sản phẩm nguồn đã bị ngừng cung cấp.","messageCode":"PRODUCT_DELETED"}
+{
+    "title":"Gone",
+    "status":410,
+    "detail":"Sản phẩm nguồn đã bị ngừng cung cấp.",
+    "messageCode":"PRODUCT_DELETED"
+}
 ```
 
 **Ví dụ 7 — Product inactive** — HTTP `409`
@@ -377,7 +490,12 @@ Request: dùng body Ví dụ 5 với Product chưa xóa nhưng inactive.
 
 Response:
 ```json
-{"title":"Conflict","status":409,"detail":"Sản phẩm nguồn đang tạm ngưng bán.","messageCode":"PRODUCT_INACTIVE"}
+{
+    "title":"Conflict",
+    "status":409,
+    "detail":"Sản phẩm nguồn đang tạm ngưng bán.",
+    "messageCode":"PRODUCT_INACTIVE"
+}
 ```
 
 **Ví dụ 8 — Product hết hàng** — HTTP `409`
@@ -386,7 +504,12 @@ Request: dùng body Ví dụ 5 với `sellableQuantity=0`.
 
 Response:
 ```json
-{"title":"Conflict","status":409,"detail":"Sản phẩm nguồn đã hết hàng.","messageCode":"PRODUCT_OUT_OF_STOCK"}
+{
+    "title":"Conflict",
+    "status":409,
+    "detail":"Sản phẩm nguồn đã hết hàng.",
+    "messageCode":"PRODUCT_OUT_OF_STOCK"
+}
 ```
 
 **Ví dụ 9 — Product không sellable** — HTTP `422`
@@ -395,7 +518,12 @@ Request: dùng body Ví dụ 5 với availability reason `no_formula`.
 
 Response:
 ```json
-{"title":"Unprocessable Entity","status":422,"detail":"Sản phẩm chưa đủ điều kiện để bán.","messageCode":"PRODUCT_NOT_SELLABLE"}
+{
+    "title":"Unprocessable Entity",
+    "status":422,
+    "detail":"Sản phẩm chưa đủ điều kiện để bán.",
+    "messageCode":"PRODUCT_NOT_SELLABLE"
+}
 ```
 
 `no_core` có cùng response và được Ví dụ 9 đại diện.
@@ -406,7 +534,12 @@ Request: dùng body Ví dụ 5 khi service tính tồn kho lỗi.
 
 Response:
 ```json
-{"title":"Service Unavailable","status":503,"detail":"Chưa thể xác minh tồn kho sản phẩm.","messageCode":"PRODUCT_AVAILABILITY_UNAVAILABLE"}
+{
+    "title":"Service Unavailable",
+    "status":503,
+    "detail":"Chưa thể xác minh tồn kho sản phẩm.",
+    "messageCode":"PRODUCT_AVAILABILITY_UNAVAILABLE"
+}
 ```
 
 **Ví dụ 11 — Generated Flower không khả dụng** — HTTP `404`
@@ -415,12 +548,24 @@ Request:
 ```http
 POST /api/ai-cards
 
-{"cardTemplateId":"550e8400-e29b-41d4-a716-446655440001","formType":"go_may","senderName":"A","receiverName":"B","messageContent":"Chúc mừng","generatedFlowerId":"00000000-0000-0000-0000-000000000000"}
+{
+    "cardTemplateId":"550e8400-e29b-41d4-a716-446655440001",
+    "formType":"go_may",
+    "senderName":"A",
+    "receiverName":"B",
+    "messageContent":"Chúc mừng",
+    "generatedFlowerId":"00000000-0000-0000-0000-000000000000"
+}
 ```
 
 Response:
 ```json
-{"title":"Not Found","status":404,"detail":"Không tìm thấy mẫu hoa AI.","messageCode":"GENERATED_FLOWER_NOT_FOUND"}
+{
+    "title":"Not Found",
+    "status":404,
+    "detail":"Không tìm thấy mẫu hoa AI.",
+    "messageCode":"GENERATED_FLOWER_NOT_FOUND"
+}
 ```
 
 Generated Flower thuộc user khác có cùng response và được Ví dụ 11 đại diện.
@@ -431,7 +576,12 @@ Request: dùng body Ví dụ 11 với Flower thuộc user nhưng ảnh không us
 
 Response:
 ```json
-{"title":"Conflict","status":409,"detail":"Mẫu hoa AI không có ảnh hợp lệ.","messageCode":"GENERATED_FLOWER_INPUT_INVALID"}
+{
+    "title":"Conflict",
+    "status":409,
+    "detail":"Mẫu hoa AI không có ảnh hợp lệ.",
+    "messageCode":"GENERATED_FLOWER_INPUT_INVALID"
+}
 ```
 
 **Ví dụ 12A — Không xác định được Product gốc của Generated Flower** — HTTP `409`
@@ -440,7 +590,12 @@ Request: dùng body Ví dụ 11 với Flower thuộc user, có ảnh usable như
 
 Response:
 ```json
-{"title":"Conflict","status":409,"detail":"Không xác định được sản phẩm gốc của mẫu hoa AI.","messageCode":"SOURCE_PRODUCT_PROVENANCE_INVALID"}
+{
+    "title":"Conflict",
+    "status":409,
+    "detail":"Không xác định được sản phẩm gốc của mẫu hoa AI.",
+    "messageCode":"SOURCE_PRODUCT_PROVENANCE_INVALID"
+}
 ```
 
 Không reserve quota, không gọi AI và không tạo Card/History khi lỗi này xảy ra.
@@ -451,7 +606,12 @@ Request: dùng body Ví dụ 1 với `cardTemplateId=00000000-0000-0000-0000-000
 
 Response:
 ```json
-{"title":"Not Found","status":404,"detail":"Không tìm thấy mẫu thiệp.","messageCode":"CARD_TEMPLATE_NOT_FOUND"}
+{
+    "title":"Not Found",
+    "status":404,
+    "detail":"Không tìm thấy mẫu thiệp.",
+    "messageCode":"CARD_TEMPLATE_NOT_FOUND"
+}
 ```
 
 **Ví dụ 14 — Template đã xóa** — HTTP `410`
@@ -460,7 +620,12 @@ Request: dùng body Ví dụ 1 với Template `isDeleted=true`.
 
 Response:
 ```json
-{"title":"Gone","status":410,"detail":"Mẫu thiệp đã bị xóa.","messageCode":"CARD_TEMPLATE_DELETED"}
+{
+    "title":"Gone",
+    "status":410,
+    "detail":"Mẫu thiệp đã bị xóa.",
+    "messageCode":"CARD_TEMPLATE_DELETED"
+}
 ```
 
 **Ví dụ 15 — Template inactive** — HTTP `409`
@@ -469,7 +634,12 @@ Request: dùng body Ví dụ 1 với Template inactive.
 
 Response:
 ```json
-{"title":"Conflict","status":409,"detail":"Mẫu thiệp đang tạm ngưng.","messageCode":"CARD_TEMPLATE_INACTIVE"}
+{
+    "title":"Conflict",
+    "status":409,
+    "detail":"Mẫu thiệp đang tạm ngưng.",
+    "messageCode":"CARD_TEMPLATE_INACTIVE"
+}
 ```
 
 **Ví dụ 16 — Size Config không khả dụng** — HTTP `404`
@@ -478,7 +648,12 @@ Request: dùng body Ví dụ 1 khi không có `card_config.sizes`.
 
 Response:
 ```json
-{"title":"Not Found","status":404,"detail":"Không tìm thấy cấu hình kích thước.","messageCode":"CARD_SIZE_CONFIG_NOT_FOUND"}
+{
+    "title":"Not Found",
+    "status":404,
+    "detail":"Không tìm thấy cấu hình kích thước.",
+    "messageCode":"CARD_SIZE_CONFIG_NOT_FOUND"
+}
 ```
 
 **Ví dụ 17 — Size Config đã xóa** — HTTP `410`
@@ -487,7 +662,12 @@ Request: dùng body Ví dụ 1 khi singleton Size đã soft-delete.
 
 Response:
 ```json
-{"title":"Gone","status":410,"detail":"Cấu hình kích thước đã bị xóa.","messageCode":"CARD_SIZE_CONFIG_DELETED"}
+{
+    "title":"Gone",
+    "status":410,
+    "detail":"Cấu hình kích thước đã bị xóa.",
+    "messageCode":"CARD_SIZE_CONFIG_DELETED"
+}
 ```
 
 **Ví dụ 18 — Size Config inactive** — HTTP `409`
@@ -496,7 +676,12 @@ Request: dùng body Ví dụ 1 khi singleton Size có `isPublic=false`.
 
 Response:
 ```json
-{"title":"Conflict","status":409,"detail":"Cấu hình kích thước không hoạt động.","messageCode":"CARD_SIZE_CONFIG_INACTIVE"}
+{
+    "title":"Conflict",
+    "status":409,
+    "detail":"Cấu hình kích thước không hoạt động.",
+    "messageCode":"CARD_SIZE_CONFIG_INACTIVE"
+}
 ```
 
 **Ví dụ 19 — Size Config sai schema** — HTTP `409`
@@ -505,7 +690,12 @@ Request: dùng body Ví dụ 1 khi wrapper/inner Size invalid.
 
 Response:
 ```json
-{"title":"Conflict","status":409,"detail":"Cấu hình kích thước không hợp lệ.","messageCode":"CARD_SIZE_CONFIG_INVALID"}
+{
+    "title":"Conflict",
+    "status":409,
+    "detail":"Cấu hình kích thước không hợp lệ.",
+    "messageCode":"CARD_SIZE_CONFIG_INVALID"
+}
 ```
 
 **Ví dụ 20 — Calligraphy Config không khả dụng** — HTTP `404`
@@ -514,7 +704,12 @@ Request: dùng body Ví dụ 2 khi không có `card_config.prices`.
 
 Response:
 ```json
-{"title":"Not Found","status":404,"detail":"Không tìm thấy cấu hình calligraphy.","messageCode":"CALLIGRAPHY_CONFIG_NOT_FOUND"}
+{
+    "title":"Not Found",
+    "status":404,
+    "detail":"Không tìm thấy cấu hình calligraphy.",
+    "messageCode":"CALLIGRAPHY_CONFIG_NOT_FOUND"
+}
 ```
 
 **Ví dụ 21 — Calligraphy Config đã xóa** — HTTP `410`
@@ -523,7 +718,12 @@ Request: dùng body Ví dụ 2 khi Price Config đã soft-delete.
 
 Response:
 ```json
-{"title":"Gone","status":410,"detail":"Cấu hình calligraphy đã bị xóa.","messageCode":"CALLIGRAPHY_CONFIG_DELETED"}
+{
+    "title":"Gone",
+    "status":410,
+    "detail":"Cấu hình calligraphy đã bị xóa.",
+    "messageCode":"CALLIGRAPHY_CONFIG_DELETED"
+}
 ```
 
 **Ví dụ 22 — Calligraphy Config inactive** — HTTP `409`
@@ -532,7 +732,12 @@ Request: dùng body Ví dụ 2 khi Price Config có `isPublic=false`.
 
 Response:
 ```json
-{"title":"Conflict","status":409,"detail":"Cấu hình calligraphy không hoạt động.","messageCode":"CALLIGRAPHY_CONFIG_INACTIVE"}
+{
+    "title":"Conflict",
+    "status":409,
+    "detail":"Cấu hình calligraphy không hoạt động.",
+    "messageCode":"CALLIGRAPHY_CONFIG_INACTIVE"
+}
 ```
 
 **Ví dụ 23 — Calligraphy Config sai schema** — HTTP `409`
@@ -541,7 +746,12 @@ Request: dùng body Ví dụ 2 khi wrapper/ranges invalid.
 
 Response:
 ```json
-{"title":"Conflict","status":409,"detail":"Cấu hình calligraphy không hợp lệ.","messageCode":"CALLIGRAPHY_CONFIG_INVALID"}
+{
+    "title":"Conflict",
+    "status":409,
+    "detail":"Cấu hình calligraphy không hợp lệ.",
+    "messageCode":"CALLIGRAPHY_CONFIG_INVALID"
+}
 ```
 
 **Ví dụ 24 — Không có price rule khớp** — HTTP `422`
@@ -550,7 +760,12 @@ Request: dùng body Ví dụ 2 với `wordCount` không thuộc range nào.
 
 Response:
 ```json
-{"title":"Unprocessable Entity","status":422,"detail":"Không có bậc giá phù hợp.","messageCode":"CALLIGRAPHY_PRICE_RULE_NOT_FOUND"}
+{
+    "title":"Unprocessable Entity",
+    "status":422,
+    "detail":"Không có bậc giá phù hợp.",
+    "messageCode":"CALLIGRAPHY_PRICE_RULE_NOT_FOUND"
+}
 ```
 
 **Ví dụ 25 — Config singleton ambiguous** — HTTP `409`
@@ -559,7 +774,12 @@ Request: dùng body Ví dụ 1 khi có nhiều Size Config active cùng exact gr
 
 Response:
 ```json
-{"title":"Conflict","status":409,"detail":"Có nhiều cấu hình hoạt động cho cùng group và key.","messageCode":"CARD_CONFIG_AMBIGUOUS"}
+{
+    "title":"Conflict",
+    "status":409,
+    "detail":"Có nhiều cấu hình hoạt động cho cùng group và key.",
+    "messageCode":"CARD_CONFIG_AMBIGUOUS"
+}
 ```
 
 **Ví dụ 26 — System Prompt không hợp lệ** — HTTP `409`
@@ -568,7 +788,12 @@ Request: dùng body Ví dụ 1 khi prompt type card thiếu/rỗng/invalid.
 
 Response:
 ```json
-{"title":"Conflict","status":409,"detail":"System Prompt cho Card không hợp lệ.","messageCode":"SYSTEM_PROMPT_INVALID"}
+{
+    "title":"Conflict",
+    "status":409,
+    "detail":"System Prompt cho Card không hợp lệ.",
+    "messageCode":"SYSTEM_PROMPT_INVALID"
+}
 ```
 
 **Ví dụ 27 — AIModule không trả kết quả usable** — HTTP `500`
@@ -577,7 +802,12 @@ Request: dùng body hợp lệ của Ví dụ 1.
 
 Response:
 ```json
-{"title":"Internal Server Error","status":500,"detail":"Không thể tạo ảnh thiệp.","messageCode":"INTERNAL_SERVER_ERROR"}
+{
+    "title":"Internal Server Error",
+    "status":500,
+    "detail":"Không thể tạo ảnh thiệp.",
+    "messageCode":"INTERNAL_SERVER_ERROR"
+}
 ```
 
 **Ví dụ 28 — Chưa đăng nhập** — HTTP `401`
@@ -586,38 +816,43 @@ Request: dùng body Ví dụ 1 nhưng không có phiên xác thực.
 
 Response:
 ```json
-{"title":"Unauthorized","status":401,"detail":"Bạn cần đăng nhập để thực hiện thao tác này.","messageCode":"UNAUTHORIZED"}
+{
+    "title":"Unauthorized",
+    "status":401,
+    "detail":"Bạn cần đăng nhập để thực hiện thao tác này.",
+    "messageCode":"UNAUTHORIZED"
+}
 ```
 
 #### Mã lỗi
-| Code | HTTP | Khi nào xảy ra |
-|---|---:|---|
-| `VALIDATION_ERROR` | 400 | Request/source/text/form/attachment không hợp lệ |
-| `PRODUCT_NOT_FOUND` | 404 | Không có Product nguồn |
-| `PRODUCT_DELETED` | 410 | Product đã soft-delete |
-| `PRODUCT_INACTIVE` | 409 | Product inactive |
-| `PRODUCT_OUT_OF_STOCK` | 409 | Product/variant hết hàng |
-| `PRODUCT_NOT_SELLABLE` | 422 | Không có formula/CORE usable |
-| `PRODUCT_AVAILABILITY_UNAVAILABLE` | 503 | Không tính được tồn kho |
-| `GENERATED_FLOWER_NOT_FOUND` | 404 | Flower không tồn tại hoặc khác owner |
-| `GENERATED_FLOWER_INPUT_INVALID` | 409 | Flower thiếu ảnh usable |
-| `SOURCE_PRODUCT_PROVENANCE_INVALID` | 409 | Không tìm được Flower History/Product ID gốc hoặc lineage không nhất quán để gán `root` |
-| `CARD_TEMPLATE_NOT_FOUND` | 404 | Không có Template |
-| `CARD_TEMPLATE_DELETED` | 410 | Template đã xóa |
-| `CARD_TEMPLATE_INACTIVE` | 409 | Template inactive |
-| `CARD_SIZE_CONFIG_NOT_FOUND` | 404 | Không có Size singleton |
-| `CARD_SIZE_CONFIG_DELETED` | 410 | Size singleton đã xóa |
-| `CARD_SIZE_CONFIG_INACTIVE` | 409 | Size singleton inactive |
-| `CARD_SIZE_CONFIG_INVALID` | 409 | Size schema invalid |
-| `CALLIGRAPHY_CONFIG_NOT_FOUND` | 404 | Không có Price singleton |
-| `CALLIGRAPHY_CONFIG_DELETED` | 410 | Price singleton đã xóa |
-| `CALLIGRAPHY_CONFIG_INACTIVE` | 409 | Price singleton inactive |
-| `CALLIGRAPHY_CONFIG_INVALID` | 409 | Price schema invalid |
-| `CALLIGRAPHY_PRICE_RULE_NOT_FOUND` | 422 | Không có range chứa wordCount |
-| `SYSTEM_PROMPT_INVALID` | 409 | Prompt card không usable |
-| `CARD_CONFIG_AMBIGUOUS` | 409 | Nhiều singleton active cùng exact group/key |
-| `UNAUTHORIZED` | 401 | Chưa đăng nhập |
-| `INTERNAL_SERVER_ERROR` | 500 | AIModule, upload hoặc persistence không tạo được kết quả hoàn chỉnh |
+| STT | Code | HTTP | Khi nào xảy ra |
+|:---:|---|---:|---|
+| 1 | `VALIDATION_ERROR` | 400 | Request/source/text/form/attachment không hợp lệ |
+| 2 | `PRODUCT_NOT_FOUND` | 404 | Không có Product nguồn |
+| 3 | `PRODUCT_DELETED` | 410 | Product đã soft-delete |
+| 4 | `PRODUCT_INACTIVE` | 409 | Product inactive |
+| 5 | `PRODUCT_OUT_OF_STOCK` | 409 | Product/variant hết hàng |
+| 6 | `PRODUCT_NOT_SELLABLE` | 422 | Không có formula/CORE usable |
+| 7 | `PRODUCT_AVAILABILITY_UNAVAILABLE` | 503 | Không tính được tồn kho |
+| 8 | `GENERATED_FLOWER_NOT_FOUND` | 404 | Flower không tồn tại hoặc khác owner |
+| 9 | `GENERATED_FLOWER_INPUT_INVALID` | 409 | Flower thiếu ảnh usable |
+| 10 | `SOURCE_PRODUCT_PROVENANCE_INVALID` | 409 | Không tìm được Flower History/Product ID gốc hoặc lineage không nhất quán để gán `root` |
+| 11 | `CARD_TEMPLATE_NOT_FOUND` | 404 | Không có Template |
+| 12 | `CARD_TEMPLATE_DELETED` | 410 | Template đã xóa |
+| 13 | `CARD_TEMPLATE_INACTIVE` | 409 | Template inactive |
+| 14 | `CARD_SIZE_CONFIG_NOT_FOUND` | 404 | Không có Size singleton |
+| 15 | `CARD_SIZE_CONFIG_DELETED` | 410 | Size singleton đã xóa |
+| 16 | `CARD_SIZE_CONFIG_INACTIVE` | 409 | Size singleton inactive |
+| 17 | `CARD_SIZE_CONFIG_INVALID` | 409 | Size schema invalid |
+| 18 | `CALLIGRAPHY_CONFIG_NOT_FOUND` | 404 | Không có Price singleton |
+| 19 | `CALLIGRAPHY_CONFIG_DELETED` | 410 | Price singleton đã xóa |
+| 20 | `CALLIGRAPHY_CONFIG_INACTIVE` | 409 | Price singleton inactive |
+| 21 | `CALLIGRAPHY_CONFIG_INVALID` | 409 | Price schema invalid |
+| 22 | `CALLIGRAPHY_PRICE_RULE_NOT_FOUND` | 422 | Không có range chứa wordCount |
+| 23 | `SYSTEM_PROMPT_INVALID` | 409 | Prompt card không usable |
+| 24 | `CARD_CONFIG_AMBIGUOUS` | 409 | Nhiều singleton active cùng exact group/key |
+| 25 | `UNAUTHORIZED` | 401 | Chưa đăng nhập |
+| 26 | `INTERNAL_SERVER_ERROR` | 500 | AIModule, upload hoặc persistence không tạo được kết quả hoàn chỉnh |
 
 ### API Contract bên ngoài (optional — chỉ điền nếu hàm/API này gọi ra service/API của bên thứ ba)
 - **Endpoints sử dụng**: `AIModule` nội bộ; endpoint/provider cụ thể chưa được xác định trong codebase.

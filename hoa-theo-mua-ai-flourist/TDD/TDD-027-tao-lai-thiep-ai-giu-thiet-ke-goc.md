@@ -108,8 +108,8 @@ sequenceDiagram
     API->>S: source_card_id + editable fields
     S->>DB: Đọc source Card và History
     S->>S: Kiểm tra owner, card_type, raw_image và source snapshots
-    S->>S: Resolve fallback; validate effective input
-    S->>S: Khóa Template/Size snapshot; tính word_count
+    S->>S: Resolve fallback, validate effective input
+    S->>S: Khóa Template/Size snapshot, tính word_count
     opt Effective form_type là calligraphy
         S->>DB: Đọc và kiểm tra card_config.prices
         S->>S: Chọn price rule và tính giá
@@ -144,7 +144,7 @@ flowchart TD
     G -->|Không| E4[Trả lỗi dependency]
     G -->|Có| H[Gọi AIModule]
     H --> I{Có đủ raw_image và image_url?}
-    I -->|Không| E5[Trả 500; không lưu]
+    I -->|Không| E5[Trả 500, không lưu]
     I -->|Có| J[Lưu Card + History mới]
     J --> K[Trả 200]
 ```
@@ -436,23 +436,23 @@ Các hàng còn lại dùng cùng envelope và thay `status`, `detail`, `message
 
 ### Danh mục mã lỗi
 
-| Code | HTTP | Khi nào xảy ra |
-|---|---:|---|
-| `UNAUTHORIZED` | 401 | Chưa đăng nhập hoặc tài khoản không hoạt động. |
-| `CARD_NOT_FOUND` | 404 | Không có Card theo `source_card_id`. |
-| `ACCESS_DENIED` | 403 | Card/History nguồn không thuộc user hiện tại. |
-| `HANDMADE_CARD_RECREATE_NOT_SUPPORTED` | 409 | Source không phải Card AI. |
-| `CARD_SOURCE_RAW_IMAGE_MISSING` | 409 | Card AI nguồn không có `raw_image` usable. |
-| `CARD_SOURCE_HISTORY_INVALID` | 409 | Source thiếu History, `base_id/root` Product hợp lệ, Template/Size snapshot hoặc dữ liệu bắt buộc. |
-| `RECREATE_LOCKED_FIELD_NOT_ALLOWED` | 400 | Body chứa một field bị khóa. |
-| `VALIDATION_ERROR` | 400 | Nội dung, form type, ảnh đính kèm hoặc request shape không hợp lệ. |
-| `CALLIGRAPHY_CONFIG_NOT_FOUND` | 404 | Không có singleton `card_config.prices`. |
-| `CALLIGRAPHY_CONFIG_DELETED` | 410 | Price Config đã soft-delete. |
-| `CALLIGRAPHY_CONFIG_INACTIVE` | 409 | Price Config có `isPublic=false`. |
-| `CALLIGRAPHY_CONFIG_INVALID` | 409 | Wrapper, JSON value, item hoặc ranges sai schema. |
-| `CALLIGRAPHY_PRICE_RULE_NOT_FOUND` | 422 | `word_count` không thuộc rule nào. |
-| `SYSTEM_PROMPT_INVALID` | 409 | Prompt hiện hành `type="card"` thiếu/rỗng/không hợp lệ. |
-| `INTERNAL_SERVER_ERROR` | 500 | Dependency tạo ảnh, lưu ảnh hoặc persistence trả lỗi cuối cùng. |
+| STT | Code | HTTP | Khi nào xảy ra |
+|:---:|---|---:|---|
+| 1 | `UNAUTHORIZED` | 401 | Chưa đăng nhập hoặc tài khoản không hoạt động. |
+| 2 | `CARD_NOT_FOUND` | 404 | Không có Card theo `source_card_id`. |
+| 3 | `ACCESS_DENIED` | 403 | Card/History nguồn không thuộc user hiện tại. |
+| 4 | `HANDMADE_CARD_RECREATE_NOT_SUPPORTED` | 409 | Source không phải Card AI. |
+| 5 | `CARD_SOURCE_RAW_IMAGE_MISSING` | 409 | Card AI nguồn không có `raw_image` usable. |
+| 6 | `CARD_SOURCE_HISTORY_INVALID` | 409 | Source thiếu History, `base_id/root` Product hợp lệ, Template/Size snapshot hoặc dữ liệu bắt buộc. |
+| 7 | `RECREATE_LOCKED_FIELD_NOT_ALLOWED` | 400 | Body chứa một field bị khóa. |
+| 8 | `VALIDATION_ERROR` | 400 | Nội dung, form type, ảnh đính kèm hoặc request shape không hợp lệ. |
+| 9 | `CALLIGRAPHY_CONFIG_NOT_FOUND` | 404 | Không có singleton `card_config.prices`. |
+| 10 | `CALLIGRAPHY_CONFIG_DELETED` | 410 | Price Config đã soft-delete. |
+| 11 | `CALLIGRAPHY_CONFIG_INACTIVE` | 409 | Price Config có `isPublic=false`. |
+| 12 | `CALLIGRAPHY_CONFIG_INVALID` | 409 | Wrapper, JSON value, item hoặc ranges sai schema. |
+| 13 | `CALLIGRAPHY_PRICE_RULE_NOT_FOUND` | 422 | `word_count` không thuộc rule nào. |
+| 14 | `SYSTEM_PROMPT_INVALID` | 409 | Prompt hiện hành `type="card"` thiếu/rỗng/không hợp lệ. |
+| 15 | `INTERNAL_SERVER_ERROR` | 500 | Dependency tạo ảnh, lưu ảnh hoặc persistence trả lỗi cuối cùng. |
 
 ### Contract với AIModule
 

@@ -76,7 +76,8 @@ document-first-brief/
 │   ├── README.md                                  # Tài liệu tổng quan phân hệ Marketing AI
 │   ├── BusinessRules/                             # 76 Quy tắc nghiệp vụ (BR-001 -> BR-079)
 │   ├── ConfirmedDoc/                              # Hợp đồng API
-│   ├── Context/                                   # Sơ đồ CSDL (generated_posts, post_histories)
+│   ├── Context/                                   # Sơ đồ CSDL và Ngữ cảnh nghiệp vụ
+│   │   ├── AI_Marketing_Context.md                # Tài liệu ngữ cảnh toàn diện 6 Business Domains & Kiến trúc
 │   │   ├── Marketing_AI_Context.md                # Kiến trúc dữ liệu và liên kết đa hình
 │   │   ├── Marketing_AI_DB.dbdiagram              # Sơ đồ CSDL định dạng DBML (dbdiagram.io)
 │   │   └── Marketing_AI_DB_Diagram.md             # Sơ đồ ERD (Mermaid) và đặc tả chi tiết 10 Entities EF Core
