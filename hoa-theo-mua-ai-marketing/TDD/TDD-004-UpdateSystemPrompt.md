@@ -2,171 +2,178 @@
 
 ## Document Info
 
-- **Doc ID**: TDD-004
 - **Feature**: Sửa System Prompt
 - **Author**: Phùng Nguyễn Thiên Hào
 - **Reviewer**: Tech Lead
 - **Status**: In Review
 - **Version**: v0
-- **Updated At**: 2026-09-09
-- **Story liên quan**: [STORY-005](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/05-UpdateSystemPrompt.md)
-
----
+- **Updated At**: 2026-09-10
 
 ## Context & Goals
 
 ### Problem
-Admin cần cập nhật nội dung hiện tại của một System Prompt để những lần AI xử lý sau đó sử dụng nội dung mới. Thao tác không được thay đổi `type`, không tạo phiên bản hoặc lịch sử.
+
+Admin cần cập nhật nội dung hiện tại của một System Prompt để những lần AI xử lý sau đó sử dụng nội dung mới. Thao tác không được thay đổi type, không tạo phiên bản hoặc lịch sử.
 
 ### Goals
-- Cho phép Admin cập nhật duy nhất trường `content` của System Prompt chưa bị xóa (`is_deleted == false`).
-- Kiểm tra `content` theo [BR-041](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-041.md) (độ dài 1 - 20.000 ký tự) và [BR-042](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-042.md) (không chứa ký tự điều khiển ẩn), nhưng lưu nguyên vẹn chuỗi nhận được từ request.
-- Cập nhật trường `updated_at` cùng lần lưu thành công.
+
+- Cho phép Admin cập nhật duy nhất `content` của System Prompt chưa bị xóa.
+- Kiểm tra `content` theo BR-041 và BR-042, nhưng lưu nguyên chuỗi nhận được.
+- Cập nhật `updated_at` cùng lần lưu thành công.
 
 ### Non-goals
-- Preview hoặc gọi AI để chạy thử Prompt bằng dữ liệu mẫu.
-- Tạo, xóa, đổi `type`, version, revision, history, restore và audit người cập nhật.
-- Optimistic locking, so sánh nội dung mới với nội dung hiện tại, hoặc tự động retry database ở backend.
-- Kiểm tra ngữ nghĩa, cú pháp Markdown hoặc tự tối ưu Prompt bằng AI.
 
----
+- Preview hoặc gọi AI để chạy thử Prompt.
+- Tạo, xóa, đổi type, version, revision, history, restore và audit người cập nhật.
+- Optimistic locking, so sánh nội dung mới với nội dung hiện tại, hoặc tự retry database.
+- Kiểm tra cú pháp Markdown hoặc tự tối ưu Prompt bằng AI.
 
 ## Architecture
 
-- Khi Admin chọn **Lưu**, Frontend gửi yêu cầu cập nhật System Prompt đến backend.
-- Hệ thống kiểm tra người dùng có quyền **Admin** hay không (Authorization).
-- Hệ thống kiểm tra nội dung gửi lên có hợp lệ theo quy định không (Validation).
-- Hệ thống tìm System Prompt cần cập nhật và đảm bảo Prompt đó vẫn còn tồn tại, chưa bị xóa mềm (`is_deleted == false`).
-- Nếu hợp lệ, hệ thống cập nhật nội dung mới và lưu thay đổi vào cơ sở dữ liệu.
+* Khi Admin chọn **Lưu**, Frontend gửi yêu cầu cập nhật System Prompt.
+* Hệ thống kiểm tra người dùng có quyền Admin hay không.
+* Hệ thống kiểm tra nội dung gửi lên có hợp lệ không.
+* Hệ thống tìm System Prompt cần cập nhật và đảm bảo Prompt đó vẫn còn tồn tại, chưa bị xóa.
+* Nếu hợp lệ, hệ thống cập nhật nội dung mới và lưu thay đổi.
 
 ```mermaid
 flowchart LR
-    Admin[Quản trị viên / Frontend] -->|PUT /api/v1/system-prompts/{id}| API[API Controller]
-    API -->|Validate Request Body & Token| Service[SystemPromptService]
-    Service -->|Find by ID and is_deleted = false| DB[(Database / PostgreSQL)]
-    DB -->|Entity exists| Service
-    Service -->|Update content & updated_at| DB
-    DB -->|Success| Service
-    Service -->|200 OK + Updated DTO| API
-    API -->|Response JSON| Admin
+    A[Admin] --> FE[Admin Frontend]
+    FE --> C[SystemPromptController]
+    C --> V[ValidationActionFilter]
+    V --> S[SystemPromptService]
+    S --> EF[EF Core / AppDbContext]
+    EF --> DB[(PostgreSQL: system_prompts)]
+    DB --> EF --> S --> C --> FE --> A
 ```
 
----
+**Notes**:
+- Code EF map trực tiếp entity `SystemPrompt(Id, Type, Content, IsDeleted, CreatedAt, UpdatedAt)`.
+- Không sử dụng version hay optimistic lock; thao tác ghi đè trực tiếp và cập nhật `updated_at = NOW()`.
 
 ## Sequence Diagram
 
-Frontend chỉ gửi chuỗi `content`. Hệ thống kiểm tra nội dung hợp lệ và System Prompt vẫn còn tồn tại. Nếu hợp lệ, hệ thống lưu nguyên nội dung được gửi lên và cập nhật `updated_at` theo thời gian UTC hiện tại.
+- Frontend chỉ gửi `content`.
+- Hệ thống kiểm tra nội dung hợp lệ và System Prompt vẫn còn tồn tại. Nếu hợp lệ, hệ thống lưu nguyên nội dung được gửi lên và cập nhật `updated_at` theo thời gian hiện tại.
+
+| Field | Vai trò | Khi cập nhật |
+| --- | --- | --- |
+| `id` | Định danh Prompt. | Không đổi. |
+| `type` | Phân loại Prompt. | Không đổi. |
+| `content` | Nội dung hướng dẫn AI. | Gán đúng chuỗi request. |
+| `created_at` | Thời điểm tạo. | Không đổi. |
+| `updated_at` | Thời điểm cập nhật gần nhất. | Gán UTC hiện tại. |
+| `is_deleted` | Cờ xóa mềm. | Không đổi; phải là `false` để được cập nhật. |
 
 ```mermaid
 sequenceDiagram
-    actor Admin as Quản trị viên
-    participant FE as Web Admin (Frontend)
-    participant BE as SystemPrompt API (Backend)
-    participant DB as Database
+    autonumber
+    actor Admin
+    participant FE as Admin Frontend
+    participant V as ValidationActionFilter
+    participant C as SystemPromptController
+    participant S as SystemPromptService
+    participant DB as PostgreSQL
 
-    Admin->>FE: Chỉnh sửa nội dung và nhấn "Lưu"
-    FE->>BE: PUT /api/v1/system-prompts/{id} { content: "..." }
-    BE->>BE: Xác thực quyền Admin
-    BE->>BE: Validate content (1-20.000 ký tự, không chứa ký tự điều khiển)
+    Admin->>FE: Sửa content và chọn Lưu
+    FE->>V: PUT /api/v1/system-prompts/{id}\n{ content }
+    V->>V: Validate content
     alt Content không hợp lệ
-        BE-->>FE: 422 Unprocessable Entity (VALIDATION_ERROR)
-        FE-->>Admin: Hiển thị lỗi validation tại ô nhập
+        V-->>FE: 422 VALIDATION_ERROR
+        FE-->>Admin: Hiển thị lỗi, giữ draft
     else Content hợp lệ
-        BE->>DB: SELECT * FROM system_prompts WHERE id = {id} AND is_deleted = false
-        alt Không tìm thấy Prompt
-            DB-->>BE: null
-            BE-->>FE: 404 Not Found (NOT_FOUND)
-            FE-->>Admin: Báo lỗi "System Prompt không tồn tại"
-        else Tìm thấy Prompt hợp lệ
-            DB-->>BE: Bản ghi System Prompt
-            BE->>DB: UPDATE system_prompts SET content = @content, updated_at = NOW() WHERE id = {id}
-            DB-->>BE: Cập nhật thành công
-            BE-->>FE: 200 OK (DTO: {id, type, content})
-            FE-->>Admin: Hiển thị thông báo "Cập nhật System Prompt thành công"
+        V->>C: Invoke action
+        C->>S: UpdateAsync(id, content)
+        S->>DB: SELECT ... WHERE id = :id AND is_deleted = false
+        DB-->>S: SystemPrompt hoặc null
+        alt Không tồn tại hoặc đã xóa
+            S-->>C: NotFoundException
+            C-->>FE: 404 NOT_FOUND
+        else Tồn tại
+            S->>S: content = request content\nupdated_at = UTC now
+            S->>DB: SaveChangesAsync()
+            alt Lưu thành công
+                DB-->>S: Updated
+                S-->>C: id, type, content
+                C-->>FE: 200 ApiResponse
+                FE-->>Admin: Hiển thị cập nhật thành công
+            else Lỗi ngoài dự kiến
+                DB-->>S: Exception
+                S-->>C: Exception
+                C-->>FE: 500 INTERNAL_SERVER_ERROR
+                FE-->>Admin: Hiển thị lỗi, cho phép thử lại
+            end
         end
     end
 ```
-
-### Data Dictionary
-
-| Field | Type | Vai trò | Khi cập nhật |
-| --- | --- | --- | --- |
-| `id` | `uuid` | Định danh duy nhất của Prompt. | Không đổi. |
-| `type` | `system_prompt_types` | Phân loại Prompt (0: Flower, 1: Card, 2: Post). | Không đổi. |
-| `content` | `text` | Nội dung hướng dẫn chỉ đạo AI. | Gán đúng chuỗi từ request body. |
-| `created_at` | `timestamp` | Thời điểm tạo ban đầu. | Không đổi. |
-| `updated_at` | `timestamp not null` | Thời điểm cập nhật gần nhất. | Gán mốc thời gian UTC hiện tại. |
-| `is_deleted` | `boolean` | Cờ đánh dấu xóa mềm. | Không đổi; phải là `false` để được phép cập nhật. |
-
----
 
 ## Activity Diagram
 
 ```mermaid
 flowchart TD
-    Start([Bắt đầu yêu cầu PUT]) --> CheckAuth{Có quyền Admin?}
-    CheckAuth -- Không --> Err403[Trả về 403 Forbidden]
-    CheckAuth -- Có --> ValidateContent{Content hợp lệ?<br/>1 - 20.000 ký tự & không ký tự điều khiển}
-    
-    ValidateContent -- Không --> Err422[Trả về 422 Unprocessable Entity<br/>VALIDATION_ERROR]
-    ValidateContent -- Có --> QueryPrompt[Truy vấn System Prompt theo ID<br/>với is_deleted = false]
-    
-    QueryPrompt --> CheckExist{Prompt tồn tại?}
-    CheckExist -- Không --> Err404[Trả về 404 Not Found<br/>NOT_FOUND]
-    CheckExist -- Có --> UpdateDB[Gán content = request.content<br/>Gán updated_at = NOW()<br/>Lưu vào CSDL]
-    
-    UpdateDB --> CheckDBSuccess{Lưu thành công?}
-    CheckDBSuccess -- Thất bại --> Err500[Trả về 500 Internal Server Error<br/>INTERNAL_SERVER_ERROR]
-    CheckDBSuccess -- Thành công --> Return200[Trả về 200 OK<br/>Detail DTO {id, type, content}]
-    
-    Return200 --> End([Kết thúc])
-    Err403 --> End
-    Err422 --> End
-    Err404 --> End
-    Err500 --> End
+    A([Start]) --> B[Nhận PUT content]
+    B --> C{Content hợp lệ?}
+    C -->|Không| D[Trả 422 VALIDATION_ERROR]
+    C -->|Có| E[Load Prompt id và IsDeleted=false]
+    E --> F{Prompt tồn tại?}
+    F -->|Không| G[Trả 404 NOT_FOUND]
+    F -->|Có| H[Gán content nguyên vẹn và updated_at UTC]
+    H --> I[SaveChangesAsync]
+    I --> J{Lưu thành công?}
+    J -->|Có| K[Trả 200 với Prompt]
+    J -->|Không| L[Trả 500 INTERNAL_SERVER_ERROR]
+    D --> Z([End])
+    G --> Z
+    K --> Z
+    L --> Z
 ```
-
----
 
 ## Data Model
 
 ```mermaid
 erDiagram
-    SYSTEM_PROMPT {
-        uuid id PK "Định danh duy nhất (UUID)"
-        int type "0: flower, 1: card, 2: post"
-        text content "Nội dung chỉ thị Prompt cho AI"
-        timestamp created_at "Thời điểm khởi tạo"
-        timestamp updated_at "Thời điểm cập nhật gần nhất"
-        boolean is_deleted "Cờ xóa mềm (mặc định false)"
+    SYSTEM_PROMPTS {
+        uuid id PK
+        system_prompt_types type
+        text content
+        timestamp created_at
+        timestamp updated_at
+        boolean is_deleted
     }
 ```
 
----
+**Notes**:
+- `type` theo enum `HoaTheoMua.Repository.Enum.SystemPromptType` (`Flower = 0`, `Card = 1`, `Post = 2`).
+- Không có bảng `SystemPromptHistory`, không có cột `version`.
 
-## Internal API Contract
+## Internal API
 
 ### Endpoints
 
-#### Cập nhật nội dung System Prompt
-- **Method / Path**: `PUT /api/v1/system-prompts/{id:guid}`
-- **Authorization**: `Bearer Token` (Admin)
-- **Mô tả**: Cập nhật nội dung hiện tại của một System Prompt theo ID.
+- **PUT** `/api/v1/system-prompts/{id:guid}` — Cập nhật nội dung hiện tại của một System Prompt (Admin).
 
-**Yêu cầu thành công (Request)**:
+### Examples
+
+#### PUT /api/v1/system-prompts/{id:guid}
+
+**Request**:
 ```http
 PUT /api/v1/system-prompts/550e8400-e29b-41d4-a716-446655440001
+Authorization: Admin
 Content-Type: application/json
-Authorization: Bearer <Admin_Token>
 
 {
   "content": "  # Hướng dẫn\n\tGiữ nguyên khoảng trắng đầu dòng.\n"
 }
 ```
 
-*Lưu ý: Type: Flower = 0 hoặc 1, Card = 1 hoặc 2, Post = 2 hoặc 3 tùy cấu hình enum.*
+*Lưu ý enum*:
+`HoaTheoMua.Repository.Enum.SystemPromptType`:
+- `Flower = 0`
+- `Card = 1`
+- `Post = 2`
 
-**Phản hồi thành công (200 OK)**:
+**Response 200 (Cập nhật thành công)**:
 ```json
 {
   "value": {
@@ -182,13 +189,13 @@ Authorization: Bearer <Admin_Token>
 }
 ```
 
-**Lỗi Content không hợp lệ (422 Unprocessable Entity)**:
-*(Khi content rỗng, chỉ khoảng trắng, vượt quá 20.000 ký tự hoặc chứa ký tự điều khiển không cho phép)*
+**Error 422 (Content không hợp lệ)**:
+*(Content rỗng, vượt 20.000 ký tự hoặc chứa control character không được phép)*
 ```json
 {
   "title": "Unprocessable Entity",
   "status": 422,
-  "detail": "Nội dung System Prompt không hợp lệ.",
+  "detail": "",
   "messageCode": "VALIDATION_ERROR",
   "errors": [
     {
@@ -201,7 +208,7 @@ Authorization: Bearer <Admin_Token>
 }
 ```
 
-**Prompt không tồn tại hoặc đã bị xóa mềm (404 Not Found)**:
+**Error 404 (Prompt không tồn tại hoặc đã bị xóa)**:
 ```json
 {
   "title": "Not Found",
@@ -214,7 +221,7 @@ Authorization: Bearer <Admin_Token>
 }
 ```
 
-**Lỗi hệ thống (500 Internal Server Error)**:
+**Error 500 (Lỗi hệ thống khi cập nhật)**:
 ```json
 {
   "title": "Internal Server Error",
@@ -227,21 +234,50 @@ Authorization: Bearer <Admin_Token>
 }
 ```
 
----
+### Error Codes
 
-### Quy ước Mã lỗi (Error Code)
-
-| Code | HTTP Status | Khi nào xảy ra |
+| Code | HTTP | Khi nào xảy ra |
 | --- | --- | --- |
-| `VALIDATION_ERROR` | 422 | `content` thiếu, rỗng, quá 20.000 ký tự hoặc có chứa ký tự điều khiển ẩn. |
-| `NOT_FOUND` | 404 | Không tìm thấy System Prompt theo `id` hoặc bản ghi có `is_deleted = true`. |
-| `INTERNAL_SERVER_ERROR` | 500 | Lỗi kết nối cơ sở dữ liệu hoặc sự cố ngoài dự kiến trong lúc cập nhật. |
-
----
+| `VALIDATION_ERROR` | 422 | `content` thiếu, rỗng, quá giới hạn (1-20.000 ký tự) hoặc có control character không được phép. |
+| `NOT_FOUND` | 404 | Không có Prompt theo `id` hoặc `is_deleted = true`. |
+| `INTERNAL_SERVER_ERROR` | 500 | Lỗi database/lỗi không dự kiến khi cập nhật. |
 
 ## References
 
-- **User Story liên quan**: [STORY-005: Sửa System Prompt](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/05-UpdateSystemPrompt.md)
-- **Business Rules liên quan**:
-  - [BR-041: Độ dài System Prompt](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-041.md)
-  - [BR-042: Định dạng text của System Prompt](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-042.md)
+### User Stories
+
+- [STORY-005: Sửa System Prompt](../UserStory/05-UpdateSystemPrompt.md)
+
+### Business Rules
+
+- [BR-041: Độ dài System Prompt](../BusinessRules/BR-041.md)
+- [BR-042: Định dạng text của System Prompt](../BusinessRules/BR-042.md)
+
+### Use Cases
+
+### Others
+
+- `HoaTheoMua.Repository.Enum.SystemPromptType` (`Flower = 0`, `Card = 1`, `Post = 2`).
+
+**Quy tắc dữ liệu gửi lên**:
+
+| Field | Quy tắc |
+| --- | --- |
+| `id` | Bắt buộc có trên đường dẫn API. |
+| `content` | Bắt buộc có nội dung, không được để trống hoặc chỉ chứa khoảng trắng. |
+| `content` | Tối đa 20.000 ký tự. |
+| `content` | Không cho phép các ký tự điều khiển đặc biệt, ngoại trừ Tab và xuống dòng. |
+| `content` | Chỉ dùng `Trim()` để kiểm tra nội dung có rỗng hay không. Khi lưu, hệ thống giữ nguyên nội dung Frontend gửi lên. |
+| Field khác | Không cho phép cập nhật `type`, thời gian tạo/cập nhật, trạng thái xóa hoặc các thông tin khác. |
+
+**Quy tắc nghiệp vụ**:
+
+| Điều kiện | Kết quả |
+| --- | --- |
+| `content` chỉ có khoảng trắng | Từ chối cập nhật và không lưu dữ liệu (422 `VALIDATION_ERROR`). |
+| `content` dài hơn 20.000 ký tự | Từ chối cập nhật và không lưu dữ liệu (422 `VALIDATION_ERROR`). |
+| `content` chứa ký tự không được phép | Từ chối cập nhật và không lưu dữ liệu (422 `VALIDATION_ERROR`). |
+| `content` hợp lệ và System Prompt còn tồn tại | Lưu nguyên nội dung được gửi lên và cập nhật `updated_at` bằng thời gian hiện tại. |
+| `content` giống với nội dung hiện tại | Vẫn thực hiện cập nhật và làm mới `updated_at`. |
+
+## Change Log

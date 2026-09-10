@@ -20,7 +20,7 @@
    - [3.4. Domain 4: Quản trị Kho Nội dung & Thư viện Số (Digital Asset Management)](#34-domain-4-quản-trị-kho-nội-dung--thư-viện-số-digital-asset-management)
    - [3.5. Domain 5: Lập lịch & Tự động Đăng bài Đa kênh (Multi-channel Auto Publishing)](#35-domain-5-lập-lịch--tự-động-đăng-bài-đa-kênh-multi-channel-auto-publishing)
    - [3.6. Domain 6: Thu thập & Quản lý Báo cáo Đo lường Đa nền tảng (Social Analytics & Reporting)](#36-domain-6-thu-thập--quản-lý-báo-cáo-đo-lường-đa-nền-tảng-social-analytics--reporting)
-4. [Kiến trúc Cơ sở Dữ liệu & Data Dictionary](#4-kiến-trúc-cơ-sở-dữ-liệu--data-dictionary)
+4. [Kiến trúc Cơ sở Dữ liệu & Data Dictionary](#4-kiến-trúc-cơ-sở-dữ-liệu--data-dictionary) — [Bản Bổ Sung Mở Rộng: Marketing_AI_DB_Bonus.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/Context/Marketing_AI_DB_Bonus.md)
    - [4.1. Sơ đồ Thực thể Quan hệ (Mermaid ERD)](#41-sơ-đồ-thực-thể-quan-hệ-mermaid-erd)
    - [4.2. Cơ chế Snapshot Bất biến (Immutable Metadata)](#42-cơ-chế-snapshot-bất-biến-immutable-metadata)
    - [4.3. Thiết kế Đa hình (Polymorphic Pattern) với `client_histories`](#43-thiết-kế-đa-hình-polymorphic-pattern-với-client_histories)
@@ -219,6 +219,8 @@ Phân hệ được thiết kế theo phương pháp **Document-First**, hoàn t
 ---
 
 ## 4. KIẾN TRÚC CƠ SỞ DỮ LIỆU & DATA DICTIONARY
+
+> **Tài liệu Bổ sung Chi tiết (Bonus DB)**: Xem chi tiết tại [Marketing_AI_DB_Bonus.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/Context/Marketing_AI_DB_Bonus.md) để tra cứu đầy đủ các Entity mở rộng (Kho ảnh số `images`, Chi tiết báo cáo `report_metrics`, Phiên sinh tạm `generation_sessions`, Kịch bản DDL PostgreSQL và Ma trận truy vết 78 Business Rules).
 
 ### 4.1. Sơ đồ Thực thể Quan hệ (Mermaid ERD)
 
