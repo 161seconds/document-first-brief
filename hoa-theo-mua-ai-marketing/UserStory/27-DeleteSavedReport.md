@@ -28,10 +28,10 @@
 - **Approver**: Nguyễn Đức Bình
 - **Owner**: Hồ Hoàng Nam
 - **Status**: Cần làm
-- **Assignee**: FE: Hồ Hoàng Nam | BE: Nguyễn Anh Quân
+- **Assignee**: 
+  - FE: Hồ Hoàng Nam
 - **Creator**: Hồ Hoàng Nam
-- **Unit Tests**: 0
-- **System Tests**: 12
+- **Thống kê tài liệu**: Rules: 5 | Unit Tests: 0 | System Tests: 8
 
 ---
 

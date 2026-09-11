@@ -71,7 +71,12 @@ hoa-theo-mua-ai-marketing/
 │   ├── 23-UpdateSavedImageInfo.md                 # STORY-023: Sửa metadata ảnh (tên, mô tả, thẻ tags)
 │   ├── 24-RewriteContentByPlatform.md             # STORY-024: Tự động viết lại nội dung theo từng nền tảng
 │   ├── 25-CollectAndManagePlatformReports.md      # STORY-025: Thu thập và quản lý báo cáo từ các nền tảng (XLSX)
-│   └── 27-DeleteSavedReport.md                    # STORY-027: Xóa báo cáo đã lưu
+│   ├── 26-InputPostContentAndImages.md            # STORY-026: Nhập nội dung và hình ảnh cho bài đăng
+│   ├── 27-DeleteSavedReport.md                    # STORY-027: Xóa báo cáo đã lưu
+│   ├── 28-AutoGenerateMultiPlatformContentAndImages.md # STORY-028: Tạo nội dung và hình ảnh đa nền tảng bằng AI
+│   ├── 30-PublishAndManagePostSchedules.md        # STORY-030: Phát hành và quản lý lịch đăng bài
+│   ├── 31-ConfigurePlatformContentAndImages.md    # STORY-031: Cấu hình nội dung và hình ảnh theo từng nền tảng
+│   └── 32-ManagePlatformConnectionsForReporting.md # STORY-032: Quản lý kết nối nền tảng để thu thập dữ liệu báo cáo
 ├── TDD/                                           # Thiết kế kỹ thuật chi tiết (Technical Design Documents)
 │   ├── TDD-003-ViewSystemPromptsListAndDetail.md  # TDD-003: Xem danh sách và chi tiết System Prompt
 │   └── TDD-004-UpdateSystemPrompt.md              # TDD-004: Chỉnh sửa System Prompt
@@ -158,7 +163,12 @@ Toàn bộ các yêu cầu nghiệp vụ được chuẩn hóa đầy đủ theo
 | **STORY-023** | [`23-UpdateSavedImageInfo.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/23-UpdateSavedImageInfo.md) | Image Library | **S1** | **Must** | Bổ sung và chỉnh sửa tên ảnh, mô tả, thẻ tags cho ảnh tải lên hoặc ảnh AI sinh từ STORY-003. |
 | **STORY-024** | [`24-RewriteContentByPlatform.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/24-RewriteContentByPlatform.md) | AI Copywriting | **S1** | **Must** | AI viết lại nội dung gốc cho từng nền tảng mục tiêu (Facebook, Instagram, Zalo OA); duy trì liên kết nguồn. |
 | **STORY-025** | [`25-CollectAndManagePlatformReports.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/25-CollectAndManagePlatformReports.md) | Reporting | **S1** | **Must** | Tự động lấy báo cáo định kỳ (ngày/tuần/tháng theo múi giờ `Asia/Ho_Chi_Minh`), xem chi tiết và tải tệp XLSX. |
+| **STORY-026** | [`26-InputPostContentAndImages.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/26-InputPostContentAndImages.md) | Multi-Platform Post | **S1** | **Must** | Nhập nội dung gốc, hashtag và hình ảnh cho bài đăng dùng chung trước khi chuyển sang cấu hình từng kênh. |
 | **STORY-027** | [`27-DeleteSavedReport.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/27-DeleteSavedReport.md) | Reporting | **S3** | **Must** | Xóa an toàn báo cáo không bị tham chiếu; thực thi xóa trong giao dịch ACID và lưu nhật ký kiểm toán độc lập. |
+| **STORY-028** | [`28-AutoGenerateMultiPlatformContentAndImages.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/28-AutoGenerateMultiPlatformContentAndImages.md) | AI Generation | **S1** | **Must** | Sử dụng nội dung gốc, System Prompt và tỷ lệ ảnh để sinh content, hashtag và hình ảnh riêng cho từng nền tảng bằng AI. |
+| **STORY-030** | [`30-PublishAndManagePostSchedules.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/30-PublishAndManagePostSchedules.md) | Auto Publishing | **S1** | **Must** | Đăng ngay, lưu chưa đăng hoặc lên lịch bài đăng theo múi giờ `Asia/Ho_Chi_Minh` và quản lý danh sách bài đăng. |
+| **STORY-031** | [`31-ConfigurePlatformContentAndImages.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/31-ConfigurePlatformContentAndImages.md) | Post Configuration | **S1** | **Must** | Chọn nền tảng mục tiêu, tinh chỉnh System Prompt, chọn tỷ lệ ảnh và gán ảnh nguồn tương ứng trước khi xử lý AI. |
+| **STORY-032** | [`32-ManagePlatformConnectionsForReporting.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/32-ManagePlatformConnectionsForReporting.md) | Analytics | **S3** | **Must** | Quản lý kết nối OAuth và vòng đời Access Token của các nền tảng mạng xã hội phục vụ thu thập báo cáo. |
 
 ---
 

@@ -1,196 +1,269 @@
 # STORY-025: Thu thập và quản lý báo cáo từ các nền tảng
 
 ## Metadata
+
 - **Story**: Là một Quản trị viên, tôi muốn hệ thống tự động lấy thông tin báo cáo từ các nền tảng đã kết nối vào thời điểm đã cấu hình, sau đó tập hợp và lưu thành các báo cáo trong hệ thống, để khi cần tôi có thể xem và tải báo cáo mà không phải truy cập từng nền tảng.
 - **Context**: 
-  - Hệ thống được kết nối với Facebook, Instagram, Zalo Official Account (Zalo OA) và các nền tảng khác được hỗ trợ.
-  - Quản trị viên có thể cấu hình lịch thu thập báo cáo độc lập cho từng nền tảng theo: **Hằng ngày**, **Hằng tuần**, hoặc **Hằng tháng** (sử dụng chuẩn múi giờ `Asia/Ho_Chi_Minh`).
-    - *Hằng ngày*: Phải có giờ thực hiện (ví dụ: 08:00).
-    - *Hằng tuần*: Phải có thứ trong tuần và giờ thực hiện (ví dụ: Thứ Hai, 09:00).
-    - *Hằng tháng*: Chọn một ngày cụ thể trong tháng (từ ngày 1 đến ngày 31) và giờ thực hiện. Nếu ngày được chọn không tồn tại trong một tháng cụ thể (ví dụ: ngày 31 vào tháng có 30 ngày, hoặc ngày 29/30/31 vào tháng 2 năm không nhuận), hệ thống sẽ tự động thực hiện vào ngày cuối cùng của tháng đó mà không làm thay đổi ngày cấu hình ban đầu.
-  - Mỗi nền tảng chỉ thực hiện một lần tại một thời điểm đã cấu hình.
-  - Khi đến thời điểm, hệ thống tự động gọi API lấy thông tin báo cáo mà tài khoản kết nối được phép xem.
-  - Hệ thống tập hợp dữ liệu nhận được từ từng nền tảng thành báo cáo tương ứng và lưu vào cơ sở dữ liệu kèm: Tên nền tảng, thời điểm thu thập, thời điểm tạo báo cáo, số lượng dữ liệu nhận được và trạng thái xử lý ("Thành công", "Không có dữ liệu", "Thất bại").
-  - Quản trị viên truy cập chức năng Báo cáo để xem danh sách, xem chi tiết và tải báo cáo về máy tính dưới định dạng **file XLSX (.xlsx)**.
-  - **Lưu ý**: Hệ thống không hiển thị các báo cáo này trên trang tổng quan (Dashboard). Báo cáo trong story này phản ánh dữ liệu từ từng nền tảng riêng rẽ. Việc tạo báo cáo tổng hợp định kỳ kết hợp nhiều nền tảng thuộc phạm vi STORY-026.
+  - Hệ thống được kết nối với Facebook, Instagram, Zalo Official Account và các nền tảng khác được hỗ trợ. Mỗi nền tảng có ngày và giờ thu thập riêng.
+  - Khi đến thời điểm đã cấu hình, hệ thống tự động lấy thông tin báo cáo mà tài khoản kết nối được phép xem.
+  - Hệ thống tập hợp thông tin nhận được từ từng nền tảng thành báo cáo tương ứng và lưu dữ liệu cùng báo cáo vào cơ sở dữ liệu của hệ thống. Mỗi báo cáo được lưu kèm tên nền tảng, thời điểm thu thập, thời điểm tạo báo cáo, số lượng dữ liệu nhận được và trạng thái xử lý.
+  - Khi cần, Quản trị viên truy cập chức năng Báo cáo để xem danh sách, xem nội dung chi tiết và tải báo cáo về thiết bị.
+  - Hệ thống không hiển thị các báo cáo này trên trang tổng quan, còn gọi là Dashboard.
+  - Báo cáo trong STORY-025 phản ánh dữ liệu lấy từ từng nền tảng. Việc tạo báo cáo tổng hợp định kỳ từ dữ liệu của nhiều nền tảng được thực hiện trong STORY-026.
+  - Admin cấu hình giờ thu thập báo cáo theo ngày, hằng ngày, hoặc hàng tuần cho cả 3 nền tảng. Thời gian sử dụng múi giờ `Asia/Ho_Chi_Minh`.
+  - Khi đến giờ đã cấu hình, hệ thống tự động lấy dữ liệu báo cáo từ nền tảng. Mỗi nền tảng chỉ được thực hiện một lần tại một thời điểm đã cấu hình.
+  - Lịch “Hằng ngày” phải có giờ thực hiện.
+  - Lịch “Hằng tuần” phải có thứ trong tuần và giờ thực hiện.
+  - Lịch “Hằng tháng”, Admin phải chọn một ngày cụ thể trong tháng và giờ để thực hiện. Nếu ngày được chọn không tồn tại trong một tháng cụ thể, hệ thống sẽ thực hiện vào ngày cuối cùng của tháng đó mà không làm thay đổi ngày cấu hình ban đầu.
+  - Định dạng của báo cáo tải xuống có dạng là **file XLSX (.xlsx)**.
 - **Sprint**: S1
 - **Priority**: Must
 - **Phiên bản**: v0.1
 - **Phê duyệt tài liệu**: Nháp
-- **Cập nhật**: 04/09/2026
+- **Cập nhật**: 11/09/2026
 - **Author**: Hồ Hoàng Nam
 - **Reviewer**: Nguyễn Đức Bình
 - **Approver**: Chưa chỉ định
 - **Owner**: Nguyễn Anh Quân
 - **Status**: Cần làm
-- **Assignee**: BE: Nguyễn Anh Quân | FE: Nguyễn Anh Quân
+- **Assignee**:
+  - FE: Nguyễn Anh Quân
+  - BE: Nguyễn Anh Quân
 - **Creator**: Nguyễn Anh Quân
 - **Feedback gần nhất**:
   > *"Cần thêm định dạng tệp tải xuống Nói rõ thời gian thu thập báo cáo Admin có thể config"* — Nguyễn Đức Bình · 10:17 03/09/2026
+- **Thống kê tài liệu**: TDDs: 1 | Rules: 8 | Unit Tests: 0 | System Tests: 10
 
 ---
 
 ## Conditions
-- **Preconditions**:
-  - Ít nhất một nền tảng đã được kết nối với hệ thống và đang được bật để thu thập thông tin báo cáo.
-  - Thông tin kết nối (Token/Credential) của nền tảng còn hiệu lực và tài khoản có quyền xem thông tin báo cáo.
-  - Lịch thu thập (ngày/thứ/giờ) đã được Quản trị viên cấu hình cho từng nền tảng.
-  - Quản trị viên đã đăng nhập vào hệ thống khi truy cập chức năng Báo cáo.
-- **Trigger**:
-  - **Luồng tự động**: Kích hoạt khi đến ngày/thứ/giờ đã được cấu hình cho một nền tảng (theo múi giờ `Asia/Ho_Chi_Minh`).
-  - **Luồng xem/tải**: Bắt đầu khi Quản trị viên truy cập chức năng Báo cáo.
+
+### Preconditions
+- Ít nhất một nền tảng đã được kết nối với hệ thống và đang được bật để thu thập thông tin báo cáo.
+- Thông tin kết nối của nền tảng còn hiệu lực và tài khoản kết nối có quyền xem thông tin báo cáo.
+- Ngày và giờ thu thập thông tin báo cáo đã được cấu hình cho từng nền tảng.
+- Quản trị viên đã đăng nhập.
+
+### Trigger
+- Luồng thu thập tự động bắt đầu khi đến ngày và giờ đã được cấu hình cho một nền tảng.
+- Luồng xem và tải báo cáo bắt đầu khi Quản trị viên mở chức năng Báo cáo.
 
 ---
 
 ## Flow
 
 ### Main Flow — Thu thập, lưu, xem và tải báo cáo
-1. Đến ngày và giờ đã cấu hình, hệ thống bắt đầu một phiên thu thập tự động và ghi nhận trạng thái “Đang xử lý”.
-2. Hệ thống xác định các nền tảng đang được bật cấu hình thu thập tại mốc thời gian này.
-3. Đối với từng nền tảng, hệ thống kiểm tra token kết nối còn hiệu lực và tài khoản có quyền xem báo cáo.
-4. Hệ thống gửi yêu cầu lấy dữ liệu báo cáo từ API của nền tảng.
-5. Nền tảng phản hồi và trả về dữ liệu báo cáo cho hệ thống.
-6. Hệ thống kiểm tra quá trình lấy thông tin đã hoàn tất và dữ liệu nhận được đầy đủ (nếu phân trang, lấy hết tất cả các trang dữ liệu).
-7. Hệ thống tiếp tục thực hiện các bước kiểm tra và thu thập đối với các nền tảng còn lại (nếu có nhiều nền tảng chạy cùng giờ).
-8. Sau khi hoàn tất việc thu thập, hệ thống tập hợp dữ liệu nhận được từ từng nền tảng thành báo cáo tương ứng.
-9. Hệ thống lưu dữ liệu thô và bản ghi báo cáo vào cơ sở dữ liệu.
-10. Hệ thống lưu kèm: Tên nền tảng, thời điểm thu thập, thời điểm tạo báo cáo, số lượng dữ liệu nhận được và cập nhật trạng thái “Thành công”.
-11. Khi cần xem báo cáo, Quản trị viên truy cập chức năng “Báo cáo”.
-12. Hệ thống truy vấn CSDL và hiển thị danh sách tất cả các báo cáo đã lưu (không hiển thị trên Dashboard).
-13. Quản trị viên chọn một báo cáo cụ thể, hệ thống hiển thị đầy đủ nội dung chi tiết của báo cáo đó.
-14. Khi Quản trị viên nhấn nút “Tải báo cáo”, hệ thống xuất dữ liệu của báo cáo đã chọn ra tệp định dạng **XLSX (.xlsx)** và cung cấp tệp tải về máy tính của Quản trị viên.
+1. Đến ngày và giờ đã được cấu hình, hệ thống bắt đầu một lần thu thập và ghi nhận trạng thái “Đang xử lý”.
+2. Hệ thống xác định các nền tảng đang được bật để thu thập thông tin báo cáo.
+3. Đối với từng nền tảng, hệ thống kiểm tra thông tin kết nối còn hiệu lực và tài khoản kết nối có quyền xem thông tin báo cáo.
+4. Hệ thống gửi yêu cầu lấy các trường dữ liệu báo cáo được quy định cho Account/Page và từng Post/Article của nền tảng tại thời điểm thu thập; dữ liệu Post/Article chỉ thuộc các bài do hệ thống đã đăng.
+5. Nền tảng trả về thông tin báo cáo cho hệ thống.
+6. Hệ thống kiểm tra quá trình lấy thông tin đã hoàn tất và dữ liệu nhận được đầy đủ.
+7. Hệ thống tiếp tục thực hiện các bước kiểm tra và thu thập đối với các nền tảng còn lại.
+8. Sau khi hoàn tất việc thu thập, hệ thống tập hợp thông tin nhận được từ từng nền tảng thành báo cáo tương ứng.
+9. Hệ thống lưu dữ liệu đã thu thập và báo cáo tương ứng vào cơ sở dữ liệu của hệ thống.
+10. Hệ thống lưu kèm tên nền tảng, thời điểm thu thập, số lượng dữ liệu nhận được và trạng thái “Thành công”.
+11. Khi cần xem báo cáo, Quản trị viên truy cập chức năng Báo cáo.
+12. Hệ thống lấy tất cả báo cáo đã lưu và hiển thị danh sách báo cáo trong chức năng Báo cáo. Hệ thống không hiển thị các báo cáo này trên trang tổng quan.
+13. Quản trị viên chọn một báo cáo và hệ thống hiển thị đầy đủ nội dung chi tiết của báo cáo đã chọn.
+14. Khi Quản trị viên chọn tải báo cáo, hệ thống tạo tệp từ báo cáo đã lưu và cung cấp tệp để Quản trị viên tải về thiết bị. Định dạng XLSX.
 
 ### Alternative Flow
-- **ALT-01 — Chỉ có một nền tảng cần thu thập**:
-  - Tại bước 2, hệ thống xác định chỉ có một nền tảng đến hạn thu thập.
-  - Hệ thống chỉ lấy thông tin, tạo báo cáo và ghi nhận trạng thái riêng cho nền tảng đó.
-- **ALT-02 — Nền tảng không có thông tin báo cáo**:
-  - Tại bước 5, nền tảng phản hồi thành công (HTTP 200) nhưng số lượng bản ghi bằng 0 (không có dữ liệu).
-  - Hệ thống ghi nhận số lượng dữ liệu bằng 0, lưu trạng thái “Không có dữ liệu”, không tạo báo cáo rỗng và tiếp tục xử lý các nền tảng khác.
-- **ALT-03 — Chưa có báo cáo nào được lưu trong hệ thống**:
-  - Tại bước 12, Quản trị viên mở trang Báo cáo nhưng chưa có lần thu thập thành công nào.
-  - Hệ thống hiển thị thông báo: *"Chưa có báo cáo"* (Empty State), không tạo bản ghi rỗng và cho phép Quản trị viên sử dụng các chức năng khác bình thường.
+
+#### ALT-01 — Chỉ có một nền tảng cần thu thập
+- Tại bước 2 của luồng chính, hệ thống xác định chỉ có một nền tảng đang được bật để thu thập thông tin báo cáo.
+- Hệ thống chỉ lấy thông tin, tạo báo cáo và lưu kết quả của nền tảng đó.
+- Trạng thái chung của lần thu thập được xác định theo kết quả xử lý của nền tảng duy nhất.
+
+#### ALT-02 — Nền tảng không có thông tin báo cáo
+- Tại bước 5 của luồng chính, nền tảng phản hồi thành công nhưng không có thông tin báo cáo.
+- Hệ thống ghi nhận nền tảng đã được kiểm tra với số lượng dữ liệu nhận được bằng không và trạng thái “Không có dữ liệu”.
+- Hệ thống không tạo báo cáo cho nền tảng đó vì không có thông tin để tập hợp.
+- Hệ thống tiếp tục xử lý các nền tảng còn lại.
+
+#### ALT-03 — Chưa có báo cáo được lưu
+- Tại bước 12 của luồng chính, hệ thống không tìm thấy báo cáo nào đã được lưu.
+- Hệ thống hiển thị thông báo “Chưa có báo cáo” trong chức năng Báo cáo.
+- Hệ thống không tạo báo cáo trống và Quản trị viên vẫn có thể tiếp tục sử dụng các chức năng khác.
 
 ### Exception Flow
-- **EXC-01 — Không thể kết nối với nền tảng hoặc token hết hạn**:
-  - Tại bước 3 hoặc 4, hệ thống không thể kết nối hoặc API nền tảng báo lỗi xác thực (Token Expired / Unauthorized).
-  - Hệ thống dừng thu thập của nền tảng đó, không tạo báo cáo mới, ghi nhận trạng thái “Thất bại”, lưu lý do lỗi vào nhật ký hệ thống và tiếp tục xử lý các nền tảng khác.
-- **EXC-02 — Nền tảng không phản hồi hoặc trả về thông tin chưa đầy đủ**:
-  - Tại bước 4, 5 hoặc 6, API nền tảng bị timeout hoặc phản hồi thiếu dữ liệu dở dang.
-  - Hệ thống tự động thử lại (Retry) theo số lần cấu hình trước (tối đa 3 lần). Nếu vẫn không thành công, hệ thống ghi nhận trạng thái “Thất bại” kèm lý do, không dùng dữ liệu chắp vá để tạo báo cáo.
-- **EXC-03 — Không thể tạo hoặc lưu báo cáo vào CSDL**:
-  - Tại bước 8, 9 hoặc 10, quá trình tập hợp hoặc lưu báo cáo gặp lỗi CSDL.
-  - Hệ thống không ghi nhận báo cáo thành công, rollback dữ liệu dở dang, giữ nguyên vẹn dữ liệu các lần thu thập trước đó, ghi nhận trạng thái “Thất bại” và lưu nguyên nhân lỗi.
-- **EXC-04 — Không thể mở báo cáo đã chọn**:
-  - Tại bước 13, báo cáo bị lỗi định dạng dữ liệu hoặc đã bị xóa.
-  - Hệ thống không hiển thị dữ liệu sai lệch hoặc nội dung của báo cáo khác, hiển thị thông báo lỗi: *"Không thể mở báo cáo. Vui lòng thử lại sau"* và đưa Quản trị viên trở lại danh sách báo cáo.
-- **EXC-05 — Không thể tạo tệp hoặc tải báo cáo XLSX**:
-  - Tại bước 14, quá trình tạo tệp XLSX gặp sự cố trên máy chủ.
-  - Hệ thống không cung cấp tệp hỏng/thiếu dữ liệu, hiển thị thông báo lỗi: *"Không thể tạo tệp tải xuống, vui lòng thử lại"* và giữ nguyên báo cáo trên CSDL để Quản trị viên tải lại.
+
+#### EXC-01 — Không thể kết nối với nền tảng
+- Tại bước 3 hoặc bước 4 của luồng chính, hệ thống không thể kết nối với nền tảng hoặc thông tin kết nối đã hết hiệu lực.
+- Hệ thống không lấy thông tin và không tạo báo cáo mới cho nền tảng đó.
+- Hệ thống ghi nhận nền tảng ở trạng thái “Thất bại” và lưu nguyên nhân để Quản trị viên có thể kiểm tra.
+- Hệ thống tiếp tục xử lý các nền tảng còn lại.
+
+#### EXC-02 — Nền tảng không phản hồi hoặc trả về thông tin chưa đầy đủ
+- Tại bước 4, bước 5 hoặc bước 6 của luồng chính, nền tảng xảy ra lỗi, không phản hồi hoặc chỉ trả về một phần thông tin.
+- Hệ thống thực hiện lại yêu cầu theo số lần đã được thiết lập trước.
+- Nếu vẫn không thể nhận đầy đủ thông tin, hệ thống ghi nhận nền tảng ở trạng thái “Thất bại” và lưu nguyên nhân.
+- Hệ thống không sử dụng thông tin chưa đầy đủ để tạo báo cáo và tiếp tục xử lý các nền tảng còn lại.
+
+#### EXC-03 — Không thể tạo hoặc lưu báo cáo
+- Tại bước 8, bước 9 hoặc bước 10 của luồng chính, hệ thống không thể tập hợp thông tin, tạo báo cáo hoặc lưu kết quả vào cơ sở dữ liệu.
+- Hệ thống không ghi nhận báo cáo đã được tạo thành công.
+- Hệ thống không giữ dữ liệu hoặc báo cáo chưa hoàn chỉnh.
+- Dữ liệu và báo cáo đã được lưu thành công trước đó được giữ nguyên.
+- Hệ thống ghi nhận trạng thái “Thất bại”, lưu nguyên nhân và tiếp tục xử lý các nền tảng còn lại.
+
+#### EXC-04 — Không thể mở báo cáo đã chọn
+- Tại bước 13 của luồng chính, báo cáo mà Quản trị viên chọn không còn tồn tại hoặc hệ thống không thể đọc nội dung báo cáo.
+- Hệ thống không hiển thị nội dung không đầy đủ hoặc nội dung của báo cáo khác.
+- Hệ thống hiển thị thông báo không thể mở báo cáo và nêu rõ nguyên nhân nếu nguyên nhân đã được ghi nhận.
+- Hệ thống đưa Quản trị viên trở lại danh sách báo cáo.
+- Các báo cáo khác đã được lưu không bị thay đổi.
+- Quản trị viên có thể chọn một báo cáo khác để xem.
+
+#### EXC-05 — Không thể tải báo cáo
+- Tại bước 14 của luồng chính, hệ thống không thể tạo hoặc cung cấp tệp báo cáo để tải xuống.
+- Hệ thống không cung cấp tệp báo cáo chưa hoàn chỉnh.
+- Hệ thống hiển thị thông báo tải báo cáo không thành công và nêu rõ nguyên nhân nếu nguyên nhân đã được ghi nhận.
+- Báo cáo và dữ liệu đã lưu được giữ nguyên để Quản trị viên có thể thực hiện lại thao tác tải.
 
 ---
 
 ## Acceptance Criteria
 
-- **AC-001 — Kích hoạt thu thập đúng thời điểm cấu hình**:
+- **AC-001 — Bắt đầu thu thập đúng thời điểm**:
   - **Given**: Ngày và giờ thu thập đã được cấu hình cho một nền tảng.
-  - **When**: Đến đúng ngày và giờ đã cấu hình (theo múi giờ `Asia/Ho_Chi_Minh`).
-  - **Then**: Hệ thống bắt đầu tiến trình thu thập và ghi nhận trạng thái “Đang xử lý”.
+  - **When**: Đến ngày và giờ đã được cấu hình.
+  - **Then**: Hệ thống bắt đầu một lần thu thập và ghi nhận trạng thái “Đang xử lý”.
 
-- **AC-002 — Xác định và kiểm tra tính hợp lệ của nền tảng cần thu thập**:
-  - **Given**: Có một hoặc nhiều nền tảng đang được bật để thu thập.
-  - **When**: Hệ thống bắt đầu phiên thu thập.
-  - **Then**: Hệ thống xác định danh sách các nền tảng đến hạn và kiểm tra token/quyền kết nối.
-  - **And**: Hệ thống chỉ gửi yêu cầu API đến nền tảng có kết nối còn hiệu lực và tài khoản có quyền xem báo cáo.
+- **AC-002 — Xác định và kiểm tra nền tảng cần thu thập**:
+  - **Given**: Có một hoặc nhiều nền tảng đang được bật để thu thập thông tin báo cáo.
+  - **When**: Hệ thống bắt đầu lần thu thập.
+  - **Then**: Hệ thống xác định đầy đủ các nền tảng đang được bật.
+  - **And**: Hệ thống kiểm tra thông tin kết nối của từng nền tảng.
+  - **And**: Hệ thống chỉ gửi yêu cầu đến nền tảng có kết nối còn hiệu lực và tài khoản kết nối có quyền xem thông tin báo cáo.
 
-- **AC-003 — Thu thập đầy đủ thông tin báo cáo từ nền tảng**:
-  - **Given**: Nền tảng đang bật và thông tin kết nối còn hiệu lực.
+- **AC-003 — Lấy đầy đủ thông tin báo cáo từ nền tảng**:
+  - **Given**: Nền tảng đang được bật và thông tin kết nối còn hiệu lực.
   - **When**: Hệ thống gửi yêu cầu lấy thông tin báo cáo.
-  - **Then**: Hệ thống nhận dữ liệu báo cáo mà nền tảng cung cấp tại thời điểm thu thập.
-  - **And**: Nếu dữ liệu phân trang, hệ thống tự động gọi tiếp cho đến khi hoàn tất 100% dữ liệu.
-  - **And**: Hệ thống chỉ đánh dấu thu thập thành công sau khi nhận đủ dữ liệu trọn vẹn.
+  - **Then**: Hệ thống nhận thông tin báo cáo mà nền tảng cung cấp tại thời điểm thu thập.
+  - **And**: Nếu thông tin được trả về thành nhiều phần, hệ thống tiếp tục lấy cho đến khi hoàn tất.
+  - **And**: Hệ thống chỉ ghi nhận nền tảng đã thu thập thành công sau khi nhận đầy đủ thông tin.
 
-- **AC-004 — Xử lý độc lập riêng từng nền tảng**:
-  - **Given**: Có nhiều nền tảng cùng được cấu hình thu thập tại một thời điểm.
-  - **When**: Hệ thống thực hiện thu thập.
-  - **Then**: Hệ thống xử lý và ghi nhận kết quả độc lập cho từng nền tảng.
-  - **And**: Sự cố ở một nền tảng không làm gián đoạn hoặc mất dữ liệu báo cáo của các nền tảng khác.
+- **AC-004 — Xử lý riêng từng nền tảng**:
+  - **Given**: Có nhiều nền tảng đang được bật để thu thập.
+  - **When**: Hệ thống thực hiện lần thu thập.
+  - **Then**: Hệ thống xử lý và ghi nhận kết quả riêng cho từng nền tảng.
+  - **And**: Lỗi của một nền tảng không làm mất dữ liệu hoặc báo cáo đã tạo thành công từ nền tảng khác.
 
 - **AC-005 — Tập hợp và lưu báo cáo thành công**:
-  - **Given**: Hệ thống đã nhận trọn vẹn thông tin báo cáo từ một nền tảng.
+  - **Given**: Hệ thống đã nhận đầy đủ thông tin báo cáo từ một nền tảng.
   - **When**: Hệ thống tập hợp và lưu kết quả.
-  - **Then**: Hệ thống tạo bản ghi báo cáo tương ứng và lưu vào cơ sở dữ liệu.
-  - **And**: Báo cáo được lưu kèm: Tên nền tảng, thời điểm thu thập, thời điểm tạo báo cáo, số lượng dữ liệu nhận được và trạng thái “Thành công”.
+  - **Then**: Hệ thống tạo báo cáo tương ứng và lưu báo cáo vào cơ sở dữ liệu của hệ thống.
+  - **And**: Báo cáo được lưu kèm tên nền tảng, thời điểm thu thập, thời điểm tạo báo cáo, số lượng dữ liệu nhận được và trạng thái “Thành công”.
 
-- **AC-006 — Xử lý khi nền tảng không có thông tin báo cáo (ALT-02)**:
-  - **Given**: Nền tảng phản hồi thành công nhưng số lượng dữ liệu bằng 0.
-  - **When**: Hệ thống kiểm tra kết quả trả về.
-  - **Then**: Hệ thống ghi nhận số lượng dữ liệu bằng 0, trạng thái “Không có dữ liệu” và không tạo bản ghi báo cáo trống.
+- **AC-006 — Nền tảng không có thông tin báo cáo**:
+  - **Given**: Nền tảng phản hồi thành công nhưng không có thông tin báo cáo.
+  - **When**: Hệ thống hoàn tất việc kiểm tra kết quả.
+  - **Then**: Hệ thống ghi nhận số lượng dữ liệu nhận được bằng không, trạng thái “Không có dữ liệu” và không tạo báo cáo cho nền tảng đó.
 
 - **AC-007 — Hiển thị danh sách báo cáo đúng nơi quy định**:
-  - **Given**: Có ít nhất một báo cáo đã được lưu trong hệ thống.
+  - **Given**: Có ít nhất một báo cáo đã được lưu và.
   - **When**: Quản trị viên truy cập chức năng Báo cáo.
-  - **Then**: Hệ thống hiển thị danh sách tất cả các báo cáo đã lưu kèm: Tên nền tảng, thời điểm tạo báo cáo, số lượng dữ liệu và trạng thái xử lý.
-  - **And**: Hệ thống tuyệt đối không hiển thị các báo cáo này trên trang tổng quan (Dashboard).
+  - **Then**: Hệ thống hiển thị danh sách tất cả báo cáo đã lưu.
+  - **And**: Danh sách hiển thị tên nền tảng, thời điểm tạo báo cáo và trạng thái của từng báo cáo.
 
-- **AC-008 — Hiển thị thông báo khi chưa có báo cáo nào (ALT-03)**:
-  - **Given**: Chưa có báo cáo nào được lưu trong CSDL.
+- **AC-008 — Thông báo khi chưa có báo cáo**:
+  - **Given**: Chưa có báo cáo nào được lưu.
   - **When**: Quản trị viên truy cập chức năng Báo cáo.
-  - **Then**: Hệ thống hiển thị thông báo: *"Chưa có báo cáo"*.
-  - **And**: Hệ thống không tạo bản ghi báo cáo rỗng và Quản trị viên có thể tiếp tục sử dụng các chức năng khác bình thường.
+  - **Then**: Hệ thống hiển thị thông báo “Chưa có báo cáo”.
+  - **And**: Hệ thống không tạo báo cáo trống.
+  - **And**: Quản trị viên vẫn có thể tiếp tục sử dụng các chức năng khác.
 
 - **AC-009 — Xem chi tiết báo cáo**:
-  - **Given**: Báo cáo đã được lưu thành công trong CSDL.
+  - **Given**: Báo cáo đã được lưu và.
   - **When**: Quản trị viên chọn một báo cáo trong danh sách.
-  - **Then**: Hệ thống hiển thị đầy đủ các chỉ số và dữ liệu chi tiết thuộc đúng báo cáo đã chọn ở chế độ chỉ xem.
-  - **And**: Hệ thống không làm thay đổi dữ liệu báo cáo trong quá trình hiển thị.
-  - **And**: Quản trị viên có thể bấm quay lại danh sách báo cáo bất kỳ lúc nào.
+  - **Then**: Hệ thống hiển thị đầy đủ nội dung của báo cáo đã chọn.
+  - **And**: Nội dung hiển thị thuộc đúng báo cáo mà Quản trị viên đã chọn.
+  - **And**: Hệ thống không thay đổi dữ liệu hoặc nội dung báo cáo trong quá trình hiển thị.
+  - **And**: Quản trị viên có thể quay lại danh sách báo cáo sau khi xem.
 
-- **AC-010 — Tải báo cáo định dạng XLSX thành công**:
-  - **Given**: Báo cáo đã được lưu trong hệ thống.
-  - **When**: Quản trị viên nhấn nút “Tải báo cáo”.
-  - **Then**: Hệ thống kết xuất dữ liệu báo cáo thành tệp định dạng **XLSX (.xlsx)** chuẩn Excel.
-  - **And**: Tệp tải về có cấu trúc bảng biểu, tiêu đề cột và nội dung trùng khớp chính xác với báo cáo đã chọn.
+- **AC-010 — Tải báo cáo thành công**:
+  - **Given**: Báo cáo đã được lưu và.
+  - **When**: Quản trị viên chọn tải báo cáo.
+  - **Then**: Hệ thống tạo tệp từ đúng báo cáo đã chọn và cung cấp tệp để Quản trị viên tải về thiết bị.
 
-- **AC-011 — Xử lý lỗi kết nối hoặc dữ liệu chưa đầy đủ (EXC-01, EXC-02)**:
-  - **Given**: Nền tảng không thể kết nối, token hết hạn, hoặc dữ liệu trả về bị lỗi/chưa đầy đủ sau số lần thử lại tối đa.
-  - **When**: Hệ thống kết thúc lần thu thập.
-  - **Then**: Hệ thống ghi nhận trạng thái “Thất bại”, lưu lý do chi tiết vào nhật ký, không tạo báo cáo từ dữ liệu chắp vá và tiếp tục xử lý các nền tảng khác.
+- **AC-011 — Xử lý lỗi kết nối hoặc thông tin chưa đầy đủ**:
+  - **Given**: Nền tảng không thể kết nối, không phản hồi hoặc chỉ trả về một phần thông tin.
+  - **When**: Hệ thống không thể hoàn tất việc thu thập sau số lần thực hiện lại đã được thiết lập.
+  - **Then**: Hệ thống ghi nhận trạng thái “Thất bại”, lưu nguyên nhân, không tạo báo cáo từ thông tin chưa đầy đủ và tiếp tục xử lý các nền tảng còn lại.
 
-- **AC-012 — Không lưu dữ liệu báo cáo dở dang khi gặp lỗi (EXC-03)**:
-  - **Given**: Hệ thống đang trong quá trình tập hợp hoặc lưu báo cáo.
-  - **When**: Quá trình lưu gặp lỗi CSDL.
-  - **Then**: Hệ thống rollback toàn bộ, không lưu bản ghi dở dang, ghi nhận trạng thái “Thất bại” và bảo toàn dữ liệu các báo cáo đã lưu trước đó.
+- **AC-012 — Không lưu báo cáo chưa hoàn chỉnh**:
+  - **Given**: Hệ thống đang tập hợp, tạo hoặc lưu báo cáo.
+  - **When**: Quá trình tập hợp, tạo hoặc lưu báo cáo xảy ra lỗi.
+  - **Then**: Hệ thống không ghi nhận báo cáo thành công, không giữ báo cáo chưa hoàn chỉnh và giữ nguyên dữ liệu cùng báo cáo đã lưu thành công trước đó.
 
-- **AC-013 — Xử lý lỗi khi mở hoặc tải báo cáo (EXC-04, EXC-05)**:
-  - **Given**: Quản trị viên đã chọn một báo cáo để xem hoặc tải về.
-  - **When**: Hệ thống không thể đọc nội dung hoặc không thể kết xuất tệp XLSX.
-  - **Then**: Hệ thống hiển thị thông báo lỗi phù hợp, không cung cấp tệp lỗi/thiếu dữ liệu và giữ nguyên dữ liệu báo cáo trên hệ thống.
+- **AC-013 — Xử lý lỗi khi mở hoặc tải báo cáo**:
+  - **Given**: Quản trị viên đã chọn một báo cáo để xem hoặc tải.
+  - **When**: Hệ thống không thể đọc nội dung, tạo tệp hoặc cung cấp tệp báo cáo.
+  - **Then**: Hệ thống hiển thị thông báo phù hợp, không cung cấp nội dung hoặc tệp chưa hoàn chỉnh và giữ nguyên báo cáo đã lưu.
 
-- **AC-014 — Lịch thu thập hằng ngày**:
-  - **Given**: Quản trị viên cấu hình loại lịch “Hằng ngày”.
-  - **When**: Quản trị viên nhập giờ hợp lệ (ví dụ: 08:00) và lưu cấu hình.
-  - **Then**: Hệ thống tự động thực hiện thu thập báo cáo vào đúng giờ đó mỗi ngày.
+- **AC-014 — Lịch hằng ngày**:
+  - **Given**: Admin chọn loại lịch “Hằng ngày”.
+  - **When**: Admin nhập giờ hợp lệ và lưu.
+  - **Then**: Hệ thống thực hiện thu thập vào giờ đó mỗi ngày.
 
-- **AC-015 — Lịch thu thập hằng tuần**:
-  - **Given**: Quản trị viên cấu hình loại lịch “Hằng tuần”.
-  - **When**: Quản trị viên chọn thứ trong tuần (ví dụ: Thứ Hai), nhập giờ hợp lệ và lưu cấu hình.
-  - **Then**: Hệ thống tự động thực hiện thu thập báo cáo vào đúng thứ và giờ đã chọn mỗi tuần.
+- **AC-015 — Lịch hằng tuần**:
+  - **Given**: Admin chọn loại lịch “Hằng tuần”.
+  - **When**: Admin chọn thứ trong tuần, nhập giờ và lưu.
+  - **Then**: Hệ thống thực hiện thu thập vào đúng thứ và giờ đã chọn mỗi tuần.
 
-- **AC-016 — Lịch thu thập hằng tháng với ngày tồn tại trong tháng**:
-  - **Given**: Quản trị viên cấu hình lịch hằng tháng vào ngày 15 lúc 08:00.
-  - **When**: Đến ngày 15 của tháng tại thời điểm 08:00.
-  - **Then**: Hệ thống tự động bắt đầu thu thập báo cáo cho nền tảng.
+- **AC-016 — Lịch hằng tháng với ngày tồn tại**:
+  - **Given**: Admin đã cấu hình lịch hằng tháng vào ngày 15 lúc 08:00.
+  - **When**: Đến ngày 15 của tháng.
+  - **Then**: Hệ thống bắt đầu thu thập lúc 08:00.
 
-- **AC-017 — Lịch thu thập hằng tháng với ngày không tồn tại trong tháng hiện tại**:
-  - **Given**: Quản trị viên cấu hình lịch hằng tháng vào ngày không tồn tại trong tháng hiện tại (ví dụ: ngày 31 đối với tháng có 30 ngày, hoặc ngày 29/30/31 đối với tháng 2 năm không nhuận).
-  - **When**: Đến ngày cuối cùng của tháng đó tại đúng giờ đã cấu hình.
-  - **Then**: Hệ thống tự động bắt đầu thu thập báo cáo của nền tảng trong ngày cuối cùng đó mà không chờ sang tháng tiếp theo.
-  - **And**: Ngày cấu hình gốc của Quản trị viên (ngày 31) được giữ nguyên vẹn cho các tháng sau.
+- **AC-017 — Lịch hằng tháng với ngày không tồn tại**:
+  - **Given**: Admin đã cấu hình lịch hằng tháng vào một ngày không tồn tại trong tháng hiện tại.
+  - **When**: Đến ngày cuối cùng của tháng tại giờ đã cấu hình.
+  - **Then**: Hệ thống bắt đầu thu thập báo cáo.
+  - **And**: Hệ thống không chờ sang tháng tiếp theo.
+  - **And**: Ngày cấu hình ban đầu không bị thay đổi.
+
+- **AC-018 — Thu thập dữ liệu Instagram Account**:
+  - **Given**: Kết nối Instagram còn hiệu lực và đến thời điểm thu thập báo cáo.
+  - **When**: Hệ thống thu thập dữ liệu ở cấp Account.
+  - **Then**: Hệ thống lấy và lưu đầy đủ các trường `views`, `reach`, `accounts_engaged`, `total_interactions`, `likes`, `comments`, `shares`, `saves` và `follows_and_unfollows`.
+
+- **AC-019 — Thu thập dữ liệu từng Instagram Post**:
+  - **Given**: Hệ thống đã đăng ít nhất một Post lên Instagram và đã lưu mã định danh của Post trên nền tảng.
+  - **When**: Hệ thống thu thập dữ liệu báo cáo theo từng Post.
+  - **Then**: Hệ thống chỉ lấy dữ liệu của những Post do hệ thống đăng.
+  - **And**: Mỗi Post được lấy các trường `views`, `reach`, `likes`, `comments`, `shares`, `saved` và `total_interactions`.
+
+- **AC-020 — Thu thập dữ liệu Facebook Page**:
+  - **Given**: Kết nối Facebook còn hiệu lực và đến thời điểm thu thập báo cáo.
+  - **When**: Hệ thống thu thập dữ liệu ở cấp Page.
+  - **Then**: Hệ thống lấy và lưu đầy đủ các trường `followers_count`, `page_media_view`, `page_total_media_view_unique`, `page_post_engagements` và `page_views_total`.
+
+- **AC-021 — Thu thập dữ liệu từng Facebook Post**:
+  - **Given**: Hệ thống đã đăng ít nhất một Post lên Facebook và đã lưu mã định danh của Post trên nền tảng.
+  - **When**: Hệ thống thu thập dữ liệu báo cáo theo từng Post.
+  - **Then**: Hệ thống chỉ lấy dữ liệu của những Post do hệ thống đăng.
+  - **And**: Mỗi Post được lấy các trường `post_media_view`, `post_total_media_view_unique`, `post_reactions_by_type_total`, `comments`, `shares` và `post_clicks`.
+
+- **AC-022 — Thu thập và tính biến động follower của Zalo OA**:
+  - **Given**: Kết nối Zalo OA còn hiệu lực và đến thời điểm thu thập báo cáo.
+  - **When**: Hệ thống thu thập dữ liệu ở cấp Account.
+  - **Then**: Hệ thống lấy và lưu trường `num_follower`.
+  - **And**: Hệ thống tính mức tăng hoặc giảm follower bằng chênh lệch `num_follower` giữa lần thu thập thành công hiện tại và lần thu thập thành công liền trước.
+
+- **AC-023 — Thu thập dữ liệu từng Zalo Article**:
+  - **Given**: Hệ thống đã đăng ít nhất một Article lên Zalo OA và đã lưu mã định danh của Article trên nền tảng.
+  - **When**: Hệ thống thu thập dữ liệu báo cáo theo từng Article.
+  - **Then**: Hệ thống chỉ lấy dữ liệu của những Article do hệ thống đăng.
+  - **And**: Mỗi Article được lấy các trường `id`, `type`, `title`, `author`, `cover`, `description`, `status`, `body`, `related_medias` và `comment`.
 
 ---
 
 ## References
+
+### TDDs
+- [TDD-025: Thu thập và quản lý báo cáo từ các nền tảng](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/TDD/TDD-025-CollectAndManagePlatformReports.md)
 
 ### Business Rules
 - [BR-072: Loại lịch thu thập báo cáo và dữ liệu bắt buộc](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/BusinessRules/BR-072.md) ([Link gốc](https://document-first.vnzdna.com/projects/11303185-e537-4531-bf3f-a90af664ff77/documents/869a0fdc-0466-49ed-974b-4b32e56637a8))
@@ -205,16 +278,21 @@
 ---
 
 ## Non-Functional
-- **Tính trọn vẹn dữ liệu**: Hệ thống chỉ ghi nhận một nền tảng đã thu thập thành công sau khi nhận được đầy đủ 100% dữ liệu mà API cung cấp.
-- **Tính cô lập lỗi**: Sự cố của một nền tảng tuyệt đối không được làm ảnh hưởng hoặc làm mất dữ liệu của nền tảng khác.
-- **Không lưu dữ liệu rác**: Tuyệt đối không lưu bản ghi báo cáo hoặc tạo tệp tải xuống bị lỗi hoặc chưa hoàn chỉnh.
-- **Audit Logging**: Hệ thống phải tự động ghi nhật ký thời điểm bắt đầu, thời điểm kết thúc, trạng thái xử lý và nguyên nhân lỗi chi tiết của mỗi phiên thu thập, tạo báo cáo và tải tệp.
-- **Tính chính xác của tệp XLSX**: Tệp XLSX tải về phải phản ánh chính xác số liệu báo cáo đã lưu của đúng phiên được chọn.
+
+- Hệ thống chỉ ghi nhận một nền tảng đã thu thập thành công sau khi nhận đầy đủ thông tin mà nền tảng cung cấp.
+- Lỗi của một nền tảng không được làm mất dữ liệu hoặc báo cáo đã tạo thành công từ nền tảng khác.
+- Hệ thống không được lưu báo cáo hoặc tệp báo cáo chưa hoàn chỉnh.
+- Hệ thống phải ghi nhận thời điểm bắt đầu, thời điểm kết thúc, trạng thái và nguyên nhân lỗi của mỗi lần thu thập, tạo báo cáo và tải báo cáo.
+- Tệp tải về phải có nội dung đúng với báo cáo mà Quản trị viên đã chọn.
+- Dữ liệu báo cáo theo từng Post/Article chỉ được thu thập từ những bài do hệ thống đăng và đã lưu mã định danh của bài trên nền tảng.
+- Mức tăng hoặc giảm follower của Zalo OA được tính từ chênh lệch `num_follower` giữa lần thu thập thành công hiện tại và lần thu thập thành công liền trước.
 
 ---
 
 ## Out of Scope
-- Không tạo hoặc thay đổi thông tin xác thực kết nối của nền tảng.
+
+- Không tạo hoặc thay đổi thông tin kết nối của nền tảng.
+- Không tạo hoặc thay đổi ngày và giờ thu thập của nền tảng.
 - Không chỉnh sửa trực tiếp dữ liệu hoặc nội dung của báo cáo đã lưu.
-- Không hiển thị báo cáo hoặc biểu đồ số liệu trên trang tổng quan (Dashboard).
-- Không tạo báo cáo tổng hợp định kỳ kết hợp từ nhiều nền tảng (thuộc phạm vi STORY-026).
+- Không hiển thị báo cáo hoặc số liệu báo cáo trên trang tổng quan, còn gọi là Dashboard.
+- Không tạo báo cáo tổng hợp định kỳ từ dữ liệu của nhiều nền tảng; nội dung này thuộc STORY-026.

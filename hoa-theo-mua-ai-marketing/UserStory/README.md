@@ -84,7 +84,12 @@ flowchart LR
 | **STORY-023** | Sửa metadata ảnh (tên, mô tả, thẻ tags) | Image DAM | [`23-UpdateSavedImageInfo.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/23-UpdateSavedImageInfo.md) | S1 | **Must** |
 | **STORY-024** | Tự động viết lại nội dung theo từng nền tảng | AI Copywriting | [`24-RewriteContentByPlatform.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/24-RewriteContentByPlatform.md) | S1 | **Must** |
 | **STORY-025** | Thu thập & quản lý báo cáo từ các nền tảng | Analytics | [`25-CollectAndManagePlatformReports.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/25-CollectAndManagePlatformReports.md) | S1 | **Must** |
-| **STORY-027** | Xóa báo cáo đã lưu không còn cần thiết | Analytics | [`27-DeleteSavedReport.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/27-DeleteSavedReport.md) | S1 | **Must** |
+| **STORY-026** | Nhập nội dung và hình ảnh cho bài đăng | Multi-Platform Post | [`26-InputPostContentAndImages.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/26-InputPostContentAndImages.md) | S1 | **Must** |
+| **STORY-027** | Xóa báo cáo đã lưu không còn cần thiết | Analytics | [`27-DeleteSavedReport.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/27-DeleteSavedReport.md) | S3 | **Must** |
+| **STORY-028** | Tạo nội dung và hình ảnh đa nền tảng bằng AI | AI Generation | [`28-AutoGenerateMultiPlatformContentAndImages.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/28-AutoGenerateMultiPlatformContentAndImages.md) | S1 | **Must** |
+| **STORY-030** | Phát hành và quản lý lịch đăng bài | Auto Publishing | [`30-PublishAndManagePostSchedules.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/30-PublishAndManagePostSchedules.md) | S1 | **Must** |
+| **STORY-031** | Cấu hình nội dung và hình ảnh theo từng nền tảng | Post Configuration | [`31-ConfigurePlatformContentAndImages.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/31-ConfigurePlatformContentAndImages.md) | S1 | **Must** |
+| **STORY-032** | Quản lý kết nối nền tảng để thu thập báo cáo | Analytics | [`32-ManagePlatformConnectionsForReporting.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/32-ManagePlatformConnectionsForReporting.md) | S3 | **Must** |
 
 ---
 
