@@ -60,6 +60,7 @@ flowchart LR
 ```text
 swp391-cross-border-racehorse-transport-system/
 ├── README.md                              # Cổng thông tin & Cẩm nang tra cứu tổng thể dự án (File hiện tại)
+├── COMMIT_CONVENTION.md                   # Quy ước commit, chuẩn hóa i18n & nhật ký triển khai
 ├── BusinessRules/                         # Quy tắc nghiệp vụ (Kiểm dịch, Hải quan, Giới hạn thời gian di chuyển)
 ├── ConfirmedDoc/                          # Hợp đồng API & Tài liệu kỹ thuật đã phê duyệt
 ├── Context/                               # Ngữ cảnh kiến trúc, mô hình CSDL (ERD) & Từ điển dữ liệu

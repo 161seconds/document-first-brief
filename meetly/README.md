@@ -35,6 +35,7 @@
 ```text
 meetly/
 ├── README.md                              # Cổng thông tin & Cẩm nang tra cứu tổng thể dự án Meetly
+├── COMMIT_CONVENTION.md                   # Quy ước commit, chuẩn hóa i18n & nhật ký triển khai
 ├── BusinessRules/                         # 16 Quy tắc nghiệp vụ chuẩn hóa (BR-01 -> BR-16)
 │   ├── BR-01.md -> BR-04.md               # Phân loại sự kiện, ngày tương lai, số ngày tối thiểu, tính bất biến ID
 │   ├── BR-05.md, BR-06.md, BR-08.md       # Quyền quản trị duy nhất, độc nhất username, phạm vi tài khoản cục bộ

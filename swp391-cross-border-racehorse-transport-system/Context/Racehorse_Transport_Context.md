@@ -198,6 +198,8 @@ flowchart TD
 
 ## 🗄️ 4. Mô Hình Dữ Liệu Khái Niệm Dự Kiến (Data Architecture Entities)
 
+> **Tài liệu Đánh giá & Chuẩn hóa Chi tiết ERD**: Xem chi tiết phân tích lỗi quan hệ logic, các lỗ hổng cần vá và sơ đồ Mermaid ERD chuẩn hóa 7 phân hệ tại [ERD_Review_And_Fixes.md](file:///d:/VNZ/document-first-brief/swp391-cross-border-racehorse-transport-system/Context/ERD_Review_And_Fixes.md).
+
 ```mermaid
 erDiagram
     USERS ||--o{ TRANSPORT_BOOKINGS : "creates / manages"
