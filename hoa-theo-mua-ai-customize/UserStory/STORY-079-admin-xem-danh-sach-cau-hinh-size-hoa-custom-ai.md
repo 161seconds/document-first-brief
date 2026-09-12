@@ -1,24 +1,24 @@
-# STORY-079: Admin xem danh sách cấu hình Size cho Hoa Custom AI
+# STORY-079 — Admin xem danh sách cấu hình Size cho Hoa Custom AI
 
 ## Metadata
 
-- **Story**: Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn xem danh sách cấu hình Size cho Hoa Custom AI, để quản lý các Size và số lượng Combo được phép dùng trong luồng tạo mẫu hoa.
-- **Context**: Cấu hình Size là dữ liệu do cửa hàng quản lý, gồm tên Size và số lượng Combo tương ứng. Ví dụ Size có thể là S, M, L, XL hoặc các tên Size khác theo nhu cầu cửa hàng.
-- **Sprint**: S1
-- **Priority**: Must
-- **Phiên bản**: v0.1
-- **Phê duyệt tài liệu**: Nháp
-- **Cập nhật**: 12/09/2026
-- **Author**: Hoàng Thị Khánh Linh
-- **Reviewer**: Nguyễn Đức Bình
-- **Approver**: Nguyễn Đức Bình
-- **Owner**: Hoàng Thị Khánh Linh
-- **Status**: Cần làm
-- **Assignee**:
-  - FE: Hoàng Thị Khánh Linh
-- **Creator**: Hoàng Thị Khánh Linh
-- **Thống kê tài liệu**: Unit Tests: 0 | System Tests: 0
+| Trường | Nội dung |
+|---|---|
+| **Loại** | Story |
+| **User Story** | Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn xem danh sách cấu hình Size cho Hoa Custom AI, để quản lý các Size và số lượng Combo được phép dùng trong luồng tạo mẫu hoa. |
+| **Sprint** | S1 |
+| **Priority** | Must |
+| **Assignee (FE)** | Hoàng Thị Khánh Linh |
+| **Creator** | Hoàng Thị Khánh Linh |
+| **Status** | Cần làm |
+| **Phiên bản** | v0.1 |
+| **Phê duyệt** | Nháp |
 
+---
+
+## Context
+
+Cấu hình Size là dữ liệu do cửa hàng quản lý, gồm tên Size và số lượng Combo tương ứng. Ví dụ Size có thể là S, M, L, XL hoặc các tên Size khác theo nhu cầu cửa hàng.
 ---
 
 ## Conditions
@@ -30,7 +30,8 @@
 
 ### Trigger
 
-- Admin mở màn hình quản lý cấu hình Size Hoa Custom AI.
+> - Admin mở màn hình quản lý cấu hình Size Hoa Custom AI.
+
 
 ---
 
@@ -47,7 +48,7 @@
 7. Admin có thể lọc danh sách theo trạng thái Tất cả, Active hoặc Inactive.
 8. Admin có thể chọn thao tác thêm mới, cập nhật, xóa hoặc đổi trạng thái.
 
-### Alternative Flow
+### Alternative Flows
 
 #### ALT-01 — Không có cấu hình Size
 - Hệ thống hiển thị empty state.
@@ -58,7 +59,7 @@
 - Hệ thống không tìm thấy bản ghi phù hợp.
 - Hệ thống hiển thị empty state theo bộ lọc hiện tại.
 
-### Exception Flow
+### Exception Flows
 
 #### EXC-01 — Không có quyền truy cập
 - Backend từ chối request.

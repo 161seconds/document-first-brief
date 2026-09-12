@@ -40,7 +40,7 @@
 
 **Trace to:**
 - [STORY-038/AC-001](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4) · [STORY-038/AC-002](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4)
-- [STORY-038/BR-081](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4) · [STORY-038/BR-082](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4)
+- [BR-081](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4) · [BR-082](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4)
 
 **Rationale:**
 > Xác minh trải nghiệm khách hàng: khách hàng mở được Checkout tạm từ một mẫu hoa hợp lệ và Checkout tham chiếu đúng một mẫu hoa nguồn.
@@ -119,7 +119,7 @@
 - Hệ thống cho phép tiếp tục dù không có thiệp. Checkout không chứa thiệp. Bill không có giá thiệp. Việc không chọn thiệp không tạo lỗi validation.
 
 **Trace to:**
-- [STORY-038/AC-004](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4) · [STORY-038/BR-085](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4)
+- [STORY-038/AC-004](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4) · [BR-085](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4)
 
 **Rationale:**
 > Xác minh trải nghiệm khách hàng: thiệp là tùy chọn và không có thiệp không làm chặn Checkout hợp lệ.
@@ -199,7 +199,7 @@
 
 **Trace to:**
 - [STORY-038/AC-005](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4) · [STORY-038/AC-006](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4) · [STORY-038/AC-009](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4)
-- [STORY-038/BR-084](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4)
+- [BR-084](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4)
 
 **Rationale:**
 > Xác minh trải nghiệm khách hàng: Core hết hàng phải chặn đặt, còn Support hết hàng vẫn cho phép tiếp tục.
@@ -267,7 +267,7 @@
 
 **Trace to:**
 - [STORY-038/AC-007](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4) · [STORY-038/AC-010](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4)
-- [STORY-038/BR-086](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4)
+- [BR-086](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4)
 
 **Rationale:**
 > Xác minh trải nghiệm khách hàng: Checkout chỉ bị hủy khi khách hàng thực sự rời phiên thao tác, còn refresh không làm mất Checkout.
@@ -298,13 +298,17 @@
 3. Chọn **"Đặt hàng ngay"**.
 4. Quan sát Checkout mới và lịch sử cũ.
 
+**Test Data:**
+- Mẫu AI-mẫu hoa A đã từng tạo đơn hàng.
+- Combo nguồn còn khả dụng.
+
 **Expected Result:**
 - Checkout mới được khởi tạo.
 - Đơn hàng cũ không bị thay đổi.
 - Các liên kết lịch sử cũ vẫn được giữ.
 
 **Trace to:**
-- [STORY-038/AC-008](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4) · [STORY-038/BR-083](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4)
+- [STORY-038/AC-008](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4) · [BR-083](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4)
 
 **Rationale:**
 > Xác minh trải nghiệm khách hàng: mẫu Custom AI đã từng tạo đơn hàng vẫn có thể được dùng để mở Checkout mới nếu Combo nguồn vẫn hợp lệ.
@@ -331,6 +335,9 @@
 1. Mở mẫu Custom AI.
 2. Chọn **"Đặt hàng ngay"**.
 3. Quan sát phản hồi.
+
+**Test Data:**
+- Mẫu Custom AI có Combo nguồn không còn khả dụng.
 
 **Expected Result:**
 - Khách hàng không được đưa vào màn hình Checkout.
@@ -368,6 +375,9 @@
 1. Dùng khách hàng A thực hiện thao tác mở hoặc truy cập Checkout của khách hàng B.
 2. Quan sát phản hồi.
 3. Thử hoàn tất Checkout không thuộc mình.
+
+**Test Data:**
+- Khách hàng A, Khách hàng B, Checkout/Mẫu hoa thuộc Khách hàng B.
 
 **Expected Result:**
 - Khách hàng thấy thao tác bị từ chối.

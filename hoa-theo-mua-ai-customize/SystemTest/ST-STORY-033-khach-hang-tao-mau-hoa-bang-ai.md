@@ -443,7 +443,7 @@
 - Số lượt sử dụng còn lại không bị giảm cho thao tác bị từ chối.
 
 **Trace to:**
-- [STORY-033/BR-155](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/e1cdce1d-5295-4945-930a-95f9e8bee6b9)
+- [BR-155](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/e1cdce1d-5295-4945-930a-95f9e8bee6b9)
 
 **Rationale:**
 > Xác minh trải nghiệm khách hàng: Hệ thống kiểm tra tồn kho hiện tại của Combo nguồn trước khi gửi thao tác sang AI và chặn tạo ảnh nếu Combo đã hết hàng.
@@ -483,7 +483,7 @@
 - Không cộng gộp hai lượt sử dụng thành một hạn mức chung.
 
 **Trace to:**
-- [STORY-033/BR-032](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/e1cdce1d-5295-4945-930a-95f9e8bee6b9)
+- [BR-032](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/e1cdce1d-5295-4945-930a-95f9e8bee6b9)
 
 **Rationale:**
 > Xác minh trải nghiệm khách hàng: việc sử dụng lượt sử dụng tạo mẫu hoa AI chỉ ảnh hưởng đến lượt sử dụng Hoa AI và không làm thay đổi lượt sử dụng Thiệp AI.

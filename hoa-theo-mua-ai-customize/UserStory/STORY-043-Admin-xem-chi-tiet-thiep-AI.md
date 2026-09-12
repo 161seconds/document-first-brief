@@ -1,24 +1,24 @@
-# STORY-043: Admin xem chi tiết thiệp AI
+# STORY-043 — Admin xem chi tiết thiệp AI
 
 ## Metadata
 
-- **Story**: Là một Admin có quyền quản lý AI Custom, tôi muốn xem thông tin chi tiết của một thiệp AI được khách hàng tạo, để kiểm tra ảnh kết quả, dữ liệu tạo thiệp, khách hàng sở hữu và các Order có liên quan.
-- **Context**: Chức năng được mở từ STORY-044 khi Admin chọn mã thiệp hoặc "Xem chi tiết", hoặc truy cập trực tiếp Chi tiết thiệp bằng mã thiệp hợp lệ.
-- **Sprint**: S1
-- **Priority**: Must
-- **Phiên bản**: v0.1
-- **Phê duyệt tài liệu**: Nháp
-- **Cập nhật**: 11/09/2026
-- **Author**: Hoàng Thị Khánh Linh
-- **Reviewer**: Nguyễn Đức Bình
-- **Approver**: Hoàng Thị Khánh Linh
-- **Owner**: Hoàng Thị Khánh Linh
-- **Status**: Cần làm
-- **Assignee**:
-  - FE: Võ Gia Huy
-- **Creator**: Hoàng Thị Khánh Linh
-- **Thống kê tài liệu**: TDDs: 1 | Rules: 4 | Unit Tests: 4 | System Tests: 7
+| Trường | Nội dung |
+|---|---|
+| **Loại** | Story |
+| **User Story** | Là một Admin có quyền quản lý AI Custom, tôi muốn xem thông tin chi tiết của một thiệp AI được khách hàng tạo, để kiểm tra ảnh kết quả, dữ liệu tạo thiệp, khách hàng sở hữu và các Order có liên quan. |
+| **Sprint** | S1 |
+| **Priority** | Must |
+| **Assignee (FE)** | Võ Gia Huy |
+| **Creator** | Hoàng Thị Khánh Linh |
+| **Status** | Cần làm |
+| **Phiên bản** | v0.1 |
+| **Phê duyệt** | Nháp |
 
+---
+
+## Context
+
+Chức năng được mở từ STORY-044 khi Admin chọn mã thiệp hoặc "Xem chi tiết", hoặc truy cập trực tiếp Chi tiết thiệp bằng mã thiệp hợp lệ.
 ---
 
 ## Conditions
@@ -30,7 +30,8 @@
 
 ### Trigger
 
-- Admin chọn mã thiệp hoặc "Xem chi tiết" từ STORY-044. Hoặc Admin mở trực tiếp Chi tiết thiệp bằng mã thiệp hợp lệ.
+> - Admin chọn mã thiệp hoặc "Xem chi tiết" từ STORY-044. Hoặc Admin mở trực tiếp Chi tiết thiệp bằng mã thiệp hợp lệ.
+
 
 ---
 
@@ -51,7 +52,7 @@
 11. Nếu có Order liên kết, Admin có thể chọn mã Order để mở Chi tiết Order.
 12. Nếu file ảnh còn khả dụng, hệ thống hiển thị thao tác "Tải ảnh thiệp xuống".
 
-### Alternative Flow
+### Alternative Flows
 
 #### ALT-01 — Thiệp liên kết nhiều Order
 - Trang Chi tiết thiệp hiển thị toàn bộ Order liên kết.
@@ -63,7 +64,7 @@
 - Hệ thống hiển thị ảnh theo đúng tỷ lệ.
 - Admin đóng Image Lightbox để quay lại vị trí trước đó.
 
-### Exception Flow
+### Exception Flows
 
 #### EXC-01 — Không tải được dữ liệu chi tiết
 - Hệ thống hiển thị error state.
@@ -140,14 +141,27 @@
 
 ---
 
+## Business Rules
+
+| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| [BR-121](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/f6e87379-c166-460c-ab30-43cac75150a8) | Dữ liệu chi tiết | AI Custom - Thiệp | Nội dung thiệp/Lời chúc, ảnh đính kèm, trạng thái file và danh sách Order liên kết chỉ hiển thị đầy đủ tại Chi tiết thiệp. | Admin mở Chi tiết thiệp. | Hệ thống hiển thị đầy đủ Nội dung thiệp/Lời chúc, ảnh đính kèm nếu có, trạng thái file và danh sách Order liên kết. Hệ thống không hiển thị Người gửi hoặc Người nhận trong Chi tiết thiệp AI. | Các thông tin này không hiển thị đầy đủ tại danh sách. | STORY-043 | Hoàng Thị Khánh Linh | STORY-043 | Draft | v0 | 2026-09-11 | Rule này cập nhật dữ liệu chi tiết theo luồng thiệp AI mới đã bỏ Người gửi và Người nhận. |
+| [BR-122](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/d387e4a2-b452-469c-b3b4-61db7d654416) | Giá và bill | AI Custom - Thiệp | Danh sách và Chi tiết thiệp không hiển thị giá. Giá và bill snapshot thuộc từng Order và được xem tại Chi tiết Order. | Admin xem danh sách hoặc Chi tiết thiệp. | Hệ thống không hiển thị giá hoặc bill snapshot của thiệp. | Giá và bill snapshot được xem tại Chi tiết Order tương ứng. | STORY-043 | Hoàng Thị Khánh Linh | STORY-043 | Draft | v0 | 2026-08-15 | — |
+| [BR-123](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/058623b9-bafc-420d-b0fe-5b7f8776a1f8) | File không khả dụng | AI Custom - Thiệp | Mất hoặc hỏng file không xóa History record, không đổi lần generate trước thành thất bại và không kích hoạt AI. | File ảnh thiệp không còn khả dụng. | Hệ thống giữ History record và không đổi lần generate trước thành thất bại. | Không kích hoạt AI để tạo lại ảnh. | STORY-043 | Hoàng Thị Khánh Linh | STORY-043 | Draft | v0 | 2026-08-15 | — |
+| [BR-125](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/1dade9bd-16ac-4c40-86be-56420f2ae609) | Quyền truy cập | AI Custom - Thiệp | Backend chỉ cung cấp danh sách, chi tiết, ảnh và dữ liệu khách hàng cho Admin có quyền quản lý AI Custom. | Backend nhận request danh sách, chi tiết, ảnh hoặc dữ liệu khách hàng. | Backend kiểm tra quyền quản lý AI Custom trước khi cung cấp dữ liệu. | Không cung cấp dữ liệu cho người dùng không có quyền quản lý AI Custom. | STORY-043 | Hoàng Thị Khánh Linh | STORY-043 | Draft | v0 | 2026-08-15 | — |
+
+---
+
 ## References
 
-### Rules
+### Business Rules
 
-- [BR-121](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/f6e87379-c166-460c-ab30-43cac75150a8)
-- [BR-122](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/d387e4a2-b452-469c-b3b4-61db7d654416)
-- [BR-123](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/058623b9-bafc-420d-b0fe-5b7f8776a1f8)
-- [BR-125](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/1dade9bd-16ac-4c40-86be-56420f2ae609)
+| Rule ID | Link |
+|---|---|
+| BR-121 | [BR-121](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/f6e87379-c166-460c-ab30-43cac75150a8) |
+| BR-122 | [BR-122](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/d387e4a2-b452-469c-b3b4-61db7d654416) |
+| BR-123 | [BR-123](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/058623b9-bafc-420d-b0fe-5b7f8776a1f8) |
+| BR-125 | [BR-125](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/1dade9bd-16ac-4c40-86be-56420f2ae609) |
 
 ### Dependencies
 
@@ -173,12 +187,3 @@
 - Tải xuống thiệp ngoài phạm vi STORY-046.
 
 ---
-
-## Chi tiết Business Rules
-
-| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| [BR-121](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/f6e87379-c166-460c-ab30-43cac75150a8) | Dữ liệu chi tiết | AI Custom - Thiệp | Nội dung thiệp/Lời chúc, ảnh đính kèm, trạng thái file và danh sách Order liên kết chỉ hiển thị đầy đủ tại Chi tiết thiệp. | Admin mở Chi tiết thiệp. | Hệ thống hiển thị đầy đủ Nội dung thiệp/Lời chúc, ảnh đính kèm nếu có, trạng thái file và danh sách Order liên kết. Hệ thống không hiển thị Người gửi hoặc Người nhận trong Chi tiết thiệp AI. | Các thông tin này không hiển thị đầy đủ tại danh sách. | STORY-043 | Hoàng Thị Khánh Linh | STORY-043 | Draft | v0 | 2026-09-11 | Rule này cập nhật dữ liệu chi tiết theo luồng thiệp AI mới đã bỏ Người gửi và Người nhận. |
-| [BR-122](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/d387e4a2-b452-469c-b3b4-61db7d654416) | Giá và bill | AI Custom - Thiệp | Danh sách và Chi tiết thiệp không hiển thị giá. Giá và bill snapshot thuộc từng Order và được xem tại Chi tiết Order. | Admin xem danh sách hoặc Chi tiết thiệp. | Hệ thống không hiển thị giá hoặc bill snapshot của thiệp. | Giá và bill snapshot được xem tại Chi tiết Order tương ứng. | STORY-043 | Hoàng Thị Khánh Linh | STORY-043 | Draft | v0 | 2026-08-15 | — |
-| [BR-123](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/058623b9-bafc-420d-b0fe-5b7f8776a1f8) | File không khả dụng | AI Custom - Thiệp | Mất hoặc hỏng file không xóa History record, không đổi lần generate trước thành thất bại và không kích hoạt AI. | File ảnh thiệp không còn khả dụng. | Hệ thống giữ History record và không đổi lần generate trước thành thất bại. | Không kích hoạt AI để tạo lại ảnh. | STORY-043 | Hoàng Thị Khánh Linh | STORY-043 | Draft | v0 | 2026-08-15 | — |
-| [BR-125](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/1dade9bd-16ac-4c40-86be-56420f2ae609) | Quyền truy cập | AI Custom - Thiệp | Backend chỉ cung cấp danh sách, chi tiết, ảnh và dữ liệu khách hàng cho Admin có quyền quản lý AI Custom. | Backend nhận request danh sách, chi tiết, ảnh hoặc dữ liệu khách hàng. | Backend kiểm tra quyền quản lý AI Custom trước khi cung cấp dữ liệu. | Không cung cấp dữ liệu cho người dùng không có quyền quản lý AI Custom. | STORY-043 | Hoàng Thị Khánh Linh | STORY-043 | Draft | v0 | 2026-08-15 | — |

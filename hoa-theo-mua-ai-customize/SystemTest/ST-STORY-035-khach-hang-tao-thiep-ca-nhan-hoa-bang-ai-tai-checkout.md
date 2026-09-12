@@ -36,7 +36,7 @@
 - Danh sách Template và Size khả dụng được hiển thị đầy đủ. Hệ thống chấp nhận các thông tin Người gửi, Người nhận, Lời chúc, TEMPLATE-A, SIZE-A và hình thức Gõ máy hợp lệ. Khi khách hàng chọn “Tạo thiệp”, hệ thống khởi tạo một quá trình tạo ảnh AI. Quá trình tạo ảnh AI hoàn tất thành công và trả về đúng một ảnh thiệp PNG. Một mục lịch sử mới được tạo cho lần tạo ảnh thành công. Lượt sử dụng thiệp AI trong ngày tăng từ 0/10 lên 1/10. Lượt tạo ảnh thiệp của mẫu hoa tăng từ 0/3 lên 1/3. Kết quả thiệp được hiển thị cho khách hàng sau khi AI xử lý thành công. Thiệp vừa tạo chưa tự động trở thành thiệp hiện tại của Checkout trước khi khách hàng chọn “Xác nhận”.
 
 **Trace to:**
-- [STORY-035/AC-001](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/BR-048](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/BR-049](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/BR-050](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
+- [STORY-035/AC-001](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [BR-048](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [BR-049](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [BR-050](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
 
 **Rationale:**
 > Xác minh trải nghiệm khách hàng: khách hàng có thể tạo thành công một thiệp AI từ Checkout hợp lệ; hệ thống tạo quá trình tạo ảnh AI, ghi nhận đúng lượt sử dụng, lưu đúng một ảnh PNG và một mục lịch sử nhưng chưa tự động chọn kết quả làm thiệp hiện tại của Checkout.
@@ -73,7 +73,7 @@
 - Người gửi tối đa 20 từ. Người nhận tối đa 20 từ. Lời chúc tối đa 100 từ. Giá trị đúng boundary được chấp nhận. Giá trị vượt boundary bị từ chối. Nhiều khoảng trắng, tab hoặc newline liên tiếp chỉ được tính là dấu phân tách. Khoảng trắng đầu/cuối không được tính. Chuỗi chỉ chứa khoảng trắng được tính là 0 từ. thao tác không hợp lệ không thấy quá trình tạo ảnh AI bắt đầu. Không có ảnh AI mới được tạo. Không tạo mục lịch sử. Số lượt sử dụng còn lại không bị giảm. Hệ thống hiển thị lỗi tại trường tương ứng
 
 **Trace to:**
-- [STORY-035/AC-004](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/EXC-02](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/BR-051](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
+- [STORY-035/AC-004](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/EXC-02](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [BR-051](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
 
 **Rationale:**
 > Xác minh trải nghiệm khách hàng: Hệ thống kiểm tra lại các trường bắt buộc và giới hạn số từ theo đúng quy tắc của Story trước khi tạo quá trình tạo ảnh AI.
@@ -116,7 +116,7 @@
 - Ảnh hợp lệ được chấp nhận. AI giữ nguyên nội dung gốc của ảnh. Không cắt mất chủ thể, xoay, đổi màu, thêm/xóa hoặc làm biến dạng ảnh. Chỉ được phép scale đồng dạng hoặc thêm khoảng đệm để phù hợp Template. Không có ảnh đính kèm vẫn tạo thiệp bình thường. File sai định dạng hoặc >10 MB bị từ chối. Hệ thống hiển thị lý do file không hợp lệ. Khách hàng có thể chọn file khác hoặc tiếp tục không có ảnh. File bị từ chối không làm phát sinh quá trình tạo ảnh AI hoặc lượt sử dụng.
 
 **Trace to:**
-- [STORY-035/AC-005](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/AC-006](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/AC-012](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/BR-052](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/BR-057](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/EXC-03](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
+- [STORY-035/AC-005](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/AC-006](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/AC-012](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [BR-052](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [BR-057](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/EXC-03](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
 
 **Rationale:**
 > Xác minh trải nghiệm khách hàng: ảnh đính kèm là tùy chọn, file hợp lệ được sử dụng mà không làm thay đổi nội dung gốc, file không hợp lệ bị từ chối và khách hàng vẫn có thể tạo thiệp khi không có ảnh.
@@ -151,7 +151,7 @@
 - - Gõ máy Ảnh output hiển thị nguyên văn Người gửi. Hiển thị nguyên văn Người nhận. Hiển thị nguyên văn Lời chúc. AI không tự sửa, dịch, rút gọn hoặc thay đổi các nội dung này. - Calligraphy Ảnh output không hiển thị Người gửi. Không hiển thị Người nhận. Không hiển thị Lời chúc. Các nội dung này vẫn được lưu trong mục lịch sử.
 
 **Trace to:**
-- [STORY-035/AC-003](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/AC-013](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/BR-154](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
+- [STORY-035/AC-003](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/AC-013](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [BR-154](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
 
 **Rationale:**
 > Xác minh trải nghiệm khách hàng: nội dung Người gửi, Người nhận và Lời chúc được xử lý khác nhau đúng theo hình thức thiệp được chọn.
@@ -188,7 +188,7 @@
 - Khi chọn Gõ máy, giá tạm tính hiển thị theo giá của Size đã chọn. Với Calligraphy 0-35 từ, giá tạm tính không cộng thêm phụ phí. Với Calligraphy 36-70 từ, giá tạm tính cộng thêm 39.000đ. Với Calligraphy 71-100 từ, giá tạm tính cộng thêm 69.000đ. Giá tạm tính thay đổi ngay khi khách hàng đổi Size, hình thức hoặc số từ. Nếu giá của Size chưa khả dụng, khách hàng thấy thông báo phù hợp và không thể tiếp tục tạo thiệp cho đến khi chọn dữ liệu hợp lệ.
 
 **Trace to:**
-- [STORY-035/BR-054](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
+- [BR-054](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
 
 **Rationale:**
 > Xác minh khách hàng luôn nhìn thấy giá tạm tính đúng với Size, hình thức thiệp và số từ đã chọn trước khi tiếp tục.
@@ -225,7 +225,7 @@
 - thiệp thiệp B trở thành thiệp hiện tại của Checkout. thiệp thiệp A bị gỡ khỏi Checkout. thiệp thiệp A vẫn tồn tại trong lịch sử. thiệp thiệp B vẫn giữ mục lịch sử của lần tạo ảnh. Checkout chỉ có tối đa một thiệp được chọn. Khi khách hàng chọn “Xác nhận”, hệ thống không tạo ảnh AI mới. Không tạo mục lịch sử mới. Không ghi nhận thêm lượt tạo ảnh. Đơn hàng Summary hiển thị thiệp được xác nhận và giá tạm tính tương ứng.
 
 **Trace to:**
-- [STORY-035/AC-014](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/BR-053](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
+- [STORY-035/AC-014](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [BR-053](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
 
 **Rationale:**
 > Xác minh trải nghiệm khách hàng: kết quả AI chỉ trở thành thiệp hiện tại sau khi khách hàng Xác nhận và việc thay thế thiệp không làm mất lịch sử cũ hoặc phát sinh tạo ảnh mới.
@@ -297,7 +297,7 @@
 - Ở tình huống A, khách hàng không thấy quá trình tạo ảnh AI bắt đầu. Không có ảnh AI mới được tạo. Không xuất hiện mục mới trong lịch sử. Số lượt sử dụng hiển thị không tăng thêm. Hệ thống thông báo hết lượt sử dụng thiệp trong ngày. Ở tình huống B, khách hàng cũng không thấy quá trình tạo ảnh AI bắt đầu. Số lượt sử dụng còn lại không bị giảm. Hệ thống thông báo đã sử dụng hết số lượt tạo thiệp cho mẫu hoa này.
 
 **Trace to:**
-- [STORY-035/EXXC-01](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/EXC-09](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/BR-048](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
+- [STORY-035/EXXC-01](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/EXC-09](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [BR-048](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
 
 **Rationale:**
 > Xác minh trải nghiệm khách hàng: đồng thời hai giới hạn tạo ảnh: tối đa 10 lượt thiệp AI/ngày/khách hàng và tối đa 3 lượt cho một mẫu hoa nguồn.
@@ -371,7 +371,7 @@
 - Hệ thống tự thử lại trong lúc khách hàng chờ kết quả. Không xuất hiện mục mới trong lịch sử nếu không có ảnh hợp lệ. Hoàn đúng 1 lượt sử dụng trong ngày. Hoàn đúng 1 lượt tạo ảnh của mẫu hoa nguồn. Mỗi loại lượt chỉ được hoàn tối đa một lần cho quá trình tạo ảnh AI. Không phát sinh thêm lượt sử dụng do quá trình thử lại. Hệ thống thông báo khách hàng thử lại sau.
 
 **Trace to:**
-- [STORY-035/AC-002](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/EXC-05](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/BR-049](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
+- [STORY-035/AC-002](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/EXC-05](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [BR-049](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
 
 **Rationale:**
 > Xác minh trải nghiệm khách hàng: quá trình xử lý thất bại không tạo lịch sử và hệ thống hoàn đúng các lượt đã ghi nhận sau khi toàn bộ thử lại kết thúc.
@@ -409,7 +409,7 @@
 - Hệ thống nhận diện thao tác trùng. Tối đa chỉ có 1 lần gọi AI cho thao tác đó. Khách hàng chỉ thấy một ảnh kết quả cho thao tác này. Lịch sử chỉ hiển thị một mục mới cho thao tác này. Chỉ ghi nhận 1 lượt sử dụng trong ngày. Chỉ ghi nhận 1 lượt của mẫu hoa nguồn. Hệ thống trả kết quả tương ứng với thao tác hợp lệ đã được xử lý
 
 **Trace to:**
-- [STORY-035/AC-009](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/EXC-07](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/BR-055](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
+- [STORY-035/AC-009](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [STORY-035/EXC-07](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) · [BR-055](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)
 
 **Rationale:**
 > Xác minh trải nghiệm khách hàng: cơ chế chống thao tác trùng ngăn cùng một thao tác tạo ra nhiều quá trình tạo ảnh AI, ảnh, mục lịch sử hoặc lượt lượt sử dụng.

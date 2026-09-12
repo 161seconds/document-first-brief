@@ -1,24 +1,24 @@
-# STORY-082: Admin xóa cấu hình Size Hoa Custom AI không còn sử dụng
+# STORY-082 — Admin xóa cấu hình Size Hoa Custom AI không còn sử dụng
 
 ## Metadata
 
-- **Story**: Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn xóa cấu hình Size Hoa Custom AI không còn sử dụng, để danh sách cấu hình chỉ giữ các Size còn cần quản lý.
-- **Context**: Admin có thể xóa cấu hình Size từ danh sách quản trị. Trước khi xóa, hệ thống bắt buộc hiển thị hộp thoại xác nhận. Chỉ khi Admin xác nhận, hệ thống mới thực hiện xóa theo cơ chế lưu trữ hiện hành.
-- **Sprint**: S1
-- **Priority**: Must
-- **Phiên bản**: v0.1
-- **Phê duyệt tài liệu**: Nháp
-- **Cập nhật**: 12/09/2026
-- **Author**: Chưa chỉ định
-- **Reviewer**: Nguyễn Đức Bình
-- **Approver**: Hoàng Thị Khánh Linh
-- **Owner**: Hoàng Thị Khánh Linh
-- **Status**: Cần làm
-- **Assignee**:
-  - FE: Võ Gia Huy
-- **Creator**: Hoàng Thị Khánh Linh
-- **Thống kê tài liệu**: Unit Tests: 0 | System Tests: 0
+| Trường | Nội dung |
+|---|---|
+| **Loại** | Story |
+| **User Story** | Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn xóa cấu hình Size Hoa Custom AI không còn sử dụng, để danh sách cấu hình chỉ giữ các Size còn cần quản lý. |
+| **Sprint** | S1 |
+| **Priority** | Must |
+| **Assignee (FE)** | Võ Gia Huy |
+| **Creator** | Hoàng Thị Khánh Linh |
+| **Status** | Cần làm |
+| **Phiên bản** | v0.1 |
+| **Phê duyệt** | Nháp |
 
+---
+
+## Context
+
+Admin có thể xóa cấu hình Size từ danh sách quản trị. Trước khi xóa, hệ thống bắt buộc hiển thị hộp thoại xác nhận. Chỉ khi Admin xác nhận, hệ thống mới thực hiện xóa theo cơ chế lưu trữ hiện hành.
 ---
 
 ## Conditions
@@ -31,7 +31,8 @@
 
 ### Trigger
 
-- Admin chọn thao tác "Xóa" tại một cấu hình Size.
+> - Admin chọn thao tác "Xóa" tại một cấu hình Size.
+
 
 ---
 
@@ -48,7 +49,7 @@
 7. Hệ thống thông báo xóa thành công.
 8. Hệ thống cập nhật lại danh sách cấu hình Size.
 
-### Alternative Flow
+### Alternative Flows
 
 #### ALT-01 — Admin hủy xác nhận xóa
 - Admin chọn hủy hoặc đóng hộp thoại xác nhận.
@@ -56,7 +57,7 @@
 - Hệ thống không xóa cấu hình Size.
 - Danh sách giữ nguyên dữ liệu trước đó.
 
-### Exception Flow
+### Exception Flows
 
 #### EXC-01 — Không tìm thấy bản ghi cần xóa
 - Backend không tìm thấy cấu hình Size.

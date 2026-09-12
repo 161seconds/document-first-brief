@@ -1,24 +1,24 @@
-# STORY-045: Khách hàng xem History thiệp AI đã tạo
+# STORY-045 — Khách hàng xem History thiệp AI đã tạo
 
 ## Metadata
 
-- **Story**: Là một khách hàng đã sử dụng chức năng tạo thiệp AI, tôi muốn xem lại tất cả thiệp có ảnh đã tạo, để xem thông tin chi tiết và truy cập các thao tác còn được phép liên quan đến thiệp đã tạo.
-- **Context**: Chức năng được truy cập từ mục "Thiệp thiết kế" trên sidebar.
-- **Sprint**: S1
-- **Priority**: Must
-- **Phiên bản**: v0.1
-- **Phê duyệt tài liệu**: Nháp
-- **Cập nhật**: 11/09/2026
-- **Author**: Hoàng Thị Khánh Linh
-- **Reviewer**: Nguyễn Đức Bình
-- **Approver**: Hoàng Thị Khánh Linh
-- **Owner**: Hoàng Thị Khánh Linh
-- **Status**: Cần làm
-- **Assignee**:
-  - FE: Danh Nguyen
-- **Creator**: Hoàng Thị Khánh Linh
-- **Thống kê tài liệu**: TDDs: 1 | Rules: 8 | Unit Tests: 4 | System Tests: 9
+| Trường | Nội dung |
+|---|---|
+| **Loại** | Story |
+| **User Story** | Là một khách hàng đã sử dụng chức năng tạo thiệp AI, tôi muốn xem lại tất cả thiệp có ảnh đã tạo, để xem thông tin chi tiết và truy cập các thao tác còn được phép liên quan đến thiệp đã tạo. |
+| **Sprint** | S1 |
+| **Priority** | Must |
+| **Assignee (FE)** | Danh Nguyen |
+| **Creator** | Hoàng Thị Khánh Linh |
+| **Status** | Cần làm |
+| **Phiên bản** | v0.1 |
+| **Phê duyệt** | Nháp |
 
+---
+
+## Context
+
+Chức năng được truy cập từ mục "Thiệp thiết kế" trên sidebar.
 ---
 
 ## Conditions
@@ -29,7 +29,8 @@
 
 ### Trigger
 
-- Khách hàng mở "Thiệp thiết kế".
+> - Khách hàng mở "Thiệp thiết kế".
+
 
 ---
 
@@ -48,7 +49,7 @@
 9. Màn chi tiết hiển thị ảnh, metadata còn khả dụng, các Order liên quan và chức năng tải xuống nếu file ảnh còn khả dụng.
 10. Màn chi tiết không hiển thị chức năng "Tạo lại".
 
-### Alternative Flow
+### Alternative Flows
 
 #### ALT-01 — Thiệp chưa thuộc Order
 - Khách hàng mở danh sách hoặc chi tiết một thiệp History.
@@ -64,7 +65,7 @@
 - Hệ thống không nhân bản History item theo số lượng Order liên kết.
 - Khách hàng có thể chọn mã Order để điều hướng qua trang lịch sử của Order đó.
 
-### Exception Flow
+### Exception Flows
 
 #### EXC-01 — Không có History
 - Khách hàng mở "Thiệp thiết kế".
@@ -162,18 +163,35 @@
 
 ---
 
+## Business Rules
+
+| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| [BR-133](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/c6e43277-f57a-495b-8f0e-59929386c30e) | Điều kiện tạo History | Xem lịch sử thiệp | Chỉ lần generate có ảnh output mới tạo đúng 01 History item. | Một lần generate kết thúc. | Nếu có ảnh output, hệ thống tạo đúng 01 History item. | Generate không có ảnh output không tạo History item. | Google Sheet rule source | Đức Bình | STORY-045 | Draft | v0 | 2026-08-14 | — |
+| [BR-134](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/14e5617a-93d9-4b7f-b79a-81ffa9997305) | Phạm vi History | Xem lịch sử thiệp | History thuộc khách hàng và hiển thị dưới dạng danh sách chung, không phụ thuộc thiệp đã có Order hay chưa. | Khách hàng mở “Thiệp thiết kế”. | Hệ thống hiển thị các History item thuộc khách hàng hiện tại dưới dạng danh sách chung. | Thiệp chưa liên kết Order vẫn được hiển thị bình thường. | Google Sheet rule source | Đức Bình | STORY-045 | Draft | v0 | 2026-08-14 | — |
+| [BR-135](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/77859db4-5755-4ef7-ad89-18093ffa450b) | Liên kết Order | Xem lịch sử thiệp | History record ảnh gốc độc lập với record liên kết Thiệp–Order. Một thiệp có thể có 0, 1 hoặc nhiều liên kết Order. | Thiệp được liên kết với một hoặc nhiều Order. | Hệ thống giữ một History record ảnh gốc và các record liên kết Thiệp–Order tương ứng. | Không nhân bản History item theo số lượng Order liên kết. | Google Sheet rule source | Đức Bình | STORY-045 | Draft | v0 | 2026-08-14 | — |
+| [BR-136](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/f0f4ef94-8cc7-4e23-8d2d-2b4a932417fc) | Tái sử dụng | Xem lịch sử thiệp | Tái sử dụng thiệp chỉ tạo thêm liên kết Thiệp–Order khi Order mới được tạo; không sao chép ảnh, không tạo History và không trừ quota. | Khách hàng chọn lại một thiệp History để sử dụng cho Checkout mới và Order mới được tạo. | Hệ thống tạo thêm liên kết Thiệp–Order cho Order mới. | Không sao chép ảnh, không chạy AI, không tạo History item mới và không trừ quota. | Google Sheet rule source | Đức Bình | STORY-045 | Draft | v0 | 2026-08-14 | — |
+| [BR-137](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/562e4749-d01e-4244-94b8-5bd3db56ec78) | Thứ tự | Xem lịch sử thiệp | Danh sách sắp xếp theo thời điểm generate, mới nhất trước. | Hệ thống hiển thị danh sách History. | Các History item được sắp xếp theo thời điểm generate, mới nhất trước. | Không có. | Google Sheet rule source | Đức Bình | STORY-045 | Draft | v0 | 2026-08-14 | — |
+| [BR-138](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/a36b64f9-2e28-4fa1-8336-01082bd8a7c5) | Bảo toàn record | Xem lịch sử thiệp | Order đổi trạng thái hoặc file ảnh mất/hỏng không làm xóa History record. | Order liên quan hoàn tất, bị hủy hoặc refund, hoặc file ảnh của History item mất/hỏng. | History record vẫn được giữ lại. | Nếu file ảnh không còn khả dụng, hệ thống chỉ hiển thị metadata còn lại và thông báo “Ảnh không còn khả dụng.” | Google Sheet rule source | Đức Bình | STORY-045 | Draft | v0 | 2026-08-14 | — |
+| [BR-139](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/0c1312b1-89a3-4eaf-ab39-ef084d66e00b) | Quyền sở hữu | Xem lịch sử thiệp | Khách hàng chỉ được xem và sử dụng thiệp History thuộc tài khoản của mình. | Khách hàng xem, truy cập trực tiếp hoặc sử dụng một thiệp History. | Backend kiểm tra quyền sở hữu và chỉ cho phép thao tác nếu thiệp thuộc khách hàng hiện tại. | Nếu thiệp thuộc khách hàng khác, backend từ chối và không trả ảnh hoặc metadata. | Google Sheet rule source | Đức Bình | STORY-045 | Draft | v0 | 2026-08-14 | — |
+| [BR-044](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/b4df6090-28ff-4fe4-a528-9123a7f5ad8e) | Phạm vi Tạo lại thiệp AI | Tạo ảnh | Tạo lại thiệp AI chỉ được phép thực hiện trong bước tạo Thiệp Custom sau khi Order đã thanh toán thành công; không được Tạo lại thiệp từ History. | Khách hàng chọn Tạo lại thiệp hoặc backend nhận request Tạo lại thiệp. | Backend chỉ chấp nhận request Tạo lại khi request thuộc một Order Thiệp Custom của khách hàng hiện tại, Order đã Payment SUCCESS và đang ở bước tạo Thiệp Custom sau thanh toán. Mỗi request Tạo lại hợp lệ khởi tạo một AI Job mới và được tính vào quota tạo thiệp AI. Hệ thống không hiển thị thao tác Tạo lại trên danh sách History hoặc Chi tiết thiệp đã tạo. Backend phải từ chối mọi request Tạo lại thiệp từ History. Khi request bị từ chối, hệ thống không tạo AI Job, không gọi AI service, không tạo ảnh mới, không tạo History record và không trừ quota. | Không áp dụng cho thao tác chọn thiệp đã có từ History cho Checkout, vì thao tác đó không gọi AI và không tạo History record mới. | Product discussion 2026-09-11; STORY-036; STORY-039; STORY-045 | Đức Bình | STORY-036; STORY-045 | Draft | v0 | 2026-09-11 | Rule này phân biệt Tạo lại hợp lệ sau thanh toán thành công với Tạo lại không hợp lệ từ History. |
+
+---
+
 ## References
 
-### Rules
+### Business Rules
 
-- [BR-133](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/c6e43277-f57a-495b-8f0e-59929386c30e)
-- [BR-134](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/14e5617a-93d9-4b7f-b79a-81ffa9997305)
-- [BR-135](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/77859db4-5755-4ef7-ad89-18093ffa450b)
-- [BR-136](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/f0f4ef94-8cc7-4e23-8d2d-2b4a932417fc)
-- [BR-137](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/562e4749-d01e-4244-94b8-5bd3db56ec78)
-- [BR-138](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/a36b64f9-2e28-4fa1-8336-01082bd8a7c5)
-- [BR-139](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/0c1312b1-89a3-4eaf-ab39-ef084d66e00b)
-- [BR-044](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/b4df6090-28ff-4fe4-a528-9123a7f5ad8e)
+| Rule ID | Link |
+|---|---|
+| BR-133 | [BR-133](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/c6e43277-f57a-495b-8f0e-59929386c30e) |
+| BR-134 | [BR-134](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/14e5617a-93d9-4b7f-b79a-81ffa9997305) |
+| BR-135 | [BR-135](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/77859db4-5755-4ef7-ad89-18093ffa450b) |
+| BR-136 | [BR-136](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/f0f4ef94-8cc7-4e23-8d2d-2b4a932417fc) |
+| BR-137 | [BR-137](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/562e4749-d01e-4244-94b8-5bd3db56ec78) |
+| BR-138 | [BR-138](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/a36b64f9-2e28-4fa1-8336-01082bd8a7c5) |
+| BR-139 | [BR-139](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/0c1312b1-89a3-4eaf-ab39-ef084d66e00b) |
+| BR-044 | [BR-044](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/b4df6090-28ff-4fe4-a528-9123a7f5ad8e) |
 
 ### Dependencies
 
@@ -200,16 +218,3 @@
 - Chia sẻ thiệp.
 
 ---
-
-## Chi tiết Business Rules
-
-| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| [BR-133](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/c6e43277-f57a-495b-8f0e-59929386c30e) | Điều kiện tạo History | Xem lịch sử thiệp | Chỉ lần generate có ảnh output mới tạo đúng 01 History item. | Một lần generate kết thúc. | Nếu có ảnh output, hệ thống tạo đúng 01 History item. | Generate không có ảnh output không tạo History item. | Google Sheet rule source | Đức Bình | STORY-045 | Draft | v0 | 2026-08-14 | — |
-| [BR-134](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/14e5617a-93d9-4b7f-b79a-81ffa9997305) | Phạm vi History | Xem lịch sử thiệp | History thuộc khách hàng và hiển thị dưới dạng danh sách chung, không phụ thuộc thiệp đã có Order hay chưa. | Khách hàng mở “Thiệp thiết kế”. | Hệ thống hiển thị các History item thuộc khách hàng hiện tại dưới dạng danh sách chung. | Thiệp chưa liên kết Order vẫn được hiển thị bình thường. | Google Sheet rule source | Đức Bình | STORY-045 | Draft | v0 | 2026-08-14 | — |
-| [BR-135](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/77859db4-5755-4ef7-ad89-18093ffa450b) | Liên kết Order | Xem lịch sử thiệp | History record ảnh gốc độc lập với record liên kết Thiệp–Order. Một thiệp có thể có 0, 1 hoặc nhiều liên kết Order. | Thiệp được liên kết với một hoặc nhiều Order. | Hệ thống giữ một History record ảnh gốc và các record liên kết Thiệp–Order tương ứng. | Không nhân bản History item theo số lượng Order liên kết. | Google Sheet rule source | Đức Bình | STORY-045 | Draft | v0 | 2026-08-14 | — |
-| [BR-136](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/f0f4ef94-8cc7-4e23-8d2d-2b4a932417fc) | Tái sử dụng | Xem lịch sử thiệp | Tái sử dụng thiệp chỉ tạo thêm liên kết Thiệp–Order khi Order mới được tạo; không sao chép ảnh, không tạo History và không trừ quota. | Khách hàng chọn lại một thiệp History để sử dụng cho Checkout mới và Order mới được tạo. | Hệ thống tạo thêm liên kết Thiệp–Order cho Order mới. | Không sao chép ảnh, không chạy AI, không tạo History item mới và không trừ quota. | Google Sheet rule source | Đức Bình | STORY-045 | Draft | v0 | 2026-08-14 | — |
-| [BR-137](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/562e4749-d01e-4244-94b8-5bd3db56ec78) | Thứ tự | Xem lịch sử thiệp | Danh sách sắp xếp theo thời điểm generate, mới nhất trước. | Hệ thống hiển thị danh sách History. | Các History item được sắp xếp theo thời điểm generate, mới nhất trước. | Không có. | Google Sheet rule source | Đức Bình | STORY-045 | Draft | v0 | 2026-08-14 | — |
-| [BR-138](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/a36b64f9-2e28-4fa1-8336-01082bd8a7c5) | Bảo toàn record | Xem lịch sử thiệp | Order đổi trạng thái hoặc file ảnh mất/hỏng không làm xóa History record. | Order liên quan hoàn tất, bị hủy hoặc refund, hoặc file ảnh của History item mất/hỏng. | History record vẫn được giữ lại. | Nếu file ảnh không còn khả dụng, hệ thống chỉ hiển thị metadata còn lại và thông báo “Ảnh không còn khả dụng.” | Google Sheet rule source | Đức Bình | STORY-045 | Draft | v0 | 2026-08-14 | — |
-| [BR-139](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/0c1312b1-89a3-4eaf-ab39-ef084d66e00b) | Quyền sở hữu | Xem lịch sử thiệp | Khách hàng chỉ được xem và sử dụng thiệp History thuộc tài khoản của mình. | Khách hàng xem, truy cập trực tiếp hoặc sử dụng một thiệp History. | Backend kiểm tra quyền sở hữu và chỉ cho phép thao tác nếu thiệp thuộc khách hàng hiện tại. | Nếu thiệp thuộc khách hàng khác, backend từ chối và không trả ảnh hoặc metadata. | Google Sheet rule source | Đức Bình | STORY-045 | Draft | v0 | 2026-08-14 | — |
-| [BR-044](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/b4df6090-28ff-4fe4-a528-9123a7f5ad8e) | Phạm vi Tạo lại thiệp AI | Tạo ảnh | Tạo lại thiệp AI chỉ được phép thực hiện trong bước tạo Thiệp Custom sau khi Order đã thanh toán thành công; không được Tạo lại thiệp từ History. | Khách hàng chọn Tạo lại thiệp hoặc backend nhận request Tạo lại thiệp. | Backend chỉ chấp nhận request Tạo lại khi request thuộc một Order Thiệp Custom của khách hàng hiện tại, Order đã Payment SUCCESS và đang ở bước tạo Thiệp Custom sau thanh toán. Mỗi request Tạo lại hợp lệ khởi tạo một AI Job mới và được tính vào quota tạo thiệp AI. Hệ thống không hiển thị thao tác Tạo lại trên danh sách History hoặc Chi tiết thiệp đã tạo. Backend phải từ chối mọi request Tạo lại thiệp từ History. Khi request bị từ chối, hệ thống không tạo AI Job, không gọi AI service, không tạo ảnh mới, không tạo History record và không trừ quota. | Không áp dụng cho thao tác chọn thiệp đã có từ History cho Checkout, vì thao tác đó không gọi AI và không tạo History record mới. | Product discussion 2026-09-11; STORY-036; STORY-039; STORY-045 | Đức Bình | STORY-036; STORY-045 | Draft | v0 | 2026-09-11 | Rule này phân biệt Tạo lại hợp lệ sau thanh toán thành công với Tạo lại không hợp lệ từ History. |

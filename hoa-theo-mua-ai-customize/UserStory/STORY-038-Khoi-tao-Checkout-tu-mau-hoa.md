@@ -1,24 +1,24 @@
-# STORY-038: Khách hàng khởi tạo Checkout từ mẫu hoa
+# STORY-038 — Khách hàng khởi tạo Checkout từ mẫu hoa
 
 ## Metadata
 
-- **Story**: Là một khách hàng đã đăng nhập, tôi muốn mở Checkout từ mẫu hoa đã chọn, để nhập thông tin giao hàng, lựa chọn thiệp và chuẩn bị đặt hàng.
-- **Context**: Checkout được mở khi khách hàng chọn "Đặt hàng ngay" từ một mẫu hoa thông thường hoặc một kết quả Custom AI hợp lệ.
-- **Sprint**: S1
-- **Priority**: Must
-- **Phiên bản**: v0.1
-- **Phê duyệt tài liệu**: Nháp
-- **Cập nhật**: 11/09/2026
-- **Author**: Hoàng Thị Khánh Linh
-- **Reviewer**: Nguyễn Đức Bình
-- **Approver**: Hoàng Thị Khánh Linh
-- **Owner**: Hoàng Thị Khánh Linh
-- **Status**: Cần làm
-- **Assignee**:
-  - FE: Danh Nguyen
-- **Creator**: Hoàng Thị Khánh Linh
-- **Thống kê tài liệu**: TDDs: 2 | Rules: 9 | Unit Tests: 9 | System Tests: 8
+| Trường | Nội dung |
+|---|---|
+| **Loại** | Story |
+| **User Story** | Là một khách hàng đã đăng nhập, tôi muốn mở Checkout từ mẫu hoa đã chọn, để nhập thông tin giao hàng, lựa chọn thiệp và chuẩn bị đặt hàng. |
+| **Sprint** | S1 |
+| **Priority** | Must |
+| **Assignee (FE)** | Danh Nguyen |
+| **Creator** | Hoàng Thị Khánh Linh |
+| **Status** | Cần làm |
+| **Phiên bản** | v0.1 |
+| **Phê duyệt** | Nháp |
 
+---
+
+## Context
+
+Checkout được mở khi khách hàng chọn "Đặt hàng ngay" từ một mẫu hoa thông thường hoặc một kết quả Custom AI hợp lệ.
 ---
 
 ## Conditions
@@ -31,7 +31,8 @@
 
 ### Trigger
 
-- Khách hàng chọn "Đặt hàng ngay".
+> - Khách hàng chọn "Đặt hàng ngay".
+
 
 ---
 
@@ -52,7 +53,7 @@
 11. Hệ thống hiển thị tạm tính; phí giao hàng được xác định khi hệ thống gọi API của Ahamove tại thời điểm gọi.
 12. Chưa tạo Order cho đến khi khách hàng bấm "Hoàn tất".
 
-### Alternative Flow
+### Alternative Flows
 
 #### ALT-01 — Không có thiệp
 - Khách hàng tiếp tục và hoàn tất Checkout bình thường.
@@ -83,7 +84,7 @@
 - Nếu Combo nguồn còn hợp lệ và Core còn đủ hàng, hệ thống khởi tạo Checkout mới từ mẫu đó.
 - Các Order và liên kết lịch sử trước đó vẫn được giữ nguyên.
 
-### Exception Flow
+### Exception Flows
 
 #### EXC-01 — Thành phần Core không còn đủ hàng
 - Hệ thống kiểm tra tồn kho Core tại thời điểm khách hàng mở Checkout hoặc bấm "Hoàn tất".
@@ -192,19 +193,37 @@
 
 ---
 
+## Business Rules
+
+| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| [BR-081](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/d007e95d-bc22-44e1-8cf3-0ec1bd33c827) | Checkout tạm | Khởi tạo Checkout từ mẫu hoa | Checkout chỉ là phiên chuẩn bị đặt hàng. | Khách hàng mở Checkout từ một mẫu hoa hợp lệ. | Hệ thống tạo phiên Checkout tạm để khách hàng nhập thông tin giao hàng, lựa chọn thiệp và chuẩn bị đặt hàng. | Order chỉ được tạo khi khách hàng bấm “Hoàn tất” và toàn bộ kiểm tra cuối hợp lệ. | Google Sheet rule source | Đức Bình | STORY-038 | Draft | v0 | 2026-08-14 | — |
+| [BR-082](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/39b4985d-a875-4939-9bd7-6bae7f6cf788) | Một mẫu hoa | Khởi tạo Checkout từ mẫu hoa | Mỗi Checkout bắt buộc tham chiếu đúng 01 mẫu hoa thông thường hoặc Custom AI. | Hệ thống khởi tạo Checkout. | Hệ thống gắn đúng 01 mẫu hoa nguồn vào Checkout. | Không cho phép một Checkout không có mẫu hoa nguồn hoặc tham chiếu nhiều mẫu hoa nguồn. | Google Sheet rule source | Đức Bình | STORY-038 | Draft | v0 | 2026-08-14 | — |
+| [BR-083](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/7184a4b9-e6d0-49f0-a2b1-ef990f8dfd1e) | Tái sử dụng mẫu hoa Custom AI | Khởi tạo Checkout từ mẫu hoa | Mẫu hoa Custom AI được phép sử dụng để tạo nhiều Order nếu Combo nguồn vẫn còn đủ điều kiện đặt hàng. | Khách hàng chọn “Đặt hàng ngay” từ một mẫu đã từng được sử dụng. | Backend kiểm tra Combo nguồn và tồn kho hiện tại. Nếu Combo hợp lệ và Core còn đủ hàng, hệ thống khởi tạo Checkout mới. | Không cho phép mở Checkout nếu Combo nguồn không còn khả dụng hoặc Core không còn đủ hàng. Các Order và liên kết lịch sử trước đó không bị thay đổi. | Google Sheet rule source | Đức Bình | STORY-038 | Draft | v0 | 2026-08-14 | — |
+| [BR-084](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/ecc9b927-b6fb-4f23-b272-cc92ffc588f2) | Tồn kho Combo | Khởi tạo Checkout từ mẫu hoa | Tồn kho Combo quyết định khả năng tiếp tục đặt hàng. | Khách hàng mở Checkout hoặc hoàn tất Checkout từ một mẫu hoa. | Core hết hàng làm Combo hết hàng và chặn đặt. Support hết không chặn đặt nếu core còn; cửa hàng chịu trách nhiệm thay thế support tương ứng. | Hệ thống không tự động thay thế Support khi Staff và khách hàng chưa thống nhất. | Google Sheet rule source | Đức Bình | STORY-038 | Draft | v0 | 2026-08-14 | — |
+| [BR-085](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/67c4719b-e909-49c4-b778-a83cf804c03d) | Thiệp | Khởi tạo Checkout từ mẫu hoa | Thiệp không bắt buộc trong Checkout. Một Checkout chỉ có tối đa 01 thiệp đã được khách hàng xác nhận và đang chọn tại một thời điểm. | Khách hàng thao tác trong Checkout. | Hệ thống cho phép Checkout có tối đa 01 thiệp đã được xác nhận và đang chọn hoặc không có thiệp. | Không cho phép một Checkout có nhiều hơn 01 thiệp đang chọn. | Google Sheet rule source | Đức Bình | STORY-038 | Draft | v0 | 2026-08-14 | — |
+| [BR-086](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/6a8a89fa-c0a9-4569-a72e-e6c34e7fb4cb) | Thoát Checkout | Khởi tạo Checkout từ mẫu hoa | Checkout chỉ bị hủy khi khách hàng rời khỏi phiên thao tác, không bị hủy khi refresh trang. | Khách hàng đóng tab, rời khỏi luồng Checkout, đăng xuất hoặc trình duyệt bị đóng/crash trước khi bấm “Hoàn tất”. | Hệ thống hủy Checkout, không tạo Order/PENDING và không cho phép khôi phục Checkout đó. | Refresh trang không làm mất Checkout hiện tại. History AI không bị xóa và quota đã dùng không được hoàn. | Google Sheet rule source | Đức Bình | STORY-038 | Draft | v0 | 2026-08-14 | — |
+| [BR-044](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/b4df6090-28ff-4fe4-a528-9123a7f5ad8e) | Phạm vi Tạo lại thiệp AI | Tạo ảnh | Tạo lại thiệp AI chỉ được phép thực hiện trong bước tạo Thiệp Custom sau khi Order đã thanh toán thành công; không được Tạo lại thiệp từ History. | Khách hàng chọn Tạo lại thiệp hoặc backend nhận request Tạo lại thiệp. | Backend chỉ chấp nhận request Tạo lại khi request thuộc một Order Thiệp Custom của khách hàng hiện tại, Order đã Payment SUCCESS và đang ở bước tạo Thiệp Custom sau thanh toán. Mỗi request Tạo lại hợp lệ khởi tạo một AI Job mới và được tính vào quota tạo thiệp AI. Hệ thống không hiển thị thao tác Tạo lại trên danh sách History hoặc Chi tiết thiệp đã tạo. Backend phải từ chối mọi request Tạo lại thiệp từ History. Khi request bị từ chối, hệ thống không tạo AI Job, không gọi AI service, không tạo ảnh mới, không tạo History record và không trừ quota. | Không áp dụng cho thao tác chọn thiệp đã có từ History cho Checkout, vì thao tác đó không gọi AI và không tạo History record mới. | Product discussion 2026-09-11; STORY-036; STORY-039; STORY-045 | Đức Bình | STORY-038; STORY-036 | Draft | v0 | 2026-09-11 | Rule này phân biệt Tạo lại hợp lệ sau thanh toán thành công với Tạo lại không hợp lệ từ History. |
+| [BR-153](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/78f3d74b-fc51-4150-9bf3-85741fcdf683) | Tính phí giao hàng | Tính phí giao hàng | Phí giao hàng được lấy từ Ahamove theo địa chỉ giao hàng hiện tại. | Hệ thống cần hiển thị tạm tính hoặc khách hàng bấm “Hoàn tất”. | Hệ thống gọi Ahamove để lấy phí ship hiện hành; khi “Hoàn tất” phải gọi lại và dùng kết quả cuối cùng để tạo Order. | Nếu Ahamove timeout, lỗi hoặc khu vực không được hỗ trợ, hệ thống không cho hoàn tất Checkout và hiển thị thông báo phù hợp. | Google Sheet rule source | Đức Bình | STORY-038 | Draft | v0 | 2026-08-17 | — |
+| [BR-156](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/3bb381ff-ff91-4892-9309-ceed135f603c) | Giới hạn 03 lần tạo thiệp theo mẫu hoa | AI | Trong một lần đặt hàng từ một mẫu hoa nguồn, khách hàng được thực hiện tối đa 03 lần generate thiệp AI cho mẫu hoa đó. | Khách hàng thực hiện thao tác tạo thiệp hoặc Tạo lại thiệp hợp lệ làm phát sinh một AI Job tạo thiệp mới trong bước tạo Thiệp Custom sau khi Order đã thanh toán thành công. | Backend phải đồng thời kiểm tra mẫu hoa hiện tại chưa sử dụng hết 03 lượt generate thiệp và khách hàng chưa sử dụng hết 10 lượt generate thiệp trong ngày. Nếu cả hai điều kiện đều thỏa, hệ thống cho phép tạo AI Job và ghi nhận 01 lượt vào cả hai giới hạn. | Nếu AI Job thất bại sau toàn bộ retry và không tạo được ảnh output hợp lệ, hệ thống hoàn lại lượt đã ghi nhận cho cả giới hạn theo mẫu hoa và quota ngày. Thao tác Xác nhận thiệp, chọn thiệp đã có từ History, tải xuống thiệp và request Tạo lại thiệp từ History không được tính là lượt generate. Request Tạo lại thiệp từ History phải bị từ chối theo BR-044. | Product discussion 2026-09-11; STORY-036; STORY-038; STORY-039 | Đức Bình | STORY-038; STORY-036 | Draft | v0 | 2026-09-11 | Tạo lại hợp lệ sau thanh toán thành công vẫn nằm trong giới hạn 03 lần generate thiệp theo mẫu hoa. |
+
+---
+
 ## References
 
-### Rules
+### Business Rules
 
-- [BR-081](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/d007e95d-bc22-44e1-8cf3-0ec1bd33c827)
-- [BR-082](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/39b4985d-a875-4939-9bd7-6bae7f6cf788)
-- [BR-083](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/7184a4b9-e6d0-49f0-a2b1-ef990f8dfd1e)
-- [BR-084](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/ecc9b927-b6fb-4f23-b272-cc92ffc588f2)
-- [BR-085](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/67c4719b-e909-49c4-b778-a83cf804c03d)
-- [BR-086](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/6a8a89fa-c0a9-4569-a72e-e6c34e7fb4cb)
-- [BR-044](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/b4df6090-28ff-4fe4-a528-9123a7f5ad8e)
-- [BR-153](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/78f3d74b-fc51-4150-9bf3-85741fcdf683)
-- [BR-156](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/3bb381ff-ff91-4892-9309-ceed135f603c)
+| Rule ID | Link |
+|---|---|
+| BR-081 | [BR-081](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/d007e95d-bc22-44e1-8cf3-0ec1bd33c827) |
+| BR-082 | [BR-082](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/39b4985d-a875-4939-9bd7-6bae7f6cf788) |
+| BR-083 | [BR-083](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/7184a4b9-e6d0-49f0-a2b1-ef990f8dfd1e) |
+| BR-084 | [BR-084](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/ecc9b927-b6fb-4f23-b272-cc92ffc588f2) |
+| BR-085 | [BR-085](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/67c4719b-e909-49c4-b778-a83cf804c03d) |
+| BR-086 | [BR-086](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/6a8a89fa-c0a9-4569-a72e-e6c34e7fb4cb) |
+| BR-044 | [BR-044](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/b4df6090-28ff-4fe4-a528-9123a7f5ad8e) |
+| BR-153 | [BR-153](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/78f3d74b-fc51-4150-9bf3-85741fcdf683) |
+| BR-156 | [BR-156](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/3bb381ff-ff91-4892-9309-ceed135f603c) |
 
 ### Dependencies
 
@@ -233,17 +252,3 @@
 - Generate mẫu hoa AI và thiệp AI.
 
 ---
-
-## Chi tiết Business Rules
-
-| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| [BR-081](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/d007e95d-bc22-44e1-8cf3-0ec1bd33c827) | Checkout tạm | Khởi tạo Checkout từ mẫu hoa | Checkout chỉ là phiên chuẩn bị đặt hàng. | Khách hàng mở Checkout từ một mẫu hoa hợp lệ. | Hệ thống tạo phiên Checkout tạm để khách hàng nhập thông tin giao hàng, lựa chọn thiệp và chuẩn bị đặt hàng. | Order chỉ được tạo khi khách hàng bấm “Hoàn tất” và toàn bộ kiểm tra cuối hợp lệ. | Google Sheet rule source | Đức Bình | STORY-038 | Draft | v0 | 2026-08-14 | — |
-| [BR-082](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/39b4985d-a875-4939-9bd7-6bae7f6cf788) | Một mẫu hoa | Khởi tạo Checkout từ mẫu hoa | Mỗi Checkout bắt buộc tham chiếu đúng 01 mẫu hoa thông thường hoặc Custom AI. | Hệ thống khởi tạo Checkout. | Hệ thống gắn đúng 01 mẫu hoa nguồn vào Checkout. | Không cho phép một Checkout không có mẫu hoa nguồn hoặc tham chiếu nhiều mẫu hoa nguồn. | Google Sheet rule source | Đức Bình | STORY-038 | Draft | v0 | 2026-08-14 | — |
-| [BR-083](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/7184a4b9-e6d0-49f0-a2b1-ef990f8dfd1e) | Tái sử dụng mẫu hoa Custom AI | Khởi tạo Checkout từ mẫu hoa | Mẫu hoa Custom AI được phép sử dụng để tạo nhiều Order nếu Combo nguồn vẫn còn đủ điều kiện đặt hàng. | Khách hàng chọn “Đặt hàng ngay” từ một mẫu đã từng được sử dụng. | Backend kiểm tra Combo nguồn và tồn kho hiện tại. Nếu Combo hợp lệ và Core còn đủ hàng, hệ thống khởi tạo Checkout mới. | Không cho phép mở Checkout nếu Combo nguồn không còn khả dụng hoặc Core không còn đủ hàng. Các Order và liên kết lịch sử trước đó không bị thay đổi. | Google Sheet rule source | Đức Bình | STORY-038 | Draft | v0 | 2026-08-14 | — |
-| [BR-084](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/ecc9b927-b6fb-4f23-b272-cc92ffc588f2) | Tồn kho Combo | Khởi tạo Checkout từ mẫu hoa | Tồn kho Combo quyết định khả năng tiếp tục đặt hàng. | Khách hàng mở Checkout hoặc hoàn tất Checkout từ một mẫu hoa. | Core hết hàng làm Combo hết hàng và chặn đặt. Support hết không chặn đặt nếu core còn; cửa hàng chịu trách nhiệm thay thế support tương ứng. | Hệ thống không tự động thay thế Support khi Staff và khách hàng chưa thống nhất. | Google Sheet rule source | Đức Bình | STORY-038 | Draft | v0 | 2026-08-14 | — |
-| [BR-085](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/67c4719b-e909-49c4-b778-a83cf804c03d) | Thiệp | Khởi tạo Checkout từ mẫu hoa | Thiệp không bắt buộc trong Checkout. Một Checkout chỉ có tối đa 01 thiệp đã được khách hàng xác nhận và đang chọn tại một thời điểm. | Khách hàng thao tác trong Checkout. | Hệ thống cho phép Checkout có tối đa 01 thiệp đã được xác nhận và đang chọn hoặc không có thiệp. | Không cho phép một Checkout có nhiều hơn 01 thiệp đang chọn. | Google Sheet rule source | Đức Bình | STORY-038 | Draft | v0 | 2026-08-14 | — |
-| [BR-086](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/6a8a89fa-c0a9-4569-a72e-e6c34e7fb4cb) | Thoát Checkout | Khởi tạo Checkout từ mẫu hoa | Checkout chỉ bị hủy khi khách hàng rời khỏi phiên thao tác, không bị hủy khi refresh trang. | Khách hàng đóng tab, rời khỏi luồng Checkout, đăng xuất hoặc trình duyệt bị đóng/crash trước khi bấm “Hoàn tất”. | Hệ thống hủy Checkout, không tạo Order/PENDING và không cho phép khôi phục Checkout đó. | Refresh trang không làm mất Checkout hiện tại. History AI không bị xóa và quota đã dùng không được hoàn. | Google Sheet rule source | Đức Bình | STORY-038 | Draft | v0 | 2026-08-14 | — |
-| [BR-044](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/b4df6090-28ff-4fe4-a528-9123a7f5ad8e) | Phạm vi Tạo lại thiệp AI | Tạo ảnh | Tạo lại thiệp AI chỉ được phép thực hiện trong bước tạo Thiệp Custom sau khi Order đã thanh toán thành công; không được Tạo lại thiệp từ History. | Khách hàng chọn Tạo lại thiệp hoặc backend nhận request Tạo lại thiệp. | Backend chỉ chấp nhận request Tạo lại khi request thuộc một Order Thiệp Custom của khách hàng hiện tại, Order đã Payment SUCCESS và đang ở bước tạo Thiệp Custom sau thanh toán. Mỗi request Tạo lại hợp lệ khởi tạo một AI Job mới và được tính vào quota tạo thiệp AI. Hệ thống không hiển thị thao tác Tạo lại trên danh sách History hoặc Chi tiết thiệp đã tạo. Backend phải từ chối mọi request Tạo lại thiệp từ History. Khi request bị từ chối, hệ thống không tạo AI Job, không gọi AI service, không tạo ảnh mới, không tạo History record và không trừ quota. | Không áp dụng cho thao tác chọn thiệp đã có từ History cho Checkout, vì thao tác đó không gọi AI và không tạo History record mới. | Product discussion 2026-09-11; STORY-036; STORY-039; STORY-045 | Đức Bình | STORY-038; STORY-036 | Draft | v0 | 2026-09-11 | Rule này phân biệt Tạo lại hợp lệ sau thanh toán thành công với Tạo lại không hợp lệ từ History. |
-| [BR-153](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/78f3d74b-fc51-4150-9bf3-85741fcdf683) | Tính phí giao hàng | Tính phí giao hàng | Phí giao hàng được lấy từ Ahamove theo địa chỉ giao hàng hiện tại. | Hệ thống cần hiển thị tạm tính hoặc khách hàng bấm “Hoàn tất”. | Hệ thống gọi Ahamove để lấy phí ship hiện hành; khi “Hoàn tất” phải gọi lại và dùng kết quả cuối cùng để tạo Order. | Nếu Ahamove timeout, lỗi hoặc khu vực không được hỗ trợ, hệ thống không cho hoàn tất Checkout và hiển thị thông báo phù hợp. | Google Sheet rule source | Đức Bình | STORY-038 | Draft | v0 | 2026-08-17 | — |
-| [BR-156](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/3bb381ff-ff91-4892-9309-ceed135f603c) | Giới hạn 03 lần tạo thiệp theo mẫu hoa | AI | Trong một lần đặt hàng từ một mẫu hoa nguồn, khách hàng được thực hiện tối đa 03 lần generate thiệp AI cho mẫu hoa đó. | Khách hàng thực hiện thao tác tạo thiệp hoặc Tạo lại thiệp hợp lệ làm phát sinh một AI Job tạo thiệp mới trong bước tạo Thiệp Custom sau khi Order đã thanh toán thành công. | Backend phải đồng thời kiểm tra mẫu hoa hiện tại chưa sử dụng hết 03 lượt generate thiệp và khách hàng chưa sử dụng hết 10 lượt generate thiệp trong ngày. Nếu cả hai điều kiện đều thỏa, hệ thống cho phép tạo AI Job và ghi nhận 01 lượt vào cả hai giới hạn. | Nếu AI Job thất bại sau toàn bộ retry và không tạo được ảnh output hợp lệ, hệ thống hoàn lại lượt đã ghi nhận cho cả giới hạn theo mẫu hoa và quota ngày. Thao tác Xác nhận thiệp, chọn thiệp đã có từ History, tải xuống thiệp và request Tạo lại thiệp từ History không được tính là lượt generate. Request Tạo lại thiệp từ History phải bị từ chối theo BR-044. | Product discussion 2026-09-11; STORY-036; STORY-038; STORY-039 | Đức Bình | STORY-038; STORY-036 | Draft | v0 | 2026-09-11 | Tạo lại hợp lệ sau thanh toán thành công vẫn nằm trong giới hạn 03 lần generate thiệp theo mẫu hoa. |

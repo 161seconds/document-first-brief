@@ -1,24 +1,24 @@
-# STORY-080: Admin thêm mới cấu hình Size Hoa Custom AI
+# STORY-080 — Admin thêm mới cấu hình Size Hoa Custom AI
 
 ## Metadata
 
-- **Story**: Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn thêm mới cấu hình Size Hoa Custom AI, để tạo Size và số lượng Combo tương ứng cho luồng tạo mẫu hoa.
-- **Context**: Admin thêm mới cấu hình Size bằng cách nhập Size và số lượng Combo. Size là trường text ngắn, ví dụ S, M, L, XL. Số lượng Combo là số nguyên dương cho biết số Combo tối đa hoặc số Combo cần dùng trong cấu hình của Size đó.
-- **Sprint**: S1
-- **Priority**: Must
-- **Phiên bản**: v0.1
-- **Phê duyệt tài liệu**: Nháp
-- **Cập nhật**: 12/09/2026
-- **Author**: Hoàng Thị Khánh Linh
-- **Reviewer**: Nguyễn Đức Bình
-- **Approver**: Nguyễn Đức Bình
-- **Owner**: Hoàng Thị Khánh Linh
-- **Status**: Cần làm
-- **Assignee**:
-  - FE: Võ Gia Huy
-- **Creator**: Hoàng Thị Khánh Linh
-- **Thống kê tài liệu**: Unit Tests: 0 | System Tests: 0
+| Trường | Nội dung |
+|---|---|
+| **Loại** | Story |
+| **User Story** | Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn thêm mới cấu hình Size Hoa Custom AI, để tạo Size và số lượng Combo tương ứng cho luồng tạo mẫu hoa. |
+| **Sprint** | S1 |
+| **Priority** | Must |
+| **Assignee (FE)** | Võ Gia Huy |
+| **Creator** | Hoàng Thị Khánh Linh |
+| **Status** | Cần làm |
+| **Phiên bản** | v0.1 |
+| **Phê duyệt** | Nháp |
 
+---
+
+## Context
+
+Admin thêm mới cấu hình Size bằng cách nhập Size và số lượng Combo. Size là trường text ngắn, ví dụ S, M, L, XL. Số lượng Combo là số nguyên dương cho biết số Combo tối đa hoặc số Combo cần dùng trong cấu hình của Size đó.
 ---
 
 ## Conditions
@@ -31,7 +31,8 @@
 
 ### Trigger
 
-- Admin chọn thao tác "Thêm mới".
+> - Admin chọn thao tác "Thêm mới".
+
 
 ---
 
@@ -53,14 +54,14 @@
 12. Hệ thống thông báo tạo mới thành công.
 13. Hệ thống hiển thị bản ghi mới trong danh sách.
 
-### Alternative Flow
+### Alternative Flows
 
 #### ALT-01 — Admin hủy thao tác thêm mới
 - Admin chọn hủy hoặc đóng form.
 - Hệ thống đóng form thêm mới.
 - Hệ thống không tạo bản ghi cấu hình Size.
 
-### Exception Flow
+### Exception Flows
 
 #### EXC-01 — Thiếu thông tin bắt buộc
 - Admin để trống Size hoặc số lượng Combo.

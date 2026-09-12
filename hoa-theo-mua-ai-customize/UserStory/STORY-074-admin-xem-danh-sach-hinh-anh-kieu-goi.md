@@ -1,24 +1,24 @@
-# STORY-074: Admin xem danh sách hình ảnh kiểu gói
+# STORY-074 — Admin xem danh sách hình ảnh kiểu gói
 
 ## Metadata
 
-- **Story**: Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn xem danh sách hình ảnh kiểu gói, để kiểm tra và quản lý các kiểu gói có thể dùng trong luồng tạo mẫu hoa.
-- **Context**: Hình ảnh kiểu gói là dữ liệu cấu hình do cửa hàng quản lý để mô tả cách bó/gói hoa trong luồng tạo mẫu hoa AI.
-- **Sprint**: S1
-- **Priority**: Must
-- **Phiên bản**: v0.1
-- **Phê duyệt tài liệu**: Nháp
-- **Cập nhật**: 12/09/2026
-- **Author**: Hoàng Thị Khánh Linh
-- **Reviewer**: Nguyễn Đức Bình
-- **Approver**: Nguyễn Đức Bình
-- **Owner**: Hoàng Thị Khánh Linh
-- **Status**: Cần làm
-- **Assignee**:
-  - FE: Võ Gia Huy
-- **Creator**: Hoàng Thị Khánh Linh
-- **Thống kê tài liệu**: Unit Tests: 0 | System Tests: 0
+| Trường | Nội dung |
+|---|---|
+| **Loại** | Story |
+| **User Story** | Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn xem danh sách hình ảnh kiểu gói, để kiểm tra và quản lý các kiểu gói có thể dùng trong luồng tạo mẫu hoa. |
+| **Sprint** | S1 |
+| **Priority** | Must |
+| **Assignee (FE)** | Võ Gia Huy |
+| **Creator** | Hoàng Thị Khánh Linh |
+| **Status** | Cần làm |
+| **Phiên bản** | v0.1 |
+| **Phê duyệt** | Nháp |
 
+---
+
+## Context
+
+Hình ảnh kiểu gói là dữ liệu cấu hình do cửa hàng quản lý để mô tả cách bó/gói hoa trong luồng tạo mẫu hoa AI.
 ---
 
 ## Conditions
@@ -30,7 +30,8 @@
 
 ### Trigger
 
-- Admin mở màn hình quản lý hình ảnh kiểu gói.
+> - Admin mở màn hình quản lý hình ảnh kiểu gói.
+
 
 ---
 
@@ -48,7 +49,7 @@
 8. Hệ thống cập nhật danh sách theo trạng thái đã chọn.
 9. Admin có thể chọn thao tác thêm mới, cập nhật, xóa hoặc đổi trạng thái.
 
-### Alternative Flow
+### Alternative Flows
 
 #### ALT-01 — Không có dữ liệu hình ảnh kiểu gói
 - Hệ thống hiển thị empty state.
@@ -63,7 +64,7 @@
 - Hệ thống lấy và hiển thị danh sách hình ảnh kiểu gói theo trạng thái đã chọn.
 - Nếu không có dữ liệu phù hợp với bộ lọc, hệ thống hiển thị empty state theo bộ lọc hiện tại.
 
-### Exception Flow
+### Exception Flows
 
 #### EXC-01 — Không có quyền truy cập
 - Backend từ chối request.

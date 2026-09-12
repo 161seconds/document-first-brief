@@ -1,24 +1,24 @@
-# STORY-077: Admin xóa hình ảnh kiểu gói không còn sử dụng
+# STORY-077 — Admin xóa hình ảnh kiểu gói không còn sử dụng
 
 ## Metadata
 
-- **Story**: Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn xóa hình ảnh kiểu gói không còn sử dụng, để danh sách cấu hình chỉ giữ các dữ liệu còn cần quản lý.
-- **Context**: Admin có thể xóa hình ảnh kiểu gói từ danh sách quản trị.
-- **Sprint**: S1
-- **Priority**: Must
-- **Phiên bản**: v0.1
-- **Phê duyệt tài liệu**: Nháp
-- **Cập nhật**: 12/09/2026
-- **Author**: Hoàng Thị Khánh Linh
-- **Reviewer**: Nguyễn Đức Bình
-- **Approver**: Nguyễn Đức Bình
-- **Owner**: Hoàng Thị Khánh Linh
-- **Status**: Cần làm
-- **Assignee**:
-  - FE: Võ Gia Huy
-- **Creator**: Hoàng Thị Khánh Linh
-- **Thống kê tài liệu**: Rules: 1 | Unit Tests: 0 | System Tests: 0
+| Trường | Nội dung |
+|---|---|
+| **Loại** | Story |
+| **User Story** | Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn xóa hình ảnh kiểu gói không còn sử dụng, để danh sách cấu hình chỉ giữ các dữ liệu còn cần quản lý. |
+| **Sprint** | S1 |
+| **Priority** | Must |
+| **Assignee (FE)** | Võ Gia Huy |
+| **Creator** | Hoàng Thị Khánh Linh |
+| **Status** | Cần làm |
+| **Phiên bản** | v0.1 |
+| **Phê duyệt** | Nháp |
 
+---
+
+## Context
+
+Admin có thể xóa hình ảnh kiểu gói từ danh sách quản trị.
 ---
 
 ## Conditions
@@ -31,7 +31,8 @@
 
 ### Trigger
 
-- Admin chọn thao tác "Xóa" tại một hình ảnh kiểu gói.
+> - Admin chọn thao tác "Xóa" tại một hình ảnh kiểu gói.
+
 
 ---
 
@@ -48,7 +49,7 @@
 7. Hệ thống thông báo xóa thành công.
 8. Hệ thống cập nhật lại danh sách hình ảnh kiểu gói.
 
-### Alternative Flow
+### Alternative Flows
 
 #### ALT-01 — Admin hủy xác nhận xóa
 - Admin chọn hủy hoặc đóng hộp thoại xác nhận.
@@ -56,7 +57,7 @@
 - Hệ thống không xóa hình ảnh kiểu gói.
 - Danh sách giữ nguyên dữ liệu trước đó.
 
-### Exception Flow
+### Exception Flows
 
 #### EXC-01 — Không tìm thấy bản ghi cần xóa
 - Backend không tìm thấy hình ảnh kiểu gói.
@@ -111,11 +112,21 @@
 
 ---
 
+## Business Rules
+
+| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| [BR-276](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/6452f701-1e2b-4cd4-a80e-3c015aebe7bf) | Xóa hình ảnh kiểu gói | Quản lý dữ liệu AI Custom | Hình ảnh kiểu gói chỉ được xóa khi Admin có quyền quản lý dữ liệu AI Custom, bản ghi còn tồn tại và Admin đã xác nhận thao tác xóa. | Admin thực hiện thao tác xóa hình ảnh kiểu gói trong Website quản trị. | Hệ thống phải hiển thị bước xác nhận trước khi gửi request xóa. Sau khi Admin xác nhận, backend phải kiểm tra quyền thao tác và trạng thái tồn tại của bản ghi trước khi xóa theo cơ chế lưu trữ hiện hành. Sau khi xóa thành công, hệ thống phải cập nhật lại danh sách hình ảnh kiểu gói. | Không cho phép xóa nếu Admin chưa xác nhận, người dùng không có quyền, bản ghi không tồn tại hoặc bản ghi đã bị xóa trước đó. Nếu backend trả lỗi, UI không được hiển thị bản ghi như đã xóa thành công. | Product discussion 2026-09-12; STORY-077 | Đức Bình | STORY-077 | Draft | v0 | 2026-09-12 | Việc xóa hình ảnh kiểu gói không làm thay đổi dữ liệu đã được snapshot trong các yêu cầu tạo mẫu hoa cũ. |
+
+---
+
 ## References
 
-### Rules
+### Business Rules
 
-- [BR-276](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/6452f701-1e2b-4cd4-a80e-3c015aebe7bf)
+| Rule ID | Link |
+|---|---|
+| BR-276 | [BR-276](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/6452f701-1e2b-4cd4-a80e-3c015aebe7bf) |
 
 ### Dependencies
 
@@ -138,9 +149,3 @@
 - Xóa dữ liệu yêu cầu tạo mẫu hoa đã tham chiếu hình ảnh kiểu gói trước đó.
 
 ---
-
-## Chi tiết Business Rules
-
-| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| [BR-276](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/6452f701-1e2b-4cd4-a80e-3c015aebe7bf) | Xóa hình ảnh kiểu gói | Quản lý dữ liệu AI Custom | Hình ảnh kiểu gói chỉ được xóa khi Admin có quyền quản lý dữ liệu AI Custom, bản ghi còn tồn tại và Admin đã xác nhận thao tác xóa. | Admin thực hiện thao tác xóa hình ảnh kiểu gói trong Website quản trị. | Hệ thống phải hiển thị bước xác nhận trước khi gửi request xóa. Sau khi Admin xác nhận, backend phải kiểm tra quyền thao tác và trạng thái tồn tại của bản ghi trước khi xóa theo cơ chế lưu trữ hiện hành. Sau khi xóa thành công, hệ thống phải cập nhật lại danh sách hình ảnh kiểu gói. | Không cho phép xóa nếu Admin chưa xác nhận, người dùng không có quyền, bản ghi không tồn tại hoặc bản ghi đã bị xóa trước đó. Nếu backend trả lỗi, UI không được hiển thị bản ghi như đã xóa thành công. | Product discussion 2026-09-12; STORY-077 | Đức Bình | STORY-077 | Draft | v0 | 2026-09-12 | Việc xóa hình ảnh kiểu gói không làm thay đổi dữ liệu đã được snapshot trong các yêu cầu tạo mẫu hoa cũ. |

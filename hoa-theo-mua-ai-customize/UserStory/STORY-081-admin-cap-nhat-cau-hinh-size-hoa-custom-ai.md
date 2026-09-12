@@ -1,24 +1,24 @@
-# STORY-081: Admin cập nhật cấu hình Size Hoa Custom AI
+# STORY-081 — Admin cập nhật cấu hình Size Hoa Custom AI
 
 ## Metadata
 
-- **Story**: Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn cập nhật cấu hình Size Hoa Custom AI, để chỉnh sửa Size hoặc số lượng Combo khi cấu hình cửa hàng thay đổi.
-- **Context**: Admin có thể cập nhật Size và số lượng Combo của một cấu hình Size đã tồn tại. Việc cập nhật thông tin không tự động thay đổi trạng thái Active/Inactive hiện tại của bản ghi.
-- **Sprint**: S1
-- **Priority**: Must
-- **Phiên bản**: v0.1
-- **Phê duyệt tài liệu**: Nháp
-- **Cập nhật**: 12/09/2026
-- **Author**: Hoàng Thị Khánh Linh
-- **Reviewer**: Nguyễn Đức Bình
-- **Approver**: Nguyễn Đức Bình
-- **Owner**: Hoàng Thị Khánh Linh
-- **Status**: Cần làm
-- **Assignee**:
-  - FE: Võ Gia Huy
-- **Creator**: Hoàng Thị Khánh Linh
-- **Thống kê tài liệu**: Unit Tests: 0 | System Tests: 0
+| Trường | Nội dung |
+|---|---|
+| **Loại** | Story |
+| **User Story** | Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn cập nhật cấu hình Size Hoa Custom AI, để chỉnh sửa Size hoặc số lượng Combo khi cấu hình cửa hàng thay đổi. |
+| **Sprint** | S1 |
+| **Priority** | Must |
+| **Assignee (FE)** | Võ Gia Huy |
+| **Creator** | Hoàng Thị Khánh Linh |
+| **Status** | Cần làm |
+| **Phiên bản** | v0.1 |
+| **Phê duyệt** | Nháp |
 
+---
+
+## Context
+
+Admin có thể cập nhật Size và số lượng Combo của một cấu hình Size đã tồn tại. Việc cập nhật thông tin không tự động thay đổi trạng thái Active/Inactive hiện tại của bản ghi.
 ---
 
 ## Conditions
@@ -31,7 +31,8 @@
 
 ### Trigger
 
-- Admin chọn thao tác "Cập nhật" hoặc "Sửa" tại một cấu hình Size.
+> - Admin chọn thao tác "Cập nhật" hoặc "Sửa" tại một cấu hình Size.
+
 
 ---
 
@@ -52,14 +53,14 @@
 11. Hệ thống thông báo cập nhật thành công.
 12. Hệ thống hiển thị dữ liệu mới trong danh sách.
 
-### Alternative Flow
+### Alternative Flows
 
 #### ALT-01 — Admin hủy thao tác cập nhật
 - Admin chọn hủy hoặc đóng form.
 - Hệ thống đóng form cập nhật.
 - Hệ thống không thay đổi dữ liệu cấu hình Size.
 
-### Exception Flow
+### Exception Flows
 
 #### EXC-01 — Không tìm thấy bản ghi
 - Backend không tìm thấy cấu hình Size cần cập nhật.

@@ -1,24 +1,24 @@
-# STORY-035: Khách hàng cấu hình thiệp tại Checkout
+# STORY-035 — Khách hàng cấu hình thiệp tại Checkout
 
 ## Metadata
 
-- **Story**: Là một khách hàng đã đăng nhập, tôi muốn cấu hình thiệp tại Checkout, để lựa chọn loại thiệp và cung cấp nội dung thiệp cần thiết cho đơn hàng trước khi thanh toán.
-- **Context**: Tại Checkout, khách hàng có thể không chọn thiệp hoặc chọn thêm thiệp cho bó hoa. Thiệp gồm hai loại: Thiệp Miễn phí và Thiệp Custom. Checkout chỉ thu thập và lưu thông tin yêu cầu thiệp để tính giá và tạo Order. Đối với Thiệp Custom, hệ thống chỉ cho phép thực hiện bước tạo thiệp sau khi Order đã được thanh toán thành công.
-- **Sprint**: S1
-- **Priority**: Must
-- **Phiên bản**: v0.1
-- **Phê duyệt tài liệu**: Nháp
-- **Cập nhật**: 12/09/2026
-- **Author**: Hoàng Thị Khánh Linh
-- **Reviewer**: Nguyễn Đức Bình
-- **Approver**: Hoàng Thị Khánh Linh
-- **Owner**: Hoàng Thị Khánh Linh
-- **Status**: Cần làm
-- **Assignee**:
-  - FE: Hoàng Thị Khánh Linh
-- **Creator**: Hoàng Thị Khánh Linh
-- **Thống kê tài liệu**: TDDs: 5 | Rules: 6 | Unit Tests: 34 | System Tests: 28
+| Trường | Nội dung |
+|---|---|
+| **Loại** | Story |
+| **User Story** | Là một khách hàng đã đăng nhập, tôi muốn cấu hình thiệp tại Checkout, để lựa chọn loại thiệp và cung cấp nội dung thiệp cần thiết cho đơn hàng trước khi thanh toán. |
+| **Sprint** | S1 |
+| **Priority** | Must |
+| **Assignee (FE)** | Hoàng Thị Khánh Linh |
+| **Creator** | Hoàng Thị Khánh Linh |
+| **Status** | Cần làm |
+| **Phiên bản** | v0.1 |
+| **Phê duyệt** | Nháp |
 
+---
+
+## Context
+
+Tại Checkout, khách hàng có thể không chọn thiệp hoặc chọn thêm thiệp cho bó hoa. Thiệp gồm hai loại: Thiệp Miễn phí và Thiệp Custom. Checkout chỉ thu thập và lưu thông tin yêu cầu thiệp để tính giá và tạo Order. Đối với Thiệp Custom, hệ thống chỉ cho phép thực hiện bước tạo thiệp sau khi Order đã được thanh toán thành công.
 ---
 
 ## Conditions
@@ -32,7 +32,8 @@
 
 ### Trigger
 
-- Khách hàng chọn thêm thiệp hoặc cấu hình thiệp tại Checkout.
+> - Khách hàng chọn thêm thiệp hoặc cấu hình thiệp tại Checkout.
+
 
 ---
 
@@ -54,7 +55,7 @@
 12. Không tạo ảnh thiệp và không gọi AI tại bước này.
 13. Khách hàng tiếp tục thanh toán.
 
-### Alternative Flow
+### Alternative Flows
 
 #### ALT-01 — Không có ảnh đính kèm
 - Khách hàng cấu hình Thiệp Custom và không chọn ảnh đính kèm.
@@ -104,7 +105,7 @@
 - Hệ thống không tạo ảnh thiệp và không gọi AI tại Checkout.
 - Khách hàng tiếp tục sang bước thanh toán.
 
-### Exception Flow
+### Exception Flows
 
 #### EXC-01 — Dữ liệu bắt buộc không hợp lệ
 - Khách hàng đang cấu hình thiệp tại Checkout.
@@ -245,16 +246,31 @@
 
 ---
 
+## Business Rules
+
+| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| [BR-051](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/d8ba05bd-9cc4-4522-9c99-fe5f2bd1ca7a) | Nội dung bắt buộc | Tạo thiệp | Nội dung thiệp/Lời chúc là nội dung bắt buộc khi khách hàng chọn thiệp; hệ thống không thu thập Người gửi và Người nhận trong luồng thiệp AI. | Khách hàng lưu cấu hình thiệp hoặc tiếp tục Checkout. | Hệ thống kiểm tra Nội dung thiệp/Lời chúc theo giới hạn số lượng từ áp dụng cho loại thiệp, Size và hình thức đã chọn. Hệ thống không yêu cầu, không validate và không lưu Người gửi hoặc Người nhận như dữ liệu bắt buộc của luồng thiệp AI. | Dữ liệu vượt quá giới hạn số lượng từ không được chấp nhận và cấu hình thiệp không được lưu vào Checkout. | Product discussion 2026-09-11; STORY-035 | Đức Bình | STORY-035 | Draft | v0 | 2026-09-11 | Rule này thay thế yêu cầu cũ có Người gửi tối đa 20 từ và Người nhận tối đa 20 từ. |
+| [BR-052](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/c17b8c1c-62a5-42c0-95cd-91620de4366d) | Ảnh đính kèm | Tạo thiệp | Mỗi yêu cầu có tối đa 01 ảnh đính kèm định dạng PNG hoặc JPG và dung lượng tối đa 10 MB. | Khách hàng tải ảnh đính kèm khi cấu hình Thiệp Custom tại Checkout. | Hệ thống kiểm tra số lượng, định dạng và dung lượng ảnh đính kèm. | File không đúng định dạng, vượt quá dung lượng hoặc vượt quá số lượng không được chấp nhận. Khách hàng vẫn có thể tiếp tục mà không có ảnh đính kèm nếu các dữ liệu bắt buộc khác hợp lệ. | Google Sheet rule source | Đức Bình | STORY-035 | Draft | v0 | 2026-08-14 | — |
+| [BR-053](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/4e460995-5b6c-45b3-8491-13c0c1c80b05) | Một thiệp trong Checkout | Tạo thiệp | Mỗi Checkout được có tối đa 01 lựa chọn thiệp tại một thời điểm. | Khách hàng chọn hoặc thay đổi thiệp tại Checkout. | Nếu Checkout đã có cấu hình hoặc thiệp được chọn, lựa chọn mới thay thế lựa chọn trước đó. | Việc thay đổi lựa chọn trong Checkout không xóa dữ liệu thiệp đã tồn tại trong History. | Google Sheet rule source | Đức Bình | STORY-035 | Draft | v0 | 2026-08-14 | — |
+| [BR-054](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/b93ed86e-be68-4fbe-a7ab-8f1532f369bb) | Giá tạm tính | Tạo thiệp | Giá thiệp được xác định theo loại thiệp và cấu hình hiện hành tại thời điểm khách hàng cấu hình thiệp tại Checkout. | Khách hàng chọn loại thiệp và nhập đầy đủ dữ liệu cần thiết để hệ thống tính giá. | Thiệp Miễn phí không áp dụng giá Size hoặc phụ phí Thiệp Custom. Thiệp Custom dạng In có Giá thiệp bằng Giá hiện hành của Size được chọn. Thiệp Custom dạng Viết tay có Giá thiệp bằng Giá hiện hành của Size được chọn cộng Phụ phí viết tay Active tương ứng với số lượng từ của Nội dung thiệp. Hệ thống lấy giá Size và cấu hình phụ phí hiện hành từ Core Database. Giá tính được được cập nhật vào tổng giá tạm tính của Checkout. Khi Order được tạo, hệ thống lưu snapshot giá áp dụng và số lượng từ đã dùng để tính tiền. | Nếu không tìm thấy giá Size hoặc không tìm thấy cấu hình phụ phí viết tay hợp lệ tương ứng, hệ thống không cho lưu hoàn tất cấu hình Thiệp Custom và thông báo dữ liệu giá hiện không khả dụng. | Product discussion 2026-09-11; STORY-035; STORY-039 | Đức Bình | STORY-035; STORY-039 | Draft | v0 | 2026-09-11 | Snapshot số lượng từ đã thanh toán được dùng để kiểm tra mọi chỉnh sửa Nội dung thiệp sau thanh toán theo BR-272. |
+| [BR-056](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/3c9e47f4-edaa-45ea-9230-9ebdb7d4637f) | Quyền sở hữu | Tạo thiệp | Khách hàng chỉ được gắn thiệp vào Checkout thuộc tài khoản của mình. | Khách hàng tạo thiệp trong Checkout. | Backend kiểm tra quyền sở hữu của Checkout. | Không cho phép gắn thiệp vào Checkout không thuộc tài khoản khách hàng hiện tại. | Google Sheet rule source | Đức Bình | STORY-035 | Draft | v0 | 2026-08-14 | — |
+| [BR-272](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/767acec8-626b-48e7-9352-622cf0a55a61) | Giới hạn chỉnh sửa nội dung thiệp theo số lượng từ đã thanh toán | Tạo thiệp | Sau khi Order đã thanh toán thành công, nếu khách hàng chỉnh sửa Nội dung thiệp trước khi tạo ảnh AI, nội dung sau chỉnh sửa không được vượt quá số lượng từ đã được thanh toán trong Order. | Khách hàng chỉnh sửa Nội dung thiệp của Thiệp Custom sau khi Order đã thanh toán thành công và trước khi gửi yêu cầu tạo ảnh AI, bao gồm cả thao tác Tạo lại hợp lệ trong bước sau thanh toán. | Hệ thống đếm số lượng từ của Nội dung thiệp sau chỉnh sửa theo quy tắc đếm từ hiện hành. Hệ thống so sánh số lượng từ sau chỉnh sửa với số lượng từ đã được dùng để tính tiền và lưu trong snapshot Order. Nếu số lượng từ sau chỉnh sửa nhỏ hơn hoặc bằng số lượng từ đã thanh toán, hệ thống cho phép tiếp tục tạo thiệp AI. Nếu số lượng từ sau chỉnh sửa vượt quá số lượng từ đã thanh toán, hệ thống không cho phép tiếp tục tạo thiệp AI và yêu cầu khách hàng rút gọn nội dung hoặc cập nhật thanh toán theo nghiệp vụ được quy định riêng. | Không áp dụng rule này cho thao tác chọn thiệp đã tạo từ History cho Checkout, vì thao tác đó không mở biểu mẫu chỉnh sửa nội dung và không gọi AI. | Product discussion 2026-09-11; STORY-035; STORY-039 | Đức Bình | STORY-035; STORY-039 | Draft | v0 | 2026-09-11 | Rule này không tự định nghĩa quy trình thu thêm tiền khi khách hàng muốn tăng số lượng từ sau thanh toán; quy trình đó nằm ngoài phạm vi STORY-035 và STORY-039 nếu chưa được chốt riêng. Chức năng Tạo lại thiệp từ History không còn được hỗ trợ; Tạo lại hợp lệ chỉ diễn ra trong bước tạo Thiệp Custom sau khi Order đã thanh toán thành công. |
+
+---
+
 ## References
 
-### Rules
+### Business Rules
 
-- [BR-051](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/d8ba05bd-9cc4-4522-9c99-fe5f2bd1ca7a)
-- [BR-052](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/c17b8c1c-62a5-42c0-95cd-91620de4366d)
-- [BR-053](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/4e460995-5b6c-45b3-8491-13c0c1c80b05)
-- [BR-054](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/b93ed86e-be68-4fbe-a7ab-8f1532f369bb)
-- [BR-056](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/3c9e47f4-edaa-45ea-9230-9ebdb7d4637f)
-- [BR-272](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/767acec8-626b-48e7-9352-622cf0a55a61)
+| Rule ID | Link |
+|---|---|
+| BR-051 | [BR-051](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/d8ba05bd-9cc4-4522-9c99-fe5f2bd1ca7a) |
+| BR-052 | [BR-052](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/c17b8c1c-62a5-42c0-95cd-91620de4366d) |
+| BR-053 | [BR-053](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/4e460995-5b6c-45b3-8491-13c0c1c80b05) |
+| BR-054 | [BR-054](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/b93ed86e-be68-4fbe-a7ab-8f1532f369bb) |
+| BR-056 | [BR-056](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/3c9e47f4-edaa-45ea-9230-9ebdb7d4637f) |
+| BR-272 | [BR-272](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/767acec8-626b-48e7-9352-622cf0a55a61) |
 
 ### Dependencies
 
@@ -281,14 +297,3 @@
 - Tải xuống, chia sẻ, chỉnh sửa hoặc xóa thiệp.
 
 ---
-
-## Chi tiết Business Rules
-
-| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| [BR-051](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/d8ba05bd-9cc4-4522-9c99-fe5f2bd1ca7a) | Nội dung bắt buộc | Tạo thiệp | Nội dung thiệp/Lời chúc là nội dung bắt buộc khi khách hàng chọn thiệp; hệ thống không thu thập Người gửi và Người nhận trong luồng thiệp AI. | Khách hàng lưu cấu hình thiệp hoặc tiếp tục Checkout. | Hệ thống kiểm tra Nội dung thiệp/Lời chúc theo giới hạn số lượng từ áp dụng cho loại thiệp, Size và hình thức đã chọn. Hệ thống không yêu cầu, không validate và không lưu Người gửi hoặc Người nhận như dữ liệu bắt buộc của luồng thiệp AI. | Dữ liệu vượt quá giới hạn số lượng từ không được chấp nhận và cấu hình thiệp không được lưu vào Checkout. | Product discussion 2026-09-11; STORY-035 | Đức Bình | STORY-035 | Draft | v0 | 2026-09-11 | Rule này thay thế yêu cầu cũ có Người gửi tối đa 20 từ và Người nhận tối đa 20 từ. |
-| [BR-052](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/c17b8c1c-62a5-42c0-95cd-91620de4366d) | Ảnh đính kèm | Tạo thiệp | Mỗi yêu cầu có tối đa 01 ảnh đính kèm định dạng PNG hoặc JPG và dung lượng tối đa 10 MB. | Khách hàng tải ảnh đính kèm khi cấu hình Thiệp Custom tại Checkout. | Hệ thống kiểm tra số lượng, định dạng và dung lượng ảnh đính kèm. | File không đúng định dạng, vượt quá dung lượng hoặc vượt quá số lượng không được chấp nhận. Khách hàng vẫn có thể tiếp tục mà không có ảnh đính kèm nếu các dữ liệu bắt buộc khác hợp lệ. | Google Sheet rule source | Đức Bình | STORY-035 | Draft | v0 | 2026-08-14 | — |
-| [BR-053](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/4e460995-5b6c-45b3-8491-13c0c1c80b05) | Một thiệp trong Checkout | Tạo thiệp | Mỗi Checkout được có tối đa 01 lựa chọn thiệp tại một thời điểm. | Khách hàng chọn hoặc thay đổi thiệp tại Checkout. | Nếu Checkout đã có cấu hình hoặc thiệp được chọn, lựa chọn mới thay thế lựa chọn trước đó. | Việc thay đổi lựa chọn trong Checkout không xóa dữ liệu thiệp đã tồn tại trong History. | Google Sheet rule source | Đức Bình | STORY-035 | Draft | v0 | 2026-08-14 | — |
-| [BR-054](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/b93ed86e-be68-4fbe-a7ab-8f1532f369bb) | Giá tạm tính | Tạo thiệp | Giá thiệp được xác định theo loại thiệp và cấu hình hiện hành tại thời điểm khách hàng cấu hình thiệp tại Checkout. | Khách hàng chọn loại thiệp và nhập đầy đủ dữ liệu cần thiết để hệ thống tính giá. | Thiệp Miễn phí không áp dụng giá Size hoặc phụ phí Thiệp Custom. Thiệp Custom dạng In có Giá thiệp bằng Giá hiện hành của Size được chọn. Thiệp Custom dạng Viết tay có Giá thiệp bằng Giá hiện hành của Size được chọn cộng Phụ phí viết tay Active tương ứng với số lượng từ của Nội dung thiệp. Hệ thống lấy giá Size và cấu hình phụ phí hiện hành từ Core Database. Giá tính được được cập nhật vào tổng giá tạm tính của Checkout. Khi Order được tạo, hệ thống lưu snapshot giá áp dụng và số lượng từ đã dùng để tính tiền. | Nếu không tìm thấy giá Size hoặc không tìm thấy cấu hình phụ phí viết tay hợp lệ tương ứng, hệ thống không cho lưu hoàn tất cấu hình Thiệp Custom và thông báo dữ liệu giá hiện không khả dụng. | Product discussion 2026-09-11; STORY-035; STORY-039 | Đức Bình | STORY-035; STORY-039 | Draft | v0 | 2026-09-11 | Snapshot số lượng từ đã thanh toán được dùng để kiểm tra mọi chỉnh sửa Nội dung thiệp sau thanh toán theo BR-272. |
-| [BR-056](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/3c9e47f4-edaa-45ea-9230-9ebdb7d4637f) | Quyền sở hữu | Tạo thiệp | Khách hàng chỉ được gắn thiệp vào Checkout thuộc tài khoản của mình. | Khách hàng tạo thiệp trong Checkout. | Backend kiểm tra quyền sở hữu của Checkout. | Không cho phép gắn thiệp vào Checkout không thuộc tài khoản khách hàng hiện tại. | Google Sheet rule source | Đức Bình | STORY-035 | Draft | v0 | 2026-08-14 | — |
-| [BR-272](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/767acec8-626b-48e7-9352-622cf0a55a61) | Giới hạn chỉnh sửa nội dung thiệp theo số lượng từ đã thanh toán | Tạo thiệp | Sau khi Order đã thanh toán thành công, nếu khách hàng chỉnh sửa Nội dung thiệp trước khi tạo ảnh AI, nội dung sau chỉnh sửa không được vượt quá số lượng từ đã được thanh toán trong Order. | Khách hàng chỉnh sửa Nội dung thiệp của Thiệp Custom sau khi Order đã thanh toán thành công và trước khi gửi yêu cầu tạo ảnh AI, bao gồm cả thao tác Tạo lại hợp lệ trong bước sau thanh toán. | Hệ thống đếm số lượng từ của Nội dung thiệp sau chỉnh sửa theo quy tắc đếm từ hiện hành. Hệ thống so sánh số lượng từ sau chỉnh sửa với số lượng từ đã được dùng để tính tiền và lưu trong snapshot Order. Nếu số lượng từ sau chỉnh sửa nhỏ hơn hoặc bằng số lượng từ đã thanh toán, hệ thống cho phép tiếp tục tạo thiệp AI. Nếu số lượng từ sau chỉnh sửa vượt quá số lượng từ đã thanh toán, hệ thống không cho phép tiếp tục tạo thiệp AI và yêu cầu khách hàng rút gọn nội dung hoặc cập nhật thanh toán theo nghiệp vụ được quy định riêng. | Không áp dụng rule này cho thao tác chọn thiệp đã tạo từ History cho Checkout, vì thao tác đó không mở biểu mẫu chỉnh sửa nội dung và không gọi AI. | Product discussion 2026-09-11; STORY-035; STORY-039 | Đức Bình | STORY-035; STORY-039 | Draft | v0 | 2026-09-11 | Rule này không tự định nghĩa quy trình thu thêm tiền khi khách hàng muốn tăng số lượng từ sau thanh toán; quy trình đó nằm ngoài phạm vi STORY-035 và STORY-039 nếu chưa được chốt riêng. Chức năng Tạo lại thiệp từ History không còn được hỗ trợ; Tạo lại hợp lệ chỉ diễn ra trong bước tạo Thiệp Custom sau khi Order đã thanh toán thành công. |

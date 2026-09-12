@@ -1,25 +1,24 @@
-# STORY-083: Admin cập nhật trạng thái Active/Inactive của cấu hình Size Hoa Custom AI
+# STORY-083 — Admin cập nhật trạng thái Active/Inactive của cấu hình Size Hoa Custom AI
 
 ## Metadata
 
-- **Story**: Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn cập nhật trạng thái Active/Inactive của cấu hình Size Hoa Custom AI, để kiểm soát Size nào được hiển thị cho khách hàng trong luồng tạo mẫu hoa.
-- **Context**: Cấu hình Size có hai trạng thái Active và Inactive. Cấu hình Size mới tạo mặc định là Inactive. Admin có thể chuyển sang Active sau khi kiểm tra dữ liệu. Khi chuyển về Inactive, Size không còn được hiển thị cho khách hàng ở các luồng khởi tạo mẫu hoa mới.
-- **Sprint**: S1
-- **Priority**: Must
-- **Phiên bản**: v0.1
-- **Phê duyệt tài liệu**: Nháp
-- **Cập nhật**: 12/09/2026
-- **Author**: Chưa chỉ định
-- **Reviewer**: Nguyễn Đức Bình
-- **Approver**: Hoàng Thị Khánh Linh
-- **Owner**: Hoàng Thị Khánh Linh
-- **Status**: Cần làm
-- **Assignee**:
-  - FE: Hoàng Thị Khánh Linh
-  - BE: Nguyễn Đức Bình
-- **Creator**: Hoàng Thị Khánh Linh
-- **Thống kê tài liệu**: Unit Tests: 0 | System Tests: 0
+| Trường | Nội dung |
+|---|---|
+| **Loại** | Story |
+| **User Story** | Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn cập nhật trạng thái Active/Inactive của cấu hình Size Hoa Custom AI, để kiểm soát Size nào được hiển thị cho khách hàng trong luồng tạo mẫu hoa. |
+| **Sprint** | S1 |
+| **Priority** | Must |
+| **Assignee (FE)** | Hoàng Thị Khánh Linh |
+| **Creator** | Hoàng Thị Khánh Linh |
+| **Status** | Cần làm |
+| **Phiên bản** | v0.1 |
+| **Phê duyệt** | Nháp |
 
+---
+
+## Context
+
+Cấu hình Size có hai trạng thái Active và Inactive. Cấu hình Size mới tạo mặc định là Inactive. Admin có thể chuyển sang Active sau khi kiểm tra dữ liệu. Khi chuyển về Inactive, Size không còn được hiển thị cho khách hàng ở các luồng khởi tạo mẫu hoa mới.
 ---
 
 ## Conditions
@@ -32,7 +31,8 @@
 
 ### Trigger
 
-- Admin chọn thao tác đổi trạng thái Active/Inactive tại một cấu hình Size.
+> - Admin chọn thao tác đổi trạng thái Active/Inactive tại một cấu hình Size.
+
 
 ---
 
@@ -50,14 +50,14 @@
 8. Nếu trạng thái mới là Active, cấu hình Size đủ điều kiện hiển thị cho khách hàng trong luồng chọn Size.
 9. Nếu trạng thái mới là Inactive, cấu hình Size không được hiển thị cho khách hàng trong luồng chọn Size mới.
 
-### Alternative Flow
+### Alternative Flows
 
 #### ALT-01 — Admin hủy thao tác đổi trạng thái nếu UI có bước xác nhận
 - Admin chọn hủy.
 - Hệ thống không gửi request đổi trạng thái.
 - Trạng thái cấu hình Size giữ nguyên.
 
-### Exception Flow
+### Exception Flows
 
 #### EXC-01 — Không tìm thấy bản ghi
 - Backend không tìm thấy cấu hình Size cần đổi trạng thái.

@@ -1,24 +1,24 @@
-# STORY-039: Khách hàng hoàn tất Checkout và thanh toán Order
+# STORY-039 — Khách hàng hoàn tất Checkout và thanh toán Order
 
 ## Metadata
 
-- **Story**: Là một khách hàng đã đăng nhập, tôi muốn hoàn tất Checkout và thanh toán Order, để xác nhận đơn hàng và tiếp tục các bước xử lý tương ứng với lựa chọn thiệp của mình.
-- **Context**: Checkout khi vào STORY-039 có thể thuộc một trong các trường hợp: không có thiệp, có Thiệp Miễn phí, có cấu hình Thiệp Custom mới từ STORY-035 hoặc có thiệp đã tạo được chọn lại từ History theo STORY-042.
-- **Sprint**: S1
-- **Priority**: Must
-- **Phiên bản**: v0.1
-- **Phê duyệt tài liệu**: Nháp
-- **Cập nhật**: 11/09/2026
-- **Author**: Hoàng Thị Khánh Linh
-- **Reviewer**: Nguyễn Đức Bình
-- **Approver**: Hoàng Thị Khánh Linh
-- **Owner**: Hoàng Thị Khánh Linh
-- **Status**: Cần làm
-- **Assignee**:
-  - FE: Danh Nguyen
-- **Creator**: Hoàng Thị Khánh Linh
-- **Thống kê tài liệu**: TDDs: 1 | Rules: 9 | Unit Tests: 0 | System Tests: 8
+| Trường | Nội dung |
+|---|---|
+| **Loại** | Story |
+| **User Story** | Là một khách hàng đã đăng nhập, tôi muốn hoàn tất Checkout và thanh toán Order, để xác nhận đơn hàng và tiếp tục các bước xử lý tương ứng với lựa chọn thiệp của mình. |
+| **Sprint** | S1 |
+| **Priority** | Must |
+| **Assignee (FE)** | Danh Nguyen |
+| **Creator** | Hoàng Thị Khánh Linh |
+| **Status** | Cần làm |
+| **Phiên bản** | v0.1 |
+| **Phê duyệt** | Nháp |
 
+---
+
+## Context
+
+Checkout khi vào STORY-039 có thể thuộc một trong các trường hợp: không có thiệp, có Thiệp Miễn phí, có cấu hình Thiệp Custom mới từ STORY-035 hoặc có thiệp đã tạo được chọn lại từ History theo STORY-042.
 ---
 
 ## Conditions
@@ -34,7 +34,8 @@
 
 ### Trigger
 
-- Khách hàng chọn "Hoàn tất" hoặc thao tác tương ứng để xác nhận Checkout và tiến hành thanh toán.
+> - Khách hàng chọn "Hoàn tất" hoặc thao tác tương ứng để xác nhận Checkout và tiến hành thanh toán.
+
 
 ---
 
@@ -56,7 +57,7 @@
 12. Hệ thống xử lý bước tiếp theo theo lựa chọn thiệp của Order.
 13. Khách hàng được điều hướng đến bước tiếp theo phù hợp.
 
-### Alternative Flow
+### Alternative Flows
 
 #### ALT-01 — Order không có thiệp
 - Khách hàng hoàn tất Checkout không có thiệp.
@@ -98,7 +99,7 @@
 - Hệ thống không tạo thêm Order mới chỉ vì retry payment.
 - Nếu payment sau đó SUCCESS, hệ thống tiếp tục flow theo loại thiệp đã snapshot trong Order.
 
-### Exception Flow
+### Exception Flows
 
 #### EXC-01 — Checkout không hợp lệ
 - Backend phát hiện Checkout không tồn tại, không thuộc khách hàng hiện tại hoặc đã được hoàn tất.
@@ -210,19 +211,37 @@
 
 ---
 
+## Business Rules
+
+| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| [BR-087](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/f0773ccf-da70-4dd1-8328-bc7d68d35824) | Thời điểm tạo Order | Hoàn tất Checkout, tạo và thanh toán Order | Order chỉ được tạo sau khi khách hàng bấm “Hoàn tất” và backend xác nhận toàn bộ điều kiện cuối. | Khách hàng bấm “Hoàn tất”. | Backend xác nhận toàn bộ điều kiện cuối trước khi tạo Order. | Không tạo Order nếu điều kiện cuối không hợp lệ. | Google Sheet rule source | Đức Bình | STORY-039 | Draft | v0 | 2026-08-14 | — |
+| [BR-088](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/3b534fb0-c991-4ff7-89ad-eb4bd02921a8) | Trạng thái ban đầu | Hoàn tất Checkout, tạo và thanh toán Order | Order mới được tạo có trạng thái PENDING cho đến khi có Payment được xác minh thành công hoặc Order bị hủy theo rule hết hạn. | Order mới được tạo. | Hệ thống gán trạng thái PENDING cho Order. | Trạng thái PENDING vẫn được giữ khi khách hàng chưa bấm thanh toán hoặc lần thanh toán đầu thất bại. | Google Sheet rule source | Đức Bình | STORY-039 | Draft | v0 | 2026-08-14 | — |
+| [BR-089](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/35efbcf7-42f4-4d17-b1e3-a419221bb001) | Thời hạn PENDING và giải phóng tồn kho | Hoàn tất Checkout, tạo và thanh toán Order | Order ở trạng thái PENDING được duy trì tối đa 24 giờ kể từ thời điểm tạo. Trong thời gian này, hệ thống giữ số lượng tồn kho thực tế của các thành phần đã được ghi nhận cho Order. Thành phần Support không còn đủ hàng được ghi nhận là cần thay thế và không được reserve vượt quá tồn kho thực tế. Việc xác định thành phần Support thay thế được thực hiện sau khi Staff liên hệ và thống nhất với khách hàng, không phải tại thời điểm tạo Order. | Order đã ở trạng thái PENDING đủ 24 giờ và chưa có giao dịch thanh toán thành công. | Hệ thống chuyển Order sang trạng thái CANCELLED. Hệ thống giải phóng số lượng tồn kho các thành phần của Combo đã được giữ cho Order. Số lượng được giải phóng trở lại thành tồn kho khả dụng. Order vẫn được lưu và hiển thị trong lịch sử đơn hàng với trạng thái “Đã hủy”. Mẫu hoa Custom AI vẫn được giữ và tiếp tục liên kết với Order đã hủy. | Việc giải phóng tồn kho chỉ được thực hiện đúng một lần cho mỗi Order. Chỉ giải phóng đúng số lượng đã được giữ cho Order; không làm thay đổi phần tồn kho khác. Không giải phóng lại nếu tồn kho của Order đã được giải phóng trước đó. Mẫu hoa Custom AI không bị xóa hoặc chuyển về trạng thái Bản nháp. Order đã chuyển sang CANCELLED không được tiếp tục thanh toán. Thanh toán lại trước khi hết hạn không làm thay đổi mốc hết hạn ban đầu. Order PENDING hoặc CANCELLED do hết hạn không được phép tạo Thiệp Custom mới. | Google Sheet rule source | Đức Bình | STORY-039 | Draft | v0 | 2026-08-14 | — |
+| [BR-090](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/f3d3d0c2-21ae-42b0-864c-18027a6ebf6e) | Thử lại thanh toán | Hoàn tất Checkout, tạo và thanh toán Order | Khách hàng được thử thanh toán không giới hạn số lần khi Order còn PENDING và chưa hết hạn. | Khách hàng thử thanh toán lại. | Hệ thống cho phép thử thanh toán không giới hạn số lần. | Chỉ áp dụng khi Order còn PENDING và chưa hết hạn. | Google Sheet rule source | Đức Bình | STORY-039 | Draft | v0 | 2026-08-14 | — |
+| [BR-091](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/7bc0baa5-01b5-4fe1-98c6-6b525be8e406) | Tự động hủy | Hoàn tất Checkout, tạo và thanh toán Order | Sau 24 giờ chưa thanh toán thành công, hệ thống tự động chuyển Order sang CANCELLED và chặn thanh toán. | Order chưa thanh toán thành công sau 24 giờ. | Hệ thống tự động chuyển Order sang CANCELLED. | Order CANCELLED bị chặn thanh toán. | Google Sheet rule source | Đức Bình | STORY-039 | Draft | v0 | 2026-08-14 | — |
+| [BR-092](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/92b589a3-f87b-4d15-a4e5-165a2be241a8) | Chốt bill | Hoàn tất Checkout, tạo và thanh toán Order | Backend tính giá sản phẩm, giá thiệp nếu có và phí giao hàng tại thời điểm hoàn tất Checkout. | Khách hàng hoàn tất Checkout. | Backend tính giá sản phẩm, giá thiệp nếu có và phí giao hàng. | Bill được chốt tại thời điểm hoàn tất Checkout. | Google Sheet rule source | Đức Bình | STORY-039 | Draft | v0 | 2026-08-14 | — |
+| [BR-093](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/31338ae7-cd10-434c-a2f6-f671ea33a5e6) | Tồn kho | Hoàn tất Checkout, tạo và thanh toán Order | Core hết chặn tạo Order. Support hết không chặn nếu core còn và cửa hàng thay thế tương ứng. | Backend kiểm tra tồn kho trước khi tạo Order. | Core hết chặn tạo Order. Support hết không chặn nếu core còn và cửa hàng thay thế tương ứng. | Không tạo Order khi Core hết. | Google Sheet rule source | Đức Bình | STORY-039 | Draft | v0 | 2026-08-14 | — |
+| [BR-094](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/807a720b-e138-442e-b91b-0f701766fd32) | Thiệp sau khi tạo Order | Hoàn tất Checkout, tạo và thanh toán Order | Khách hàng không được đổi hoặc gỡ thiệp sau khi Order đã được tạo. | Order đã được tạo. | Hệ thống không cho khách hàng đổi hoặc gỡ thiệp. | Không áp dụng trước thời điểm Order được tạo. | Google Sheet rule source | Đức Bình | STORY-039 | Draft | v0 | 2026-08-14 | — |
+| [BR-272](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/767acec8-626b-48e7-9352-622cf0a55a61) | Giới hạn chỉnh sửa nội dung thiệp theo số lượng từ đã thanh toán | Tạo thiệp | Sau khi Order đã thanh toán thành công, nếu khách hàng chỉnh sửa Nội dung thiệp trước khi tạo ảnh AI, nội dung sau chỉnh sửa không được vượt quá số lượng từ đã được thanh toán trong Order. | Khách hàng chỉnh sửa Nội dung thiệp của Thiệp Custom sau khi Order đã thanh toán thành công và trước khi gửi yêu cầu tạo ảnh AI, bao gồm cả thao tác Tạo lại hợp lệ trong bước sau thanh toán. | Hệ thống đếm số lượng từ của Nội dung thiệp sau chỉnh sửa theo quy tắc đếm từ hiện hành. Hệ thống so sánh số lượng từ sau chỉnh sửa với số lượng từ đã được dùng để tính tiền và lưu trong snapshot Order. Nếu số lượng từ sau chỉnh sửa nhỏ hơn hoặc bằng số lượng từ đã thanh toán, hệ thống cho phép tiếp tục tạo thiệp AI. Nếu số lượng từ sau chỉnh sửa vượt quá số lượng từ đã thanh toán, hệ thống không cho phép tiếp tục tạo thiệp AI và yêu cầu khách hàng rút gọn nội dung hoặc cập nhật thanh toán theo nghiệp vụ được quy định riêng. | Không áp dụng rule này cho thao tác chọn thiệp đã tạo từ History cho Checkout, vì thao tác đó không mở biểu mẫu chỉnh sửa nội dung và không gọi AI. | Product discussion 2026-09-11; STORY-035; STORY-039 | Đức Bình | STORY-035; STORY-039 | Draft | v0 | 2026-09-11 | Rule này không tự định nghĩa quy trình thu thêm tiền khi khách hàng muốn tăng số lượng từ sau thanh toán; quy trình đó nằm ngoài phạm vi STORY-035 và STORY-039 nếu chưa được chốt riêng. Chức năng Tạo lại thiệp từ History không còn được hỗ trợ; Tạo lại hợp lệ chỉ diễn ra trong bước tạo Thiệp Custom sau khi Order đã thanh toán thành công. |
+
+---
+
 ## References
 
-### Rules
+### Business Rules
 
-- [BR-087](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/f0773ccf-da70-4dd1-8328-bc7d68d35824)
-- [BR-088](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/3b534fb0-c991-4ff7-89ad-eb4bd02921a8)
-- [BR-089](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/35efbcf7-42f4-4d17-b1e3-a419221bb001)
-- [BR-090](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/f3d3d0c2-21ae-42b0-864c-18027a6ebf6e)
-- [BR-091](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/7bc0baa5-01b5-4fe1-98c6-6b525be8e406)
-- [BR-092](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/92b589a3-f87b-4d15-a4e5-165a2be241a8)
-- [BR-093](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/31338ae7-cd10-434c-a2f6-f671ea33a5e6)
-- [BR-094](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/807a720b-e138-442e-b91b-0f701766fd32)
-- [BR-272](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/767acec8-626b-48e7-9352-622cf0a55a61)
+| Rule ID | Link |
+|---|---|
+| BR-087 | [BR-087](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/f0773ccf-da70-4dd1-8328-bc7d68d35824) |
+| BR-088 | [BR-088](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/3b534fb0-c991-4ff7-89ad-eb4bd02921a8) |
+| BR-089 | [BR-089](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/35efbcf7-42f4-4d17-b1e3-a419221bb001) |
+| BR-090 | [BR-090](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/f3d3d0c2-21ae-42b0-864c-18027a6ebf6e) |
+| BR-091 | [BR-091](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/7bc0baa5-01b5-4fe1-98c6-6b525be8e406) |
+| BR-092 | [BR-092](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/92b589a3-f87b-4d15-a4e5-165a2be241a8) |
+| BR-093 | [BR-093](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/31338ae7-cd10-434c-a2f6-f671ea33a5e6) |
+| BR-094 | [BR-094](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/807a720b-e138-442e-b91b-0f701766fd32) |
+| BR-272 | [BR-272](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/767acec8-626b-48e7-9352-622cf0a55a61) |
 
 ### Dependencies
 
@@ -250,17 +269,3 @@
 - Quản trị tồn kho.
 
 ---
-
-## Chi tiết Business Rules
-
-| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| [BR-087](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/f0773ccf-da70-4dd1-8328-bc7d68d35824) | Thời điểm tạo Order | Hoàn tất Checkout, tạo và thanh toán Order | Order chỉ được tạo sau khi khách hàng bấm “Hoàn tất” và backend xác nhận toàn bộ điều kiện cuối. | Khách hàng bấm “Hoàn tất”. | Backend xác nhận toàn bộ điều kiện cuối trước khi tạo Order. | Không tạo Order nếu điều kiện cuối không hợp lệ. | Google Sheet rule source | Đức Bình | STORY-039 | Draft | v0 | 2026-08-14 | — |
-| [BR-088](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/3b534fb0-c991-4ff7-89ad-eb4bd02921a8) | Trạng thái ban đầu | Hoàn tất Checkout, tạo và thanh toán Order | Order mới được tạo có trạng thái PENDING cho đến khi có Payment được xác minh thành công hoặc Order bị hủy theo rule hết hạn. | Order mới được tạo. | Hệ thống gán trạng thái PENDING cho Order. | Trạng thái PENDING vẫn được giữ khi khách hàng chưa bấm thanh toán hoặc lần thanh toán đầu thất bại. | Google Sheet rule source | Đức Bình | STORY-039 | Draft | v0 | 2026-08-14 | — |
-| [BR-089](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/35efbcf7-42f4-4d17-b1e3-a419221bb001) | Thời hạn PENDING và giải phóng tồn kho | Hoàn tất Checkout, tạo và thanh toán Order | Order ở trạng thái PENDING được duy trì tối đa 24 giờ kể từ thời điểm tạo. Trong thời gian này, hệ thống giữ số lượng tồn kho thực tế của các thành phần đã được ghi nhận cho Order. Thành phần Support không còn đủ hàng được ghi nhận là cần thay thế và không được reserve vượt quá tồn kho thực tế. Việc xác định thành phần Support thay thế được thực hiện sau khi Staff liên hệ và thống nhất với khách hàng, không phải tại thời điểm tạo Order. | Order đã ở trạng thái PENDING đủ 24 giờ và chưa có giao dịch thanh toán thành công. | Hệ thống chuyển Order sang trạng thái CANCELLED. Hệ thống giải phóng số lượng tồn kho các thành phần của Combo đã được giữ cho Order. Số lượng được giải phóng trở lại thành tồn kho khả dụng. Order vẫn được lưu và hiển thị trong lịch sử đơn hàng với trạng thái “Đã hủy”. Mẫu hoa Custom AI vẫn được giữ và tiếp tục liên kết với Order đã hủy. | Việc giải phóng tồn kho chỉ được thực hiện đúng một lần cho mỗi Order. Chỉ giải phóng đúng số lượng đã được giữ cho Order; không làm thay đổi phần tồn kho khác. Không giải phóng lại nếu tồn kho của Order đã được giải phóng trước đó. Mẫu hoa Custom AI không bị xóa hoặc chuyển về trạng thái Bản nháp. Order đã chuyển sang CANCELLED không được tiếp tục thanh toán. Thanh toán lại trước khi hết hạn không làm thay đổi mốc hết hạn ban đầu. Order PENDING hoặc CANCELLED do hết hạn không được phép tạo Thiệp Custom mới. | Google Sheet rule source | Đức Bình | STORY-039 | Draft | v0 | 2026-08-14 | — |
-| [BR-090](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/f3d3d0c2-21ae-42b0-864c-18027a6ebf6e) | Thử lại thanh toán | Hoàn tất Checkout, tạo và thanh toán Order | Khách hàng được thử thanh toán không giới hạn số lần khi Order còn PENDING và chưa hết hạn. | Khách hàng thử thanh toán lại. | Hệ thống cho phép thử thanh toán không giới hạn số lần. | Chỉ áp dụng khi Order còn PENDING và chưa hết hạn. | Google Sheet rule source | Đức Bình | STORY-039 | Draft | v0 | 2026-08-14 | — |
-| [BR-091](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/7bc0baa5-01b5-4fe1-98c6-6b525be8e406) | Tự động hủy | Hoàn tất Checkout, tạo và thanh toán Order | Sau 24 giờ chưa thanh toán thành công, hệ thống tự động chuyển Order sang CANCELLED và chặn thanh toán. | Order chưa thanh toán thành công sau 24 giờ. | Hệ thống tự động chuyển Order sang CANCELLED. | Order CANCELLED bị chặn thanh toán. | Google Sheet rule source | Đức Bình | STORY-039 | Draft | v0 | 2026-08-14 | — |
-| [BR-092](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/92b589a3-f87b-4d15-a4e5-165a2be241a8) | Chốt bill | Hoàn tất Checkout, tạo và thanh toán Order | Backend tính giá sản phẩm, giá thiệp nếu có và phí giao hàng tại thời điểm hoàn tất Checkout. | Khách hàng hoàn tất Checkout. | Backend tính giá sản phẩm, giá thiệp nếu có và phí giao hàng. | Bill được chốt tại thời điểm hoàn tất Checkout. | Google Sheet rule source | Đức Bình | STORY-039 | Draft | v0 | 2026-08-14 | — |
-| [BR-093](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/31338ae7-cd10-434c-a2f6-f671ea33a5e6) | Tồn kho | Hoàn tất Checkout, tạo và thanh toán Order | Core hết chặn tạo Order. Support hết không chặn nếu core còn và cửa hàng thay thế tương ứng. | Backend kiểm tra tồn kho trước khi tạo Order. | Core hết chặn tạo Order. Support hết không chặn nếu core còn và cửa hàng thay thế tương ứng. | Không tạo Order khi Core hết. | Google Sheet rule source | Đức Bình | STORY-039 | Draft | v0 | 2026-08-14 | — |
-| [BR-094](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/807a720b-e138-442e-b91b-0f701766fd32) | Thiệp sau khi tạo Order | Hoàn tất Checkout, tạo và thanh toán Order | Khách hàng không được đổi hoặc gỡ thiệp sau khi Order đã được tạo. | Order đã được tạo. | Hệ thống không cho khách hàng đổi hoặc gỡ thiệp. | Không áp dụng trước thời điểm Order được tạo. | Google Sheet rule source | Đức Bình | STORY-039 | Draft | v0 | 2026-08-14 | — |
-| [BR-272](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/767acec8-626b-48e7-9352-622cf0a55a61) | Giới hạn chỉnh sửa nội dung thiệp theo số lượng từ đã thanh toán | Tạo thiệp | Sau khi Order đã thanh toán thành công, nếu khách hàng chỉnh sửa Nội dung thiệp trước khi tạo ảnh AI, nội dung sau chỉnh sửa không được vượt quá số lượng từ đã được thanh toán trong Order. | Khách hàng chỉnh sửa Nội dung thiệp của Thiệp Custom sau khi Order đã thanh toán thành công và trước khi gửi yêu cầu tạo ảnh AI, bao gồm cả thao tác Tạo lại hợp lệ trong bước sau thanh toán. | Hệ thống đếm số lượng từ của Nội dung thiệp sau chỉnh sửa theo quy tắc đếm từ hiện hành. Hệ thống so sánh số lượng từ sau chỉnh sửa với số lượng từ đã được dùng để tính tiền và lưu trong snapshot Order. Nếu số lượng từ sau chỉnh sửa nhỏ hơn hoặc bằng số lượng từ đã thanh toán, hệ thống cho phép tiếp tục tạo thiệp AI. Nếu số lượng từ sau chỉnh sửa vượt quá số lượng từ đã thanh toán, hệ thống không cho phép tiếp tục tạo thiệp AI và yêu cầu khách hàng rút gọn nội dung hoặc cập nhật thanh toán theo nghiệp vụ được quy định riêng. | Không áp dụng rule này cho thao tác chọn thiệp đã tạo từ History cho Checkout, vì thao tác đó không mở biểu mẫu chỉnh sửa nội dung và không gọi AI. | Product discussion 2026-09-11; STORY-035; STORY-039 | Đức Bình | STORY-035; STORY-039 | Draft | v0 | 2026-09-11 | Rule này không tự định nghĩa quy trình thu thêm tiền khi khách hàng muốn tăng số lượng từ sau thanh toán; quy trình đó nằm ngoài phạm vi STORY-035 và STORY-039 nếu chưa được chốt riêng. Chức năng Tạo lại thiệp từ History không còn được hỗ trợ; Tạo lại hợp lệ chỉ diễn ra trong bước tạo Thiệp Custom sau khi Order đã thanh toán thành công. |

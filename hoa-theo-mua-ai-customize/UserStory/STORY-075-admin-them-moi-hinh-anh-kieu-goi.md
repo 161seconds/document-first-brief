@@ -1,24 +1,24 @@
-# STORY-075: Admin thêm mới hình ảnh kiểu gói
+# STORY-075 — Admin thêm mới hình ảnh kiểu gói
 
 ## Metadata
 
-- **Story**: Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn thêm mới hình ảnh kiểu gói, để tạo dữ liệu kiểu gói dùng cho luồng tạo mẫu hoa AI.
-- **Context**: Admin thêm mới hình ảnh kiểu gói bằng cách nhập tên, mô tả và tải lên ảnh preview.
-- **Sprint**: S1
-- **Priority**: Must
-- **Phiên bản**: v0.1
-- **Phê duyệt tài liệu**: Nháp
-- **Cập nhật**: 12/09/2026
-- **Author**: Hoàng Thị Khánh Linh
-- **Reviewer**: Nguyễn Đức Bình
-- **Approver**: Nguyễn Đức Bình
-- **Owner**: Hoàng Thị Khánh Linh
-- **Status**: Cần làm
-- **Assignee**:
-  - FE: Võ Gia Huy
-- **Creator**: Hoàng Thị Khánh Linh
-- **Thống kê tài liệu**: Rules: 1 | Unit Tests: 0 | System Tests: 0
+| Trường | Nội dung |
+|---|---|
+| **Loại** | Story |
+| **User Story** | Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn thêm mới hình ảnh kiểu gói, để tạo dữ liệu kiểu gói dùng cho luồng tạo mẫu hoa AI. |
+| **Sprint** | S1 |
+| **Priority** | Must |
+| **Assignee (FE)** | Võ Gia Huy |
+| **Creator** | Hoàng Thị Khánh Linh |
+| **Status** | Cần làm |
+| **Phiên bản** | v0.1 |
+| **Phê duyệt** | Nháp |
 
+---
+
+## Context
+
+Admin thêm mới hình ảnh kiểu gói bằng cách nhập tên, mô tả và tải lên ảnh preview.
 ---
 
 ## Conditions
@@ -31,7 +31,8 @@
 
 ### Trigger
 
-- Admin chọn thao tác "Thêm mới".
+> - Admin chọn thao tác "Thêm mới".
+
 
 ---
 
@@ -53,14 +54,14 @@
 12. Hệ thống thông báo tạo mới thành công.
 13. Hệ thống hiển thị bản ghi mới trong danh sách.
 
-### Alternative Flow
+### Alternative Flows
 
 #### ALT-01 — Admin hủy thao tác thêm mới
 - Admin chọn hủy hoặc đóng form.
 - Hệ thống đóng form thêm mới.
 - Hệ thống không tạo bản ghi hình ảnh kiểu gói.
 
-### Exception Flow
+### Exception Flows
 
 #### EXC-01 — Thiếu thông tin bắt buộc
 - Admin để trống ảnh preview hoặc tên.
@@ -127,11 +128,21 @@
 
 ---
 
+## Business Rules
+
+| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| [BR-274](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/bb4c5ee0-0ef8-4e72-be5b-306f7fdc4317) | Thêm mới hình ảnh kiểu gói | Quản lý dữ liệu AI Custom | Hình ảnh kiểu gói mới chỉ được tạo khi Admin có quyền quản lý dữ liệu AI Custom và cung cấp đầy đủ dữ liệu hợp lệ. | Admin thực hiện thao tác thêm mới hình ảnh kiểu gói trong Website quản trị. | Backend phải kiểm tra các điều kiện sau trước khi tạo bản ghi: - Người dùng có quyền quản lý dữ liệu AI Custom. - Ảnh preview là bắt buộc. - Ảnh preview chỉ chấp nhận định dạng JPG hoặc PNG. - Dung lượng ảnh preview không vượt quá 10MB. - Tên hình ảnh kiểu gói là bắt buộc. - Tên và mô tả phải đáp ứng giới hạn dữ liệu do hệ thống cấu hình. Khi tạo mới thành công, hệ thống phải gán trạng thái mặc định của hình ảnh kiểu gói là Inactive. | Không cho phép tạo mới hình ảnh kiểu gói nếu người dùng không có quyền, thiếu ảnh preview, thiếu tên, ảnh preview sai định dạng hoặc ảnh preview vượt quá dung lượng cho phép. | Product discussion 2026-09-12; STORY-075 | Đức Bình | STORY-075 | Draft | v0 | 2026-09-12 | Trạng thái Inactive mặc định giúp cửa hàng kiểm tra dữ liệu trước khi cho khách hàng sử dụng trong luồng tạo mẫu hoa AI. Việc chuyển sang Active được xử lý theo story đổi trạng thái riêng. |
+
+---
+
 ## References
 
-### Rules
+### Business Rules
 
-- [BR-274](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/bb4c5ee0-0ef8-4e72-be5b-306f7fdc4317)
+| Rule ID | Link |
+|---|---|
+| BR-274 | [BR-274](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/bb4c5ee0-0ef8-4e72-be5b-306f7fdc4317) |
 
 ### Dependencies
 
@@ -154,9 +165,3 @@
 - Gắn hình ảnh kiểu gói vào yêu cầu tạo mẫu hoa.
 
 ---
-
-## Chi tiết Business Rules
-
-| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| [BR-274](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/bb4c5ee0-0ef8-4e72-be5b-306f7fdc4317) | Thêm mới hình ảnh kiểu gói | Quản lý dữ liệu AI Custom | Hình ảnh kiểu gói mới chỉ được tạo khi Admin có quyền quản lý dữ liệu AI Custom và cung cấp đầy đủ dữ liệu hợp lệ. | Admin thực hiện thao tác thêm mới hình ảnh kiểu gói trong Website quản trị. | Backend phải kiểm tra các điều kiện sau trước khi tạo bản ghi: - Người dùng có quyền quản lý dữ liệu AI Custom. - Ảnh preview là bắt buộc. - Ảnh preview chỉ chấp nhận định dạng JPG hoặc PNG. - Dung lượng ảnh preview không vượt quá 10MB. - Tên hình ảnh kiểu gói là bắt buộc. - Tên và mô tả phải đáp ứng giới hạn dữ liệu do hệ thống cấu hình. Khi tạo mới thành công, hệ thống phải gán trạng thái mặc định của hình ảnh kiểu gói là Inactive. | Không cho phép tạo mới hình ảnh kiểu gói nếu người dùng không có quyền, thiếu ảnh preview, thiếu tên, ảnh preview sai định dạng hoặc ảnh preview vượt quá dung lượng cho phép. | Product discussion 2026-09-12; STORY-075 | Đức Bình | STORY-075 | Draft | v0 | 2026-09-12 | Trạng thái Inactive mặc định giúp cửa hàng kiểm tra dữ liệu trước khi cho khách hàng sử dụng trong luồng tạo mẫu hoa AI. Việc chuyển sang Active được xử lý theo story đổi trạng thái riêng. |

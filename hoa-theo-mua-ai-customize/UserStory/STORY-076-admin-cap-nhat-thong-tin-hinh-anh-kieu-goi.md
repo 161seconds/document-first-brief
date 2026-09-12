@@ -1,24 +1,24 @@
-# STORY-076: Admin cập nhật thông tin hình ảnh kiểu gói
+# STORY-076 — Admin cập nhật thông tin hình ảnh kiểu gói
 
 ## Metadata
 
-- **Story**: Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn cập nhật thông tin hình ảnh kiểu gói, để chỉnh sửa ảnh preview, tên hoặc mô tả khi dữ liệu cấu hình thay đổi.
-- **Context**: Admin có thể cập nhật ảnh preview, tên và mô tả của một hình ảnh kiểu gói đã tồn tại.
-- **Sprint**: S1
-- **Priority**: Must
-- **Phiên bản**: v0.1
-- **Phê duyệt tài liệu**: Nháp
-- **Cập nhật**: 12/09/2026
-- **Author**: Hoàng Thị Khánh Linh
-- **Reviewer**: Nguyễn Đức Bình
-- **Approver**: Nguyễn Đức Bình
-- **Owner**: Hoàng Thị Khánh Linh
-- **Status**: Cần làm
-- **Assignee**:
-  - FE: Võ Gia Huy
-- **Creator**: Hoàng Thị Khánh Linh
-- **Thống kê tài liệu**: Rules: 1 | Unit Tests: 0 | System Tests: 0
+| Trường | Nội dung |
+|---|---|
+| **Loại** | Story |
+| **User Story** | Là một Admin có quyền quản lý dữ liệu AI Custom, tôi muốn cập nhật thông tin hình ảnh kiểu gói, để chỉnh sửa ảnh preview, tên hoặc mô tả khi dữ liệu cấu hình thay đổi. |
+| **Sprint** | S1 |
+| **Priority** | Must |
+| **Assignee (FE)** | Võ Gia Huy |
+| **Creator** | Hoàng Thị Khánh Linh |
+| **Status** | Cần làm |
+| **Phiên bản** | v0.1 |
+| **Phê duyệt** | Nháp |
 
+---
+
+## Context
+
+Admin có thể cập nhật ảnh preview, tên và mô tả của một hình ảnh kiểu gói đã tồn tại.
 ---
 
 ## Conditions
@@ -31,7 +31,8 @@
 
 ### Trigger
 
-- Admin chọn thao tác "Cập nhật" hoặc "Sửa" tại một hình ảnh kiểu gói.
+> - Admin chọn thao tác "Cập nhật" hoặc "Sửa" tại một hình ảnh kiểu gói.
+
 
 ---
 
@@ -51,7 +52,7 @@
 10. Hệ thống thông báo cập nhật thành công.
 11. Hệ thống hiển thị dữ liệu mới trong danh sách.
 
-### Alternative Flow
+### Alternative Flows
 
 #### ALT-01 — Admin không thay ảnh preview
 - Admin chỉ chỉnh sửa tên hoặc mô tả.
@@ -63,7 +64,7 @@
 - Hệ thống đóng form cập nhật.
 - Hệ thống không thay đổi dữ liệu hình ảnh kiểu gói.
 
-### Exception Flow
+### Exception Flows
 
 #### EXC-01 — Không tìm thấy bản ghi
 - Backend không tìm thấy hình ảnh kiểu gói cần cập nhật.
@@ -121,11 +122,21 @@
 
 ---
 
+## Business Rules
+
+| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| [BR-275](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/1b63fe10-594e-470a-b8f7-ab07dc6d1d35) | Cập nhật thông tin hình ảnh kiểu gói | Quản lý dữ liệu AI Custom | Hình ảnh kiểu gói chỉ được cập nhật khi Admin có quyền quản lý dữ liệu AI Custom, bản ghi còn tồn tại và dữ liệu cập nhật hợp lệ. | Admin thực hiện thao tác cập nhật thông tin hình ảnh kiểu gói trong Website quản trị. | Backend phải kiểm tra các điều kiện sau trước khi cập nhật: - Người dùng có quyền quản lý dữ liệu AI Custom. - Hình ảnh kiểu gói cần cập nhật tồn tại và chưa bị xóa. - Tên hình ảnh kiểu gói là bắt buộc nếu được cập nhật. - Tên và mô tả phải đáp ứng giới hạn dữ liệu do hệ thống cấu hình. - Nếu thay ảnh preview, ảnh mới chỉ chấp nhận định dạng JPG hoặc PNG. - Nếu thay ảnh preview, dung lượng ảnh mới không vượt quá 10MB. Việc cập nhật thông tin không được tự động thay đổi trạng thái Active/Inactive hiện tại của bản ghi. | Không cho phép cập nhật nếu người dùng không có quyền, bản ghi không tồn tại, dữ liệu cập nhật không hợp lệ, ảnh preview mới sai định dạng hoặc ảnh preview mới vượt quá dung lượng cho phép. | Product discussion 2026-09-12; STORY-076 | Đức Bình | STORY-076 | Draft | v0 | 2026-09-12 | Việc đổi trạng thái Active/Inactive và việc xóa hình ảnh kiểu gói được xử lý theo các rule riêng. |
+
+---
+
 ## References
 
-### Rules
+### Business Rules
 
-- [BR-275](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/1b63fe10-594e-470a-b8f7-ab07dc6d1d35)
+| Rule ID | Link |
+|---|---|
+| BR-275 | [BR-275](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/1b63fe10-594e-470a-b8f7-ab07dc6d1d35) |
 
 ### Dependencies
 
@@ -148,9 +159,3 @@
 - Cập nhật dữ liệu của yêu cầu tạo mẫu hoa đã tạo trước đó.
 
 ---
-
-## Chi tiết Business Rules
-
-| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| [BR-275](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/1b63fe10-594e-470a-b8f7-ab07dc6d1d35) | Cập nhật thông tin hình ảnh kiểu gói | Quản lý dữ liệu AI Custom | Hình ảnh kiểu gói chỉ được cập nhật khi Admin có quyền quản lý dữ liệu AI Custom, bản ghi còn tồn tại và dữ liệu cập nhật hợp lệ. | Admin thực hiện thao tác cập nhật thông tin hình ảnh kiểu gói trong Website quản trị. | Backend phải kiểm tra các điều kiện sau trước khi cập nhật: - Người dùng có quyền quản lý dữ liệu AI Custom. - Hình ảnh kiểu gói cần cập nhật tồn tại và chưa bị xóa. - Tên hình ảnh kiểu gói là bắt buộc nếu được cập nhật. - Tên và mô tả phải đáp ứng giới hạn dữ liệu do hệ thống cấu hình. - Nếu thay ảnh preview, ảnh mới chỉ chấp nhận định dạng JPG hoặc PNG. - Nếu thay ảnh preview, dung lượng ảnh mới không vượt quá 10MB. Việc cập nhật thông tin không được tự động thay đổi trạng thái Active/Inactive hiện tại của bản ghi. | Không cho phép cập nhật nếu người dùng không có quyền, bản ghi không tồn tại, dữ liệu cập nhật không hợp lệ, ảnh preview mới sai định dạng hoặc ảnh preview mới vượt quá dung lượng cho phép. | Product discussion 2026-09-12; STORY-076 | Đức Bình | STORY-076 | Draft | v0 | 2026-09-12 | Việc đổi trạng thái Active/Inactive và việc xóa hình ảnh kiểu gói được xử lý theo các rule riêng. |
