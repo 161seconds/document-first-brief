@@ -169,7 +169,7 @@
   - [BR-093](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/31338ae7-cd10-434c-a2f6-f671ea33a5e6)
   - [BR-094](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/807a720b-e138-442e-b91b-0f701766fd32)
 - **Dependencies**:
-  - [STORY-038](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4) / [38-InitializeCheckoutFromFlowerDesign.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/38-InitializeCheckoutFromFlowerDesign.md)
+  - [STORY-038](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4) / [38-InitializeCheckoutFromFlowerDesign.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/38-InitializeCheckoutFromFlowerDesign.md)
 
 ## Non-Functional
 - Tạo Order và các liên kết liên quan phải nhất quán; không để Order hoặc link bị tạo trùng do double click/retry.

@@ -1,4 +1,4 @@
-# AI Customize Database Schema - HTM_Flourist_AI
+# AI Customize Database Schema - HTM_AI_Customize
 
 > Document First Project: hoa-theo-mua-ai-customize  
 > Date: 2026-09-04

@@ -12,7 +12,7 @@ Hệ thống kho lưu trữ bao gồm 5 phân hệ dự án độc lập tương
 
 | # | Mã dự án (Key) | Tên phân hệ | Thư mục tài liệu | Mô tả phạm vi phân hệ |
 | :-: | :--- | :--- | :--- | :--- |
-| **1** | `hoa-theo-mua-ai-customize` | **HTM_Flourist_AI** | [`hoa-theo-mua-ai-flourist/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/README.md) | **Cá nhân hóa mua sắm bằng AI**: Tạo mẫu phối hoa độc bản theo prompt, tạo thiệp AI tại checkout (`gõ máy` / `calligraphy`), thiệp handmade, quản lý mockup và quy tắc giá thiệp. |
+| **1** | `hoa-theo-mua-ai-customize` | **HTM_AI_Customize** | [`hoa-theo-mua-ai-customize/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/README.md) | **Cá nhân hóa mua sắm bằng AI**: Tạo mẫu phối hoa độc bản theo prompt, tạo thiệp AI tại checkout (`in` / `viết tay`), thiệp handmade, quản lý mockup, kiểu gói và cấu hình size hoa custom AI. |
 | **2** | `hoa-theo-mua-ai-marketing` | **HTM_Marketing_AI** | [`hoa-theo-mua-ai-marketing/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/README.md) | **Marketing & Truyền thông AI**: Tự động sinh caption & hashtag bằng AI, viết lại nội dung theo từng nền tảng, sinh ảnh đa tỷ lệ (1:1, 4:5, 9:16, 16:9, 2:1), lên lịch & tự động đăng bài đa kênh, thu thập báo cáo đa nền tảng (XLSX). |
 | **3** | `hoa-theo-mua-material-management` | **HTM_Material_Management** | [`hoa-theo-mua-material-management/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/README.md) | **Quản lý Vật liệu & Định lượng Combo**: Bóc tách nguyên vật liệu thô (hoa cành, hoa phụ, phụ kiện), thiết lập công thức BOM cho Combo hoa, tính toán số lượng khả dụng có thể bán (AvailableForSale) theo thời gian thực và quản lý vòng đời giữ hàng (Reservation). |
 | **4** | `meetly` | **Meetly** | [`meetly/`](file:///d:/VNZ/document-first-brief/meetly/README.md) | **Khảo sát & Tối ưu Lịch họp Nhóm qua Heatmap**: Khảo sát thời gian đa mô hình (`Dates and Times`, `Weekdays`), ma trận Heatmap trực quan chia lưới 15 phút, bình chọn 2 chế độ (Rảnh/Bận) kéo thả và định danh phi tập trung theo sự kiện. |
@@ -24,7 +24,7 @@ Hệ thống kho lưu trữ bao gồm 5 phân hệ dự án độc lập tương
 
 ```mermaid
 flowchart LR
-    subgraph FlouristSubsystem["1. HTM_Flourist_AI"]
+    subgraph AICustomizeSubsystem["1. HTM_AI_Customize"]
         FA1[Tạo Mẫu Hoa Độc Bản AI]
         FA2[Tạo Thiệp AI tại Checkout]
         FA3[Quản lý Mockup Bình/Hộp]
@@ -58,9 +58,9 @@ document-first-brief/
 ├── .gitignore                                     # Quy tắc bỏ qua tệp tạm & mã nguồn trích xuất
 ├── README.md                                      # Cổng tra cứu tổng quan toàn hệ thống (File hiện tại)
 │
-├── hoa-theo-mua-ai-flourist/                      # [Dự án 1] HTM_Flourist_AI
-│   ├── README.md                                  # Tài liệu tổng quan phân hệ Flourist AI
-│   ├── BusinessRules/                             # Quy tắc nghiệp vụ (Quota, AI Retry, Calligraphy rules)
+├── hoa-theo-mua-ai-customize/                     # [Dự án 1] HTM_AI_Customize (Cá nhân hóa Hoa & Thiệp AI)
+│   ├── README.md                                  # Tài liệu tổng quan phân hệ AI Customize
+│   ├── BusinessRules/                             # 212 Quy tắc nghiệp vụ chuẩn hóa (BR-020 -> BR-277)
 │   ├── ConfirmedDoc/                              # Hợp đồng API & tài liệu kỹ thuật đã chốt
 │   ├── Context/                                   # Sơ đồ CSDL, Data Dictionary, Ngữ cảnh nghiệp vụ
 │   │   ├── AI_CUSTOMIZE_DB.dbdiagram              # Sơ đồ CSDL AI Customize
@@ -69,8 +69,10 @@ document-first-brief/
 │   │   ├── AI_Flower_Context.md                   # Ngữ cảnh tạo hoa AI
 │   │   ├── AI_Card_Context.md                     # Ngữ cảnh tạo thiệp AI tại Checkout
 │   │   └── AI_Mockup_Context.md                   # Ngữ cảnh quản lý Mockup
-│   ├── UserStory/                                 # 17 User Stories (US-003, US-030 -> US-048)
-│   └── TDD/                                       # 12 TDDs (TDD-030 -> TDD-062, TDD-017, COVERAGE.md)
+│   ├── SystemTest/                                # 32 Bộ System Test Suites (ST-STORY-030 -> ST-STORY-068)
+│   ├── UserStory/                                 # 45+ User Stories (STORY-003, STORY-030 -> STORY-083)
+│   ├── TDD/                                       # 26 Tài liệu thiết kế kỹ thuật (TDD-006 -> TDD-068, COVERAGE.md)
+│   └── UnitTest/                                  # 121 Kịch bản kiểm thử đơn vị (UnitTest-021 -> UnitTest-062)
 │
 ├── hoa-theo-mua-ai-marketing/                     # [Dự án 2] HTM_Marketing_AI
 │   ├── README.md                                  # Tài liệu tổng quan phân hệ Marketing AI
@@ -139,21 +141,24 @@ document-first-brief/
 
 ## 📑 4. Danh Mục Chi Tiết Theo Từng Phân Hệ
 
-### 4.1. Phân hệ `HTM_Flourist_AI` (`hoa-theo-mua-ai-flourist`)
-* **Tổng quan:** [`hoa-theo-mua-ai-flourist/README.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/README.md)
+### 4.1. Phân hệ `HTM_AI_Customize` (`hoa-theo-mua-ai-customize`)
+* **Tổng quan:** [`hoa-theo-mua-ai-customize/README.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/README.md)
+* **Quy tắc nghiệp vụ:** 212 Business Rules chuẩn hóa ([`BusinessRules/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/BusinessRules/))
 * **Tài liệu kiến trúc cốt lõi:**
-  - [`AI_CUSTOMIZE_DB.dbdiagram`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/Context/AI_CUSTOMIZE_DB.dbdiagram) — Sơ đồ CSDL AI Customize
-  - [`AI_DB_Data_Dictionary.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/Context/AI_DB_Data_Dictionary.md) — Từ điển dữ liệu toàn diện & giải thích nghiệp vụ
-  - [`AI_Flower_Context.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/Context/AI_Flower_Context.md) — Ngữ cảnh tạo hoa AI
-  - [`AI_Card_Context.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/Context/AI_Card_Context.md) — Ngữ cảnh tạo thiệp AI tại Checkout
-  - [`AI_Mockup_Context.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/Context/AI_Mockup_Context.md) — Ngữ cảnh quản lý Mockup
-* **TDD & Unit Test Suite (121 Test Cases — [`COVERAGE.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/COVERAGE.md)):**
-  - [`TDD-030`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-030/TDD-030_tao-yeu-cau-va-mau-hoa-ai.md): Tạo mẫu hoa AI (18 UTs)
-  - [`TDD-035`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-035/TDD-035_tao-thep-thiet-ke-ai.md): Tạo thiệp thiết kế AI (19 UTs)
-  - [`TDD-036`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-036/TDD-036_tao-lai-thep-tu-lich-su.md): Tạo lại thiệp từ lịch sử (12 UTs)
-  - [`TDD-017`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-017/TDD-017-chon-va-tao-thiep-handmade.md): Chọn và tạo thiệp handmade
-  - [`TDD-050`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-050/TDD-050_lay-danh-sach-mockup.md) $\rightarrow$ [`TDD-053`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-053/TDD-053_xoa-mockup.md): Quản lý Mockup (37 UTs)
-  - [`TDD-054`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-054/TDD-054_lay-danh-sach-card-configs.md) $\rightarrow$ [`TDD-062`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/TDD/TDD-062/TDD-062_cap-nhat-card-config.md): Quản lý Card Configs (35 UTs)
+  - [`AI_CUSTOMIZE_DB.dbdiagram`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/Context/AI_CUSTOMIZE_DB.dbdiagram) — Sơ đồ CSDL AI Customize
+  - [`AI_DB_Data_Dictionary.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/Context/AI_DB_Data_Dictionary.md) — Từ điển dữ liệu toàn diện & giải thích nghiệp vụ
+  - [`AI_Flower_Context.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/Context/AI_Flower_Context.md) — Ngữ cảnh tạo hoa AI
+  - [`AI_Card_Context.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/Context/AI_Card_Context.md) — Ngữ cảnh tạo thiệp AI tại Checkout
+  - [`AI_Mockup_Context.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/Context/AI_Mockup_Context.md) — Ngữ cảnh quản lý Mockup
+* **Kiểm thử hệ thống:** 32 Bộ System Test Suites chuẩn hóa ([`SystemTest/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/SystemTest/))
+* **Đặc tả yêu cầu:** 45+ User Stories ([`UserStory/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/))
+* **TDD & Unit Test Suite (121 Test Cases — [`COVERAGE.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/COVERAGE.md)):**
+  - [`TDD-030`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-030_tao-yeu-cau-va-mau-hoa-ai.md): Tạo mẫu hoa AI (18 UTs)
+  - [`TDD-035`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-035_tao-thep-thiet-ke-ai.md): Tạo thiệp thiết kế AI (19 UTs)
+  - [`TDD-036`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-036_tao-lai-thep-tu-lich-su.md): Tạo lại thiệp từ lịch sử (12 UTs)
+  - [`TDD-017`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-017-chon-va-tao-thiep-handmade.md): Chọn và tạo thiệp handmade
+  - [`TDD-050`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-050_lay-danh-sach-mockup.md) $\rightarrow$ [`TDD-053`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-053_xoa-mockup.md): Quản lý Mockup (37 UTs)
+  - [`TDD-054`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-054_lay-danh-sach-card-configs.md) $\rightarrow$ [`TDD-062`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/TDD/TDD-062_cap-nhat-card-config.md): Quản lý Card Configs (35 UTs)
 
 ---
 
@@ -165,9 +170,9 @@ document-first-brief/
   - [`03-AutoGenerateMultiRatioImagesFromCore.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/03-AutoGenerateMultiRatioImagesFromCore.md): **STORY-003** — Tự động sinh ảnh đa tỷ lệ từ ảnh core (1:1, 4:5, 9:16, 16:9, 2:1).
   - [`04-ViewSystemPromptsListAndDetail.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/04-ViewSystemPromptsListAndDetail.md): **STORY-004** — Xem danh sách và chi tiết System Prompt.
   - [`05-UpdateSystemPrompt.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/05-UpdateSystemPrompt.md): **STORY-005** — Sửa System Prompt & Quản lý lịch sử phiên bản.
-  - [`06-DeleteSystemPrompt.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/06-DeleteSystemPrompt.md): **STORY-006** — Xóa System Prompt không còn sử dụng.
-  - [`12-SearchSystemPrompts.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/12-SearchSystemPrompts.md): **STORY-012** — Tìm kiếm nhanh System Prompt theo tên/mã.
-  - [`13-FilterSystemPrompts.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/13-FilterSystemPrompts.md): **STORY-013** — Lọc System Prompt theo trạng thái kích hoạt.
+  - `STORY-006`: Xóa System Prompt không còn sử dụng *(Phạm vi Won't)*.
+  - `STORY-012`: Tìm kiếm nhanh System Prompt theo tên/mã *(Phạm vi Won't)*.
+  - `STORY-013`: Lọc System Prompt theo trạng thái kích hoạt *(Phạm vi Won't)*.
   - [`14-ViewAutoPublishSchedules.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/14-ViewAutoPublishSchedules.md): **STORY-014** — Xem danh sách và chi tiết lịch đăng bài tự động.
   - [`15-DeleteAutoPublishSchedule.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/15-DeleteAutoPublishSchedule.md): **STORY-015** — Xóa lịch đăng bài tự động & hủy Cron Job.
   - [`16-UpdateAutoPublishSchedule.md`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/16-UpdateAutoPublishSchedule.md): **STORY-016** — Chỉnh sửa lịch đăng bài tự động và tái cấu hình Job.
@@ -230,6 +235,6 @@ document-first-brief/
 
 ## 🛠 5. Hướng Dẫn Đóng Góp & Quy Chuẩn Tài Liệu
 
-1. **Tuân thủ phân vùng thư mục**: Truy cập trực tiếp vào phân hệ cần làm việc ([`hoa-theo-mua-ai-flourist/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-flourist/), [`hoa-theo-mua-ai-marketing/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/), [`hoa-theo-mua-material-management/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/), hoặc [`meetly/`](file:///d:/VNZ/document-first-brief/meetly/)). Không tạo file rời ngoài phạm vi các phân hệ.
+1. **Tuân thủ phân vùng thư mục**: Truy cập trực tiếp vào phân hệ cần làm việc ([`hoa-theo-mua-ai-customize/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/), [`hoa-theo-mua-ai-marketing/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/), [`hoa-theo-mua-material-management/`](file:///d:/VNZ/document-first-brief/hoa-theo-mua-material-management/), hoặc [`meetly/`](file:///d:/VNZ/document-first-brief/meetly/)). Không tạo file rời ngoài phạm vi các phân hệ.
 2. **Quy chuẩn Document-First**: Mọi tính năng phát triển phải có User Story theo mẫu [`template-US.md`](file:///d:/VNZ/document-first-brief/template-US.md), kèm Business Rules [`template-BR.md`](file:///d:/VNZ/document-first-brief/template-BR.md), thiết kế kỹ thuật [`template-TDD.md`](file:///d:/VNZ/document-first-brief/template-TDD.md) và kịch bản Unit Test [`template-UnitTest.md`](file:///d:/VNZ/document-first-brief/template-UnitTest.md).
 3. **Bảo toàn tính liên kết**: Sử dụng markdown links tuyệt đối chuẩn GitHub (`file:///...`) để bảo đảm khả năng điều hướng tức thì trong IDE và tài liệu số.

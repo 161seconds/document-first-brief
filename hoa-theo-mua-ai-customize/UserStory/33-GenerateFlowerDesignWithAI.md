@@ -211,7 +211,7 @@
   - [BR-027](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/efbc6956-6fcd-44f7-9bbe-417b0c3ffe0b)
   - [BR-155](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/b5a30cd0-97a5-433b-ac63-0661748348a7)
 - **Dependencies**:
-  - [STORY-030](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/225510e4-396c-403b-9ae4-59f00859a2ce) / [30-InitializeFlowerDesignRequest.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/30-InitializeFlowerDesignRequest.md)
+  - [STORY-030](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/225510e4-396c-403b-9ae4-59f00859a2ce) / [30-InitializeFlowerDesignRequest.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/30-InitializeFlowerDesignRequest.md)
 
 ## Non-Functional
 - Sau khi khách hàng ấn “Tạo bó hoa AI ngay” hoặc “Tạo lại”, hệ thống phải phản hồi việc request đã được chấp nhận hoặc bị từ chối trong p95 ≤ 1.5 giây, không bao gồm thời gian AI generate ảnh.

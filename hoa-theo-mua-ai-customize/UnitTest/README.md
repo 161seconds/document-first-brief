@@ -1,6 +1,6 @@
-# Danh mục Unit Test Cases — HTM_Flourist_AI
+# Danh mục Unit Test Cases — HTM_AI_Customize
 
-Thư mục này tập trung toàn bộ **157 Unit Test Cases** độc lập thuộc phân hệ **HTM_Flourist_AI**, được gom nhóm vào các thư mục theo từng mã nghiệp vụ tương ứng:
+Thư mục này tập trung toàn bộ **157 Unit Test Cases** độc lập thuộc phân hệ **HTM_AI_Customize**, được gom nhóm vào các thư mục theo từng mã nghiệp vụ tương ứng:
 
 | Thư mục | Nhóm UT | Tính năng kiểm thử | Số kịch bản UT |
 |---|---|---|---:|

@@ -1,7 +1,7 @@
 # AI Customize Database - Data Dictionary & Field Explanation
 
 > **Project**: Hoa Theo Mùa (`hoa-theo-mua-ai-customize`)  
-> **Subsystem**: `HTM_Flourist_AI` (Phân hệ Thiết kế Hoa & Thiệp AI)  
+> **Subsystem**: `HTM_AI_Customize` (Phân hệ Thiết kế Hoa & Thiệp AI)  
 > **Document Reference**: [AI_DB_Diagram.md](file:///d:/VNZ/document-first-brief/docs%20%281%29/AI_DB_Diagram.md) | [AI_Flower_Context.md](file:///d:/VNZ/document-first-brief/docs%20%281%29/AI_Flower_Context.md) | [AI_Card_Context.md](file:///d:/VNZ/document-first-brief/docs%20%281%29/AI_Card_Context.md)  
 > **Last Updated**: 2026-09-05
 

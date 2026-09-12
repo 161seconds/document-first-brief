@@ -108,9 +108,9 @@
   - [BR-138](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/a36b64f9-2e28-4fa1-8336-01082bd8a7c5)
   - [BR-139](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/0c1312b1-89a3-4eaf-ab39-ef084d66e00b)
 - **Dependencies**:
-  - [STORY-035](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) / [35-GeneratePersonalizedCardWithAIAtCheckout.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/35-GeneratePersonalizedCardWithAIAtCheckout.md)
-  - [STORY-036](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/a9328fef-ec31-4e66-beb6-569d5383a338) / [36-RegeneratePersonalizedCardWithAI.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/36-RegeneratePersonalizedCardWithAI.md)
-  - [STORY-041](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/e81e3a1f-ef07-4e0c-99d7-54877ebcfb22) / [41-DownloadCreatedGreetingCard.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/41-DownloadCreatedGreetingCard.md)
+  - [STORY-035](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) / [35-GeneratePersonalizedCardWithAIAtCheckout.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/35-GeneratePersonalizedCardWithAIAtCheckout.md)
+  - [STORY-036](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/a9328fef-ec31-4e66-beb6-569d5383a338) / [36-RegeneratePersonalizedCardWithAI.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/36-RegeneratePersonalizedCardWithAI.md)
+  - [STORY-041](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/e81e3a1f-ef07-4e0c-99d7-54877ebcfb22) / [41-DownloadCreatedGreetingCard.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/41-DownloadCreatedGreetingCard.md)
 
 ## Non-Functional
 - API danh sách phải phân trang phía server và không trả binary ảnh trong payload metadata.

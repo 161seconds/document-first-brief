@@ -142,7 +142,7 @@
   - [BR-116](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/97ef5916-4ca6-460f-a02d-a28b26d6823b)
   - [BR-117](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/8f6b23f3-7321-4b92-a7e6-1ccedf83e959)
 - **Dependencies**:
-  - [STORY-038](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4) / [38-InitializeCheckoutFromFlowerDesign.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/38-InitializeCheckoutFromFlowerDesign.md)
+  - [STORY-038](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4) / [38-InitializeCheckoutFromFlowerDesign.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/38-InitializeCheckoutFromFlowerDesign.md)
   - [STORY-045](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/3f89b027-0641-4888-909e-bbb18795398d)
 
 ## Non-Functional

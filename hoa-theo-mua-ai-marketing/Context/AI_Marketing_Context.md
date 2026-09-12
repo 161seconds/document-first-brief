@@ -323,10 +323,10 @@ Hệ thống Hoa Theo Mùa sử dụng một bảng lịch sử khách hàng t�
   - `client_histories.type = 'post'`
   - `client_histories.base_id = base_posts.id`
   - `client_histories.output_id = generated_posts.id`
-- Khi sinh hoa AI (`HTM_Flourist_AI`):
+- Khi sinh hoa AI (`HTM_AI_Customize`):
   - `client_histories.type = 'flower'`
   - `client_histories.output_id = generated_flowers.id`
-- Khi sinh thiệp AI (`HTM_Flourist_AI`):
+- Khi sinh thiệp AI (`HTM_AI_Customize`):
   - `client_histories.type = 'card'` hoặc `'handmade_card'`
   - `client_histories.output_id = generated_cards.id`
 
@@ -439,7 +439,7 @@ Hệ thống Marketing AI đóng vai trò đầu ra truyền thông trong hệ s
 
 ```mermaid
 flowchart LR
-    subgraph Flourist["Phân hệ HTM_Flourist_AI"]
+    subgraph AICustomize["Phân hệ HTM_AI_Customize"]
         F1[Mẫu Hoa AI Độc bản - generated_flowers]
         F2[Hình ảnh Hoa Thiết kế]
     end
@@ -461,7 +461,7 @@ flowchart LR
     M2 -->|Tự động hủy lịch đăng nếu hết hàng| MK3
 ```
 
-1. **Với phân hệ `HTM_Flourist_AI`**:
+1. **Với phân hệ `HTM_AI_Customize`**:
    - Khi một mẫu phối hoa AI độc bản (`generated_flowers`) được tạo ra và khách hàng yêu thích, đội ngũ Marketing có thể lấy trực tiếp `image_url` này làm **Core Image** đầu vào cho [STORY-003](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/03-AutoGenerateMultiRatioImagesFromCore.md) để mở rộng thành bộ ảnh 5 tỷ lệ và đăng bài quảng bá lên mạng xã hội.
 2. **Với phân hệ `HTM_Material_Management`**:
    - Phân hệ quản lý nguyên vật liệu cung cấp danh mục các mẫu Combo hoa tươi đang có trạng thái `AvailableForSale > 0` (đủ điều kiện bán). Marketing AI sử dụng tên hoa, màu sắc, ý nghĩa loài hoa và bảng giá để tự động soạn thảo bài viết tiếp thị chính xác ([STORY-017](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-marketing/UserStory/17-AutoGenerateContentAndHashtags.md)).

@@ -1,12 +1,12 @@
 // AI Customize Database Schema
-// Project: HTM_Flourist_AI
+// Project: HTM_AI_Customize
 // Date: 2026-09-04
 //
 // Flower generation is synchronous. There are no flower_requests or
 // flower_ai_jobs tables: request data is passed to the AI module and only a
 // successful result is persisted.
 
-Project HTM_Flourist_AI {
+Project HTM_AI_Customize {
   database_type: 'PostgreSQL'
   Note: 'AI Customize schema. Checkout and Order are outside the current scope.'
 }

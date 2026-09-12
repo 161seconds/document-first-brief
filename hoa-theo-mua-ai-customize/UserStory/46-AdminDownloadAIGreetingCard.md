@@ -84,10 +84,10 @@
   - [BR-142](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/37e14851-8725-4cc1-b578-e095dec06a4a)
   - [BR-143](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/ecef43eb-67f5-4c95-9e5c-4867d94cf326)
 - **Dependencies**:
-  - [STORY-035](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) / [35-GeneratePersonalizedCardWithAIAtCheckout.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/35-GeneratePersonalizedCardWithAIAtCheckout.md)
-  - [STORY-036](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/a9328fef-ec31-4e66-beb6-569d5383a338) / [36-RegeneratePersonalizedCardWithAI.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/36-RegeneratePersonalizedCardWithAI.md)
-  - [STORY-043](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/6e28060f-6d59-430e-81e6-1b4549ff1003) / [43-AdminViewAIGreetingCardDetails.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/43-AdminViewAIGreetingCardDetails.md)
-  - [STORY-044](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/1a84a816-6d73-4bbd-abf8-5fca7fd25cb3) / [44-AdminViewAIGreetingCardsList.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/44-AdminViewAIGreetingCardsList.md)
+  - [STORY-035](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43) / [35-GeneratePersonalizedCardWithAIAtCheckout.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/35-GeneratePersonalizedCardWithAIAtCheckout.md)
+  - [STORY-036](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/a9328fef-ec31-4e66-beb6-569d5383a338) / [36-RegeneratePersonalizedCardWithAI.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/36-RegeneratePersonalizedCardWithAI.md)
+  - [STORY-043](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/6e28060f-6d59-430e-81e6-1b4549ff1003) / [43-AdminViewAIGreetingCardDetails.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/43-AdminViewAIGreetingCardDetails.md)
+  - [STORY-044](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/1a84a816-6d73-4bbd-abf8-5fca7fd25cb3) / [44-AdminViewAIGreetingCardsList.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/44-AdminViewAIGreetingCardsList.md)
 
 ## Non-Functional
 - Backend không expose permanent storage URL, thông tin xác thực hoặc đường dẫn nội bộ.

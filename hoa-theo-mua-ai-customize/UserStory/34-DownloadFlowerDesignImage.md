@@ -173,8 +173,8 @@
   - [BR-065](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/2f295523-5fdb-4752-97db-8b27165606b3)
   - [BR-066](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/adf2011a-6691-4634-8303-d9dab75a9a10)
 - **Dependencies**:
-  - [STORY-030](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/225510e4-396c-403b-9ae4-59f00859a2ce) / [30-InitializeFlowerDesignRequest.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/30-InitializeFlowerDesignRequest.md)
-  - [STORY-033](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/e1cdce1d-5295-4945-930a-95f9e8bee6b9) / [33-GenerateFlowerDesignWithAI.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/33-GenerateFlowerDesignWithAI.md)
+  - [STORY-030](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/225510e4-396c-403b-9ae4-59f00859a2ce) / [30-InitializeFlowerDesignRequest.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/30-InitializeFlowerDesignRequest.md)
+  - [STORY-033](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/e1cdce1d-5295-4945-930a-95f9e8bee6b9) / [33-GenerateFlowerDesignWithAI.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/33-GenerateFlowerDesignWithAI.md)
 
 ## Non-Functional
 - Thao tác tải xuống phản hồi rõ ràng cho khách hàng và không làm mất trạng thái màn hình kết quả hiện tại.

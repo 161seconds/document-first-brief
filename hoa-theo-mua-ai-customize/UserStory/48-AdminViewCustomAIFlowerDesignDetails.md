@@ -98,10 +98,10 @@
   - [BR-151](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/35519137-c90d-42ae-a6b5-32460cefb38f)
   - [BR-132](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/556f0aa7-fe97-49c4-82fb-d64b637f4577)
 - **Dependencies**:
-  - [STORY-030](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/225510e4-396c-403b-9ae4-59f00859a2ce) / [30-InitializeFlowerDesignRequest.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/30-InitializeFlowerDesignRequest.md)
-  - [STORY-033](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/e1cdce1d-5295-4945-930a-95f9e8bee6b9) / [33-GenerateFlowerDesignWithAI.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/33-GenerateFlowerDesignWithAI.md)
-  - [STORY-039](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/fc14ad2e-0f75-40f9-806d-f935e31d34f6) / [39-CompleteCheckoutCreateAndPayOrder.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/39-CompleteCheckoutCreateAndPayOrder.md)
-  - [STORY-040](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/eed51ca8-012b-420e-a576-1eb053081d3e) / [40-ViewCustomAIFlowerDesignHistory.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/40-ViewCustomAIFlowerDesignHistory.md)
+  - [STORY-030](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/225510e4-396c-403b-9ae4-59f00859a2ce) / [30-InitializeFlowerDesignRequest.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/30-InitializeFlowerDesignRequest.md)
+  - [STORY-033](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/e1cdce1d-5295-4945-930a-95f9e8bee6b9) / [33-GenerateFlowerDesignWithAI.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/33-GenerateFlowerDesignWithAI.md)
+  - [STORY-039](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/fc14ad2e-0f75-40f9-806d-f935e31d34f6) / [39-CompleteCheckoutCreateAndPayOrder.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/39-CompleteCheckoutCreateAndPayOrder.md)
+  - [STORY-040](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/eed51ca8-012b-420e-a576-1eb053081d3e) / [40-ViewCustomAIFlowerDesignHistory.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/40-ViewCustomAIFlowerDesignHistory.md)
 
 ## Non-Functional
 - Chi tiết mẫu hoa đạt mục tiêu phản hồi p95 ≤ 2 giây trong điều kiện bình thường, không tính thời gian tải ảnh từ storage.

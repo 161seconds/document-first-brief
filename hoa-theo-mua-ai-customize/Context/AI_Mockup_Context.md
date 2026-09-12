@@ -1,4 +1,4 @@
-# AI Mockup Context - HTM_Flourist_AI
+# AI Mockup Context - HTM_AI_Customize
 
 > Document First Project: hoa-theo-mua-ai-customize
 > Date: 2026-08-27

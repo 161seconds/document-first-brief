@@ -119,8 +119,8 @@
   - [BR-152](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/e98ce2c8-f7f8-4ff9-aae4-4cf51ab5296b)
   - [BR-132](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/556f0aa7-fe97-49c4-82fb-d64b637f4577)
 - **Dependencies**:
-  - [STORY-039](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/fc14ad2e-0f75-40f9-806d-f935e31d34f6) / [39-CompleteCheckoutCreateAndPayOrder.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/39-CompleteCheckoutCreateAndPayOrder.md)
-  - [STORY-040](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/eed51ca8-012b-420e-a576-1eb053081d3e) / [40-ViewCustomAIFlowerDesignHistory.md](file:///d:/VNZ/document-first-brief/hoatheomua/UserStory/FlouristAI/40-ViewCustomAIFlowerDesignHistory.md)
+  - [STORY-039](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/fc14ad2e-0f75-40f9-806d-f935e31d34f6) / [39-CompleteCheckoutCreateAndPayOrder.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/39-CompleteCheckoutCreateAndPayOrder.md)
+  - [STORY-040](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/eed51ca8-012b-420e-a576-1eb053081d3e) / [40-ViewCustomAIFlowerDesignHistory.md](file:///d:/VNZ/document-first-brief/hoa-theo-mua-ai-customize/UserStory/40-ViewCustomAIFlowerDesignHistory.md)
 
 ## Non-Functional
 - API danh sách phải phân trang phía server.
