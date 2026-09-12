@@ -100,11 +100,11 @@
 
 ---
 
-## ST-039-03-01 — Thanh toán thất bại vẫn cho thử lại trong thời hạn 24 giờ
+## ST-01 / ST-039-03-01 — Thanh toán thất bại vẫn cho thử lại trong thời hạn 24 giờ
 
 | Trường | Nội dung |
 |---|---|
-| **Test ID** | [ST-039-03-01](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/207f6ed9-8a13-43d8-999a-0e715a8d1dfc) |
+| **Test ID** | [ST-01](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/207f6ed9-8a13-43d8-999a-0e715a8d1dfc) (tức [ST-039-03-01](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/207f6ed9-8a13-43d8-999a-0e715a8d1dfc)) |
 | **Story** | STORY-039 |
 | **Loại** | 2 |
 | **Suite** | FULL |

@@ -92,33 +92,31 @@
 
 ---
 
-## ST-038-03-01 — Regression: Thiệp là tùy chọn, không bắt buộc
+## ST-038-03-01 — Hoàn tất Checkout không có thiệp
 
 | Trường | Nội dung |
 |---|---|
 | **Test ID** | [ST-038-03-01](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/4b1bc228-7ade-44b6-a16a-2f879a39c4a4) |
 | **Story** | STORY-038 |
-| **Loại** | 2 |
+| **Loại** | ALT |
 | **Suite** | REGRESSION |
 | **Priority** | P1 |
 | **Owner** | Hoàng Thị Khánh Linh |
 | **Trạng thái** | Đã duyệt |
 
 **Precondition:**
-- Checkout hợp lệ.
-- Thông tin giao hàng hợp lệ.
-- Không có thiệp được chọn.
+- Checkout hợp lệ. Thông tin giao hàng hợp lệ. Không có thiệp được chọn.
 
 **Steps:**
 1. Hoàn thiện thông tin Checkout.
 2. Không chọn thiệp.
-3. Thực hiện **"Hoàn tất"**.
+3. Thực hiện Hoàn tất.
+
+**Test Data:**
+- —
 
 **Expected Result:**
-- Hệ thống cho phép tiếp tục dù không có thiệp.
-- Checkout không chứa thiệp.
-- Bill không có giá thiệp.
-- Việc không chọn thiệp không tạo lỗi validation.
+- Hệ thống cho phép tiếp tục dù không có thiệp. Checkout không chứa thiệp. Bill không có giá thiệp. Việc không chọn thiệp không tạo lỗi validation.
 
 **Trace to:**
 - [STORY-038/AC-004](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4) · [STORY-038/BR-085](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5cc87b78-e6bf-4996-8d67-787e0bc34bb4)
