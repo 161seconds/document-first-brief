@@ -18,7 +18,7 @@
 
 - Người dùng truy cập vào cổng thông tin hệ thống qua giao diện Web hoặc Mobile.
 - Người dùng chưa đăng nhập tài khoản nào trên trình duyệt hiện tại.
-- Số điện thoại và Email đăng ký chưa tồn tại trên hệ thống ở trạng thái hoạt động (`ACTIVE`).
+- Email đăng ký chưa tồn tại trên hệ thống ở trạng thái hoạt động (`ACTIVE`).
 
 ### Trigger
 
@@ -29,12 +29,12 @@
 ### Main Flow
 
 1. Người dùng chọn loại hình khách hàng: Cá nhân (`Individual Owner`) hoặc Câu lạc bộ/Doanh nghiệp (`Racing Club/Stable`).
-2. Người dùng nhập các thông tin bắt buộc: Họ và tên, Email, Số điện thoại liên hệ, Mật khẩu, Xác nhận mật khẩu, Tên CLB/Trại ngựa (nếu là tổ chức) và Mã số thuế (tùy chọn).
+2. Người dùng nhập các thông tin bắt buộc: Họ và tên, Email, Mật khẩu, Xác nhận mật khẩu, Tên CLB/Trại ngựa (nếu là tổ chức) và Mã số thuế (tùy chọn).
 3. Người dùng đồng ý với Điều khoản dịch vụ và Chính sách bảo mật vận chuyển động vật sống.
 4. Người dùng nhấn nút "Đăng ký".
-5. Hệ thống kiểm tra tính hợp lệ của dữ liệu đầu vào và kiểm tra trùng lặp Email, Số điện thoại trong cơ sở dữ liệu.
+5. Hệ thống kiểm tra tính hợp lệ của dữ liệu đầu vào và kiểm tra trùng lặp Email trong cơ sở dữ liệu.
 6. Hệ thống tạo bản ghi người dùng với trạng thái `PENDING_VERIFICATION`, đồng thời sinh mã xác thực OTP (6 chữ số ngẫu nhiên) có hiệu lực trong 5 phút.
-7. Hệ thống gửi mã OTP tới Email và Số điện thoại đã đăng ký.
+7. Hệ thống gửi mã OTP tới Email đã đăng ký.
 8. Hệ thống chuyển người dùng sang màn hình "Xác thực tài khoản" kèm bộ đếm ngược thời gian 300 giây.
 9. Người dùng nhập mã OTP 6 chữ số và nhấn "Xác nhận".
 10. Hệ thống kiểm tra mã OTP khớp và còn hiệu lực.
@@ -46,16 +46,16 @@
 #### ALT-01: Người dùng yêu cầu gửi lại mã OTP
 
 1. Tại bước 8 của Luồng chính, nếu chưa nhận được mã OTP sau 60 giây, người dùng nhấn nút "Gửi lại mã OTP" (`Resend OTP`).
-2. Hệ thống vô hiệu hóa mã OTP cũ, tạo mã OTP mới và gửi lại qua Email/SMS.
+2. Hệ thống vô hiệu hóa mã OTP cũ, tạo mã OTP mới và gửi lại qua Email.
 3. Hệ thống đặt lại bộ đếm thời gian gửi lại (60 giây) và gia hạn thời gian hết hạn OTP (5 phút).
 4. Người dùng tiếp tục từ bước 9 của Luồng chính.
 
 ### Exception Flow
 
-#### EXC-01: Email hoặc Số điện thoại đã tồn tại trong hệ thống
+#### EXC-01: Email đã tồn tại trong hệ thống
 
-1. Tại bước 5 của Luồng chính, hệ thống phát hiện Email hoặc Số điện thoại đã được đăng ký cho một tài khoản khác.
-2. Hệ thống giữ nguyên các thông tin đã nhập trên biểu mẫu (ngoại trừ mật khẩu), hiển thị thông báo lỗi nổi bật: "Email hoặc Số điện thoại này đã được sử dụng. Vui lòng đăng nhập hoặc sử dụng chức năng Quên mật khẩu".
+1. Tại bước 5 của Luồng chính, hệ thống phát hiện Email đã được đăng ký cho một tài khoản khác.
+2. Hệ thống giữ nguyên các thông tin đã nhập trên biểu mẫu (ngoại trừ mật khẩu), hiển thị thông báo lỗi nổi bật: "Email này đã được sử dụng. Vui lòng đăng nhập hoặc sử dụng chức năng Quên mật khẩu".
 3. Người dùng có thể chỉnh sửa thông tin hoặc chọn chuyển hướng sang trang "Đăng nhập".
 
 #### EXC-02: Mật khẩu không đáp ứng tiêu chuẩn an toàn
@@ -78,12 +78,12 @@
 
 #### AC-001: Đăng ký thành công tài khoản khách hàng cá nhân
 
-- **Given**: Khách hàng ở màn hình Đăng ký, nhập đầy đủ Họ tên hợp lệ, Email chưa từng đăng ký, SĐT chưa từng đăng ký, mật khẩu hợp lệ và đồng ý điều khoản.
-- **When**: Khách hàng nhấn nút "Đăng ký" và nhập đúng mã OTP được gửi về Email/SMS trong thời hạn hiệu lực.
+- **Given**: Khách hàng ở màn hình Đăng ký, nhập đầy đủ Họ tên hợp lệ, Email chưa từng đăng ký, mật khẩu hợp lệ và đồng ý điều khoản.
+- **When**: Khách hàng nhấn nút "Đăng ký" và nhập đúng mã OTP được gửi về Email trong thời hạn hiệu lực.
 - **Then**: Hệ thống tạo thành công bản ghi trong bảng `User` với vai trò `CUSTOMER` và `status = 'ACTIVE'`, đồng thời tạo bản ghi `CustomerProfile`.
 - **And**: Trình duyệt lưu trữ JWT token và chuyển hướng tới `Customer Dashboard`.
 
-#### AC-002: Chặn đăng ký khi trùng lặp Email hoặc SĐT
+#### AC-002: Chặn đăng ký khi trùng lặp Email
 
 - **Given**: Một tài khoản với email `owner@equine.com` đã tồn tại trong hệ thống ở trạng thái `ACTIVE`.
 - **When**: Người dùng mới nhập biểu mẫu đăng ký với email `owner@equine.com` và nhấn "Đăng ký".
@@ -110,7 +110,6 @@
 ### Dependencies
 
 - Dịch vụ gửi Email giao dịch (SMTP/SendGrid)
-- Dịch vụ gửi tin nhắn SMS / OTP (Twilio hoặc nhà mạng viễn thông)
 
 ## Non-Functional
 

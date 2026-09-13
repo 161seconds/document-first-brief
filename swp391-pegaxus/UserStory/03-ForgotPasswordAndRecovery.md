@@ -2,8 +2,8 @@
 
 ## Metadata
 
-- **Story**: Là một Người dùng hệ thống, tôi muốn yêu cầu khôi phục quyền truy cập tài khoản khi bị quên mật khẩu thông qua mã xác thực gửi về Email hoặc Số điện thoại để có thể thiết lập mật khẩu mới một cách an toàn.
-- **Context**: Việc quên mật khẩu là tình huống phát sinh thường xuyên của cả khách hàng và các bên điều hành hiện trường. Quy trình khôi phục yêu cầu kiểm tra danh tính thông qua OTP đa kênh (Email/SMS) và token khôi phục dùng một lần (`Reset Token`) có thời hạn ngắn để ngăn chặn nguy cơ chiếm quyền tài khoản trái phép.
+- **Story**: Là một Người dùng hệ thống, tôi muốn yêu cầu khôi phục quyền truy cập tài khoản khi bị quên mật khẩu thông qua mã xác thực gửi về Email để có thể thiết lập mật khẩu mới một cách an toàn.
+- **Context**: Việc quên mật khẩu là tình huống phát sinh thường xuyên của cả khách hàng và các bên điều hành hiện trường. Quy trình khôi phục yêu cầu kiểm tra danh tính thông qua OTP gửi qua Email và token khôi phục dùng một lần (`Reset Token`) có thời hạn ngắn để ngăn chặn nguy cơ chiếm quyền tài khoản trái phép.
 - **Sprint**: 1
 - **Priority**: Must
 - **Status**: Todo
@@ -27,13 +27,13 @@
 
 ### Main Flow
 
-1. Người dùng nhập Email hoặc Số điện thoại đã đăng ký tài khoản.
+1. Người dùng nhập Email đã đăng ký tài khoản.
 2. Người dùng nhấn nút "Gửi mã khôi phục" (`Send Reset Code`).
 3. Hệ thống kiểm tra định dạng và truy vấn xem thông tin có thuộc về tài khoản hợp lệ nào hay không.
 4. Nếu tài khoản tồn tại và hợp lệ:
    - Hệ thống sinh mã xác thực OTP 6 chữ số với thời hạn 5 phút.
    - Hệ thống lưu bản ghi vào bảng `OtpVerification` với `otpType = 'PASSWORD_RESET'`.
-   - Hệ thống gửi OTP tới Email hoặc Số điện thoại tương ứng.
+   - Hệ thống gửi OTP tới Email tương ứng.
 5. Hệ thống chuyển hướng người dùng sang màn hình "Xác thực mã khôi phục" và kích hoạt đồng hồ đếm ngược 300 giây.
 6. Người dùng nhập mã OTP 6 chữ số và nhấn "Xác minh".
 7. Hệ thống xác minh mã OTP hợp lệ, chưa được sử dụng (`isUsed = false`) và chưa hết hạn.
@@ -51,14 +51,14 @@
 #### ALT-01: Yêu cầu gửi lại mã OTP khôi phục
 
 1. Tại bước 5 của Luồng chính, sau 60 giây nếu chưa nhận được mã, người dùng nhấn "Gửi lại mã OTP".
-2. Hệ thống hủy mã OTP cũ, tạo mã mới và gửi lại đến kênh liên lạc ban đầu.
+2. Hệ thống hủy mã OTP cũ, tạo mã mới và gửi lại đến Email ban đầu.
 3. Người dùng tiếp tục từ bước 6 của Luồng chính.
 
 ### Exception Flow
 
-#### EXC-01: Email hoặc Số điện thoại không tồn tại trong hệ thống
+#### EXC-01: Email không tồn tại trong hệ thống
 
-1. Tại bước 3 của Luồng chính, thông tin người dùng nhập không khớp với bất kỳ tài khoản nào.
+1. Tại bước 3 của Luồng chính, Email người dùng nhập không khớp với bất kỳ tài khoản nào.
 2. Vì lý do an ninh (chống dò quét tài khoản người dùng), hệ thống vẫn hiển thị thông báo: "Nếu thông tin của bạn khớp với tài khoản trên hệ thống, mã xác thực sẽ được gửi trong vài giây tới".
 3. Hệ thống không tạo OTP và không thực hiện lệnh gửi nào.
 

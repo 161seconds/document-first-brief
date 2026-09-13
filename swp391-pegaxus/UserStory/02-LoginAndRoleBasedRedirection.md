@@ -2,8 +2,8 @@
 
 ## Metadata
 
-- **Story**: Là một Người dùng hệ thống (Khách hàng, Quản lý điều hành, Chuyên viên thủ tục, Điều phối viên, Tài xế), tôi muốn đăng nhập bằng Email hoặc Số điện thoại và Mật khẩu để được cấp quyền truy cập và tự động chuyển hướng đến giao diện làm việc tương ứng với vai trò của mình.
-- **Context**: Hệ thống vận chuyển ngựa đua đa tác nhân quy định 5 nhóm vai trò người dùng độc lập với chức năng và phạm vi nghiệp vụ riêng biệt. Quá trình đăng nhập bắt buộc phải xác thực danh tính an toàn, cấp JWT Access Token và Refresh Token, đồng thời điều hướng chính xác về màn hình chuyên biệt (ví dụ: Customer về trang quản lý đơn cá nhân; Manager về tổng quan điều hành; Specialist về bàn làm việc hồ sơ pháp lý; Coordinator về bản đồ lộ trình xe; Driver về lịch trình chặng di động).
+- **Story**: Là một Người dùng hệ thống (Khách hàng, Quản lý điều hành, Chuyên viên thủ tục, Điều phối viên, Tài xế, Người đi cùng), tôi muốn đăng nhập bằng Email và Mật khẩu để được cấp quyền truy cập và tự động chuyển hướng đến giao diện làm việc tương ứng với vai trò của mình.
+- **Context**: Hệ thống vận chuyển ngựa đua đa tác nhân quy định 6 nhóm vai trò người dùng độc lập với chức năng và phạm vi nghiệp vụ riêng biệt. Quá trình đăng nhập bắt buộc phải xác thực danh tính an toàn, cấp JWT Access Token và Refresh Token, đồng thời điều hướng chính xác về màn hình chuyên biệt (ví dụ: Customer về trang quản lý đơn cá nhân; Manager về tổng quan điều hành; Specialist về bàn làm việc hồ sơ pháp lý; Coordinator về bản đồ lộ trình xe; Driver về lịch trình chặng di động; Escort về nhật ký chăm sóc y tế).
 - **Sprint**: 1
 - **Priority**: Must
 - **Status**: Todo
@@ -27,11 +27,11 @@
 
 ### Main Flow
 
-1. Người dùng nhập tên tài khoản (Email hoặc Số điện thoại) và Mật khẩu vào biểu mẫu.
+1. Người dùng nhập tên tài khoản (Email) và Mật khẩu vào biểu mẫu.
 2. Người dùng có thể tùy chọn tích vào "Ghi nhớ đăng nhập" (`Remember Me`).
 3. Người dùng nhấn nút "Đăng nhập".
 4. Hệ thống kiểm tra định dạng dữ liệu đầu vào không được để trống.
-5. Hệ thống truy vấn thông tin tài khoản theo Email/SĐT và kiểm tra trạng thái hoạt động của tài khoản.
+5. Hệ thống truy vấn thông tin tài khoản theo Email và kiểm tra trạng thái hoạt động của tài khoản.
 6. Hệ thống đối soát mật khẩu nhập vào với mã băm mật khẩu (`passwordHash`) lưu trong CSDL.
 7. Mật khẩu chính xác: Hệ thống sinh cặp mã xác thực `AccessToken` (thời hạn 60 phút) và `RefreshToken` (thời hạn 7 ngày hoặc 30 ngày nếu chọn Remember Me).
 8. Hệ thống ghi nhận lịch sử đăng nhập (thời điểm, địa chỉ IP, User-Agent thiết bị).
@@ -41,15 +41,16 @@
    - `TRANSPORT_SPECIALIST`: Điều hướng đến Không gian xử lý hồ sơ kiểm dịch (`/specialist/dossiers`).
    - `FLEET_ROUTE_COORDINATOR`: Điều hướng đến Trung tâm điều phối phương tiện & lộ trình (`/coordinator/routes`).
    - `VEHICLE_DRIVER`: Điều hướng đến Bảng lịch trình chuyến đi của tài xế (`/driver/trips`).
+   - `ESCORT`: Điều hướng đến Bảng quản lý chăm sóc & sức khỏe ngựa (`/escort/health-logs`).
 10. Giao diện hiển thị lời chào kèm tên và vai trò của người dùng trên thanh tiêu đề (`Header`).
 
 ### Alternative Flow
 
-#### ALT-01: Tài khoản đăng nhập trên ứng dụng di động của Tài xế (Driver Mobile App)
+#### ALT-01: Tài khoản đăng nhập trên giao diện Web Mobile của Tài xế / Người đi cùng
 
-1. Tài xế mở ứng dụng di động dành riêng cho tài xế và nhập thông tin đăng nhập.
-2. Hệ thống kiểm tra xác thực. Nếu vai trò không phải `VEHICLE_DRIVER`, hệ thống hiển thị thông báo: "Ứng dụng này chỉ dành cho Tài xế và Người đi kèm. Vui lòng đăng nhập trên cổng thông tin Web".
-3. Nếu vai trò hợp lệ, hệ thống lưu token vào Secure Storage của điện thoại và điều hướng thẳng vào màn hình "Chuyến đi hiện tại" (`Current Trip`).
+1. Tài xế hoặc Người đi cùng mở trình duyệt di động truy cập giao diện Web hiện trường và nhập thông tin đăng nhập.
+2. Hệ thống kiểm tra xác thực. Nếu vai trò không phải `VEHICLE_DRIVER` hoặc `ESCORT`, hệ thống điều hướng về giao diện quản trị hoặc portal khách hàng tương ứng.
+3. Nếu vai trò là `VEHICLE_DRIVER` hoặc `ESCORT`, hệ thống lưu token vào LocalStorage/Cookie của trình duyệt và điều hướng thẳng vào màn hình "Chuyến đi hiện tại" (`/field/current-trip`).
 
 ### Exception Flow
 
@@ -57,7 +58,7 @@
 
 1. Tại bước 6 của Luồng chính, thông tin tài khoản không tồn tại hoặc mật khẩu không trùng khớp.
 2. Hệ thống tăng bộ đếm số lần đăng nhập thất bại liên tiếp (`failedLoginAttempts += 1`).
-3. Hệ thống hiển thị thông báo lỗi chung: "Email/Số điện thoại hoặc mật khẩu không chính xác. Vui lòng kiểm tra lại". (Không tiết lộ tài khoản có tồn tại hay không vì lý do an ninh).
+3. Hệ thống hiển thị thông báo lỗi chung: "Email hoặc mật khẩu không chính xác. Vui lòng kiểm tra lại". (Không tiết lộ tài khoản có tồn tại hay không vì lý do an ninh).
 4. Giữ nguyên giá trị ô tài khoản, xóa trống ô mật khẩu để người dùng nhập lại.
 
 #### EXC-02: Tài khoản bị khóa hoặc vô hiệu hóa (`status = 'BLOCKED' / 'INACTIVE'`)
