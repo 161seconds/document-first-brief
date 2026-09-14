@@ -10,9 +10,13 @@
 | **Priority** | Must |
 | **Assignee (FE)** | Hoàng Thị Khánh Linh |
 | **Creator** | Hoàng Thị Khánh Linh |
+| **Reviewer** | Nguyễn Đức Bình |
+| **Approver** | Chưa chỉ định |
+| **Owner** | Hoàng Thị Khánh Linh |
 | **Status** | Cần làm |
 | **Phiên bản** | v0.1 |
-| **Phê duyệt** | Đã duyệt |
+| **Phê duyệt** | Nháp |
+| **Cập nhật** | 08/09/2026 |
 
 > **Feedback yêu cầu sửa gần nhất:**
 > "Không thấy có AC cho EXC-01 và EXC-02." — *Nguyễn Đức Bình · 20:44 27/08/2026* (Đã được khắc phục trong phiên bản hiện tại bằng AC-010 và AC-011)
@@ -175,16 +179,19 @@ Thiệp Gõ máy sử dụng giá size. Thiệp Calligraphy sử dụng giá siz
 
 ## Business Rules
 
-| Rule ID | Tên rule | Danh mục | Phát biểu | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| [**BR-187**](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/2f1dbd3f-73c8-45de-a685-339c6ae46fbb) | Nguồn dữ liệu kích thước thiệp | Quản lý cấu hình thiệp | Danh sách kích thước thiệp trên màn hình quản lý của Admin phải được lấy từ Core Database. | Admin truy cập chức năng quản lý kích thước thiệp. | Hệ thống truy xuất danh sách kích thước thiệp từ Core Database và sử dụng dữ liệu này làm nguồn hiển thị chính thức. | Nếu không thể truy xuất, hệ thống không được hiển thị dữ liệu không đầy đủ. | Admin có quyền quản lý cấu hình thiệp | STORY-054 | Draft | v0 | 2026-08-26 |
-| [**BR-188**](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/18bfed12-4045-4071-a071-eba05b86e317) | Thông tin hiển thị của kích thước thiệp | Quản lý cấu hình thiệp | Mỗi kích thước thiệp trong danh sách quản lý phải cung cấp đủ thông tin để Admin nhận diện và theo dõi cấu hình. | Kích thước thiệp được hiển thị trong danh sách quản lý. | Hệ thống hiển thị kích thước, giá size, số lượng từ tối đa, trạng thái Active/Inactive và thao tác liên quan. | Kích thước thiệp đã bị xóa mềm không được hiển thị trong danh sách mặc định. | Admin có quyền quản lý cấu hình thiệp | STORY-054 | Draft | v0 | 2026-08-26 |
-| [**BR-189**](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/401a7585-ce52-421e-acb4-76444c24c57b) | Kích thước thiệp đã xóa mềm không hiển thị mặc định | Quản lý cấu hình thiệp | Kích thước thiệp đã bị xóa mềm không được hiển thị trong danh sách kích thước thiệp mặc định của Admin. | Admin truy cập danh sách kích thước thiệp. | Hệ thống chỉ hiển thị các kích thước thiệp có isDelete = false. | Việc xem hoặc khôi phục kích thước thiệp đã xóa, nếu có, thuộc chức năng riêng. | Admin có quyền quản lý cấu hình thiệp | STORY-054 | Draft | v0 | 2026-08-26 |
-| [**BR-190**](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/ff7595ae-36b8-4655-a7a4-08d559685a93) | Giá size áp dụng cho thiệp | Cấu hình giá thiệp | Giá size là giá nền được sử dụng khi hệ thống tính giá thiệp. | Khách hàng tạo thiệp và chọn một kích thước thiệp hợp lệ. | Đối với Gõ máy, giá thiệp = giá size. Đối với Calligraphy, giá thiệp = giá size + phụ phí viết tay theo số lượng từ. | Nếu size không có giá hợp lệ, hệ thống không cho tiếp tục tạo thiệp. | Admin có quyền quản lý cấu hình thiệp | STORY-054 | Draft | v0 | 2026-08-26 |
+| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| [**BR-187**](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/2f1dbd3f-73c8-45de-a685-339c6ae46fbb) | Nguồn dữ liệu kích thước thiệp | Quản lý cấu hình thiệp | Danh sách kích thước thiệp trên màn hình quản lý của Admin phải được lấy từ Core Database. | Admin truy cập chức năng quản lý kích thước thiệp. | Hệ thống truy xuất danh sách kích thước thiệp từ Core Database và sử dụng dữ liệu này làm nguồn hiển thị chính thức. | Nếu không thể truy xuất dữ liệu từ Core Database, hệ thống không được hiển thị dữ liệu không đầy đủ như một kết quả tải thành công. | Core Database | Admin có quyền quản lý cấu hình thiệp | STORY-054 | Draft | v0 | 2026-08-26 | Áp dụng cho màn hình danh sách kích thước thiệp. |
+| [**BR-188**](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/18bfed12-4045-4071-a071-eba05b86e317) | Thông tin hiển thị của kích thước thiệp | Quản lý cấu hình thiệp | Mỗi kích thước thiệp trong danh sách quản lý phải cung cấp đủ thông tin để Admin nhận diện và theo dõi cấu hình. | Kích thước thiệp được hiển thị trong danh sách quản lý. | Hệ thống hiển thị kích thước, giá size, số lượng từ tối đa, trạng thái Active/Inactive và thao tác liên quan. | Kích thước thiệp đã bị xóa mềm không được hiển thị trong danh sách mặc định. | Core Database | Admin có quyền quản lý cấu hình thiệp | STORY-054 | Draft | v0 | 2026-08-26 | Áp dụng cho thông tin hiển thị trong bảng quản lý kích thước thiệp. |
+| [**BR-189**](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/401a7585-ce52-421e-acb4-76444c24c57b) | Kích thước thiệp đã xóa mềm không hiển thị mặc định | Quản lý cấu hình thiệp | Kích thước thiệp đã bị xóa mềm không được hiển thị trong danh sách kích thước thiệp mặc định của Admin. | Admin truy cập danh sách kích thước thiệp. | Hệ thống chỉ hiển thị các kích thước thiệp có isDelete = false. | Việc xem hoặc khôi phục kích thước thiệp đã xóa, nếu có, thuộc chức năng riêng và không thuộc phạm vi US này. | Core Database | Admin có quyền quản lý cấu hình thiệp | STORY-054 | Draft | v0 | 2026-08-26 | Áp dụng cho danh sách kích thước thiệp mặc định. |
+| [**BR-190**](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/ff7595ae-36b8-4655-a7a4-08d559685a93) | Giá size áp dụng cho thiệp | Cấu hình giá thiệp | Giá size là giá nền được sử dụng khi hệ thống tính giá thiệp. | Khách hàng tạo thiệp và chọn một kích thước thiệp hợp lệ. | Đối với hình thức Gõ máy, giá thiệp bằng giá size. Đối với hình thức Calligraphy, giá thiệp bằng giá size cộng với phụ phí viết tay theo số lượng từ. | Nếu size không có giá hợp lệ, hệ thống không cho tiếp tục tạo thiệp và thông báo dữ liệu giá hiện không khả dụng. | Core Database | Admin có quyền quản lý cấu hình thiệp | STORY-054 | Draft | v0 | 2026-08-26 | Áp dụng cho quy trình tính giá thiệp tại Checkout. |
 
 ---
 
 ## References
+
+### TDDs
+- [**TDD-008**](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/9ff41e6e-192b-43ef-9678-6accda3130a9)
 
 ### Business Rules
 

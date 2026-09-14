@@ -10,9 +10,13 @@
 | **Priority** | Must |
 | **Assignee (FE)** | Hoàng Thị Khánh Linh |
 | **Creator** | Hồ Hoàng Nam |
+| **Reviewer** | Nguyễn Đức Bình |
+| **Approver** | Chưa chỉ định |
+| **Owner** | Hồ Hoàng Nam |
 | **Status** | Cần làm |
 | **Phiên bản** | v0.1 |
 | **Phê duyệt** | Nháp |
+| **Cập nhật** | 08/09/2026 |
 
 ---
 
@@ -158,6 +162,9 @@ Chức năng được truy cập tại **AI Custom → Mẫu hoa** trên sidebar
 ---
 
 ## References
+
+### TDDs
+- [**TDD-023**](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/faf87551-f702-4c6a-88db-b321a58be3d4)
 
 ### Business Rules
 

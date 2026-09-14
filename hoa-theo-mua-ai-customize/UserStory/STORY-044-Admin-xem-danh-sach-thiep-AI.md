@@ -10,9 +10,13 @@
 | **Priority** | Must |
 | **Assignee (FE)** | Hoàng Thị Khánh Linh |
 | **Creator** | Hoàng Thị Khánh Linh |
+| **Reviewer** | Nguyễn Đức Bình |
+| **Approver** | Chưa chỉ định |
+| **Owner** | Hoàng Thị Khánh Linh |
 | **Status** | Cần làm |
 | **Phiên bản** | v0.1 |
 | **Phê duyệt** | Nháp |
+| **Cập nhật** | 25/08/2026 |
 
 ---
 
@@ -181,6 +185,18 @@ Chức năng được truy cập tại **AI Custom → Thiệp** trên sidebar c
 ---
 
 ## References
+
+### Business Rules
+
+| Rule ID | Link |
+|---|---|
+| BR-126 | [Một item theo History record](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/8b3abc1f-d5cc-4ea4-9217-38dfe0c52c35) |
+| BR-127 | [Thứ tự mặc định](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/5fc21993-cf12-4c58-bf64-db5e9b4f2763) |
+| BR-128 | [Dữ liệu danh sách](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/bb1e1878-9fac-44b1-9b14-1137cc43bc0b) |
+| BR-129 | [Giá và bill](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/3fda951f-01f8-40e1-8129-5e2ee16ea7f3) |
+| BR-130 | [File không khả dụng](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/2c5fddec-4c32-49d6-abe8-477073969fd6) |
+| BR-131 | [Điều hướng AI Custom](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/270060ac-9a31-4c28-b059-3879c464bace) |
+| BR-132 | [Quyền truy cập](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/556f0aa7-fe97-49c4-82fb-d64b637f4577) |
 
 ### Dependencies
 - [**STORY-035**](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/54a960a5-99fa-4037-b1d8-7e931f2b7e43)

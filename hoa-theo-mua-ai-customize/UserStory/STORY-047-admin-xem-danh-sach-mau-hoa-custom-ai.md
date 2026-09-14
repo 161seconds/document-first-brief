@@ -10,9 +10,13 @@
 | **Priority** | Must |
 | **Assignee (FE)** | Hoàng Thị Khánh Linh |
 | **Creator** | Hồ Hoàng Nam |
+| **Reviewer** | Nguyễn Đức Bình |
+| **Approver** | Chưa chỉ định |
+| **Owner** | Hồ Hoàng Nam |
 | **Status** | Cần làm |
 | **Phiên bản** | v0.1 |
 | **Phê duyệt** | Nháp |
+| **Cập nhật** | 28/08/2026 |
 
 ---
 

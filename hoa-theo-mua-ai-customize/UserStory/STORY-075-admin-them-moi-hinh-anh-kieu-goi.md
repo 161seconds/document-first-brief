@@ -10,9 +10,13 @@
 | **Priority** | Must |
 | **Assignee (FE)** | Võ Gia Huy |
 | **Creator** | Hoàng Thị Khánh Linh |
+| **Reviewer** | Nguyễn Đức Bình |
+| **Approver** | Nguyễn Đức Bình |
+| **Owner** | Hoàng Thị Khánh Linh |
 | **Status** | Cần làm |
 | **Phiên bản** | v0.1 |
 | **Phê duyệt** | Nháp |
+| **Cập nhật** | 12/09/2026 |
 
 ---
 

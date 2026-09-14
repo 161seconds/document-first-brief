@@ -10,9 +10,13 @@
 | **Priority** | Must |
 | **Assignee (FE)** | Danh Nguyen |
 | **Creator** | Hoàng Thị Khánh Linh |
+| **Reviewer** | Nguyễn Đức Bình |
+| **Approver** | Hoàng Thị Khánh Linh |
+| **Owner** | Hoàng Thị Khánh Linh |
 | **Status** | Cần làm |
 | **Phiên bản** | v0.1 |
 | **Phê duyệt** | Nháp |
+| **Cập nhật** | 11/09/2026 |
 
 ---
 

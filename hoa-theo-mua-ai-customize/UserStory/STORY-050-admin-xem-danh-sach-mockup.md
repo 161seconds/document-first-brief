@@ -1,18 +1,22 @@
-# STORY-050 — Admin xem danh sách Mockup
+# STORY-050 — Admin và Khách hàng xem danh sách Mockup
 
 ## Metadata
 
 | Trường | Nội dung |
 |---|---|
 | **Loại** | Story |
-| **User Story** | Là một Admin có quyền quản lý Mockup, tôi muốn xem danh sách Mockup để theo dõi thông tin và trạng thái của các Mockup đang được quản lý trong hệ thống. |
+| **User Story** | Là một Admin và Khách hàng, tôi muốn xem danh sách Mockup để theo dõi thông tin và trạng thái của các Mockup đang được quản lý trong hệ thống. |
 | **Sprint** | S1 |
 | **Priority** | Must |
 | **Assignee (FE)** | Hoàng Thị Khánh Linh |
 | **Creator** | Hoàng Thị Khánh Linh |
+| **Reviewer** | Nguyễn Đức Bình |
+| **Approver** | Chưa chỉ định |
+| **Owner** | Hoàng Thị Khánh Linh |
 | **Status** | Cần làm |
 | **Phiên bản** | v0.1 |
 | **Phê duyệt** | Nháp |
+| **Cập nhật** | 08/09/2026 |
 
 ---
 
@@ -190,7 +194,14 @@ Mockup được quản lý tại Core Database và được sử dụng trong qu
 
 ## Business Rules
 
-*(Bảng Business Rules không có dữ liệu chi tiết trong tài liệu gốc. Vui lòng tham khảo các link Rule bên dưới.)*
+| Rule ID | Tên rule | Danh mục | Phát biểu (Statement) | Điều kiện (When) | Hành vi (Then) | Ngoại lệ (Except) | Nguồn | Người sở hữu | Story liên quan | Trạng thái | Version | Ngày hiệu lực | Ghi chú / Link logic |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| [**BR-158**](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/dbbaa80e-2369-4095-9495-387a1277c0f4) | Nguồn dữ liệu danh sách Mockup | Quản lý Mockup | Danh sách Mockup trên màn hình quản lý của Admin phải được lấy từ Core Database. | Admin truy cập chức năng “Quản lý Mockup”. | Hệ thống truy xuất danh sách Mockup từ Core Database và sử dụng dữ liệu này làm nguồn hiển thị chính thức. | Nếu không thể truy xuất dữ liệu từ Core Database, hệ thống không được hiển thị dữ liệu không đầy đủ như một kết quả tải thành công. | User Story Admin xem danh sách Mockup | Admin / Quản lý Mockup | STORY-050 | Draft | v0 | 2026-08-25 | Liên quan STORY-050 — Admin xem danh sách Mockup. |
+| [**BR-159**](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/396bf048-2243-42eb-a6c7-f364581c3ca8) | Phạm vi Mockup hiển thị cho Admin | Quản lý Mockup | Admin được phép xem cả Mockup đang Active và Mockup đang Inactive. | Admin có quyền quản lý Mockup và truy cập danh sách Mockup. | Hệ thống hiển thị các Mockup trong hệ thống không phụ thuộc vào trạng thái Active hoặc Inactive. | Quy tắc chỉ hiển thị Mockup còn khả dụng cho khách hàng không áp dụng cho màn hình quản trị. | User Story Admin xem danh sách Mockup | Quản lý Mockup | STORY-050 | Draft | v0 | 2026-08-25 | Liên quan STORY-050 — Admin xem danh sách Mockup. |
+| [**BR-160**](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/534ed567-f3d3-4073-a358-37e29d6cac57) | Thông tin hiển thị của Mockup | Quản lý Mockup | Mỗi Mockup trong danh sách quản lý phải cung cấp đủ thông tin để Admin nhận diện và theo dõi trạng thái. | Mockup được hiển thị trong danh sách quản lý. | Hệ thống hiển thị: Tên Mockup, mô tả, ảnh Preview, trạng thái Active hoặc Inactive và thao tác tương ứng. | Nếu ảnh Preview không khả dụng, các thông tin còn lại của Mockup vẫn được hiển thị. | User Story Admin xem danh sách Mockup | Quản lý Mockup | STORY-050 | Draft | v0 | 2026-08-25 | Liên quan STORY-050 — Admin xem danh sách Mockup. |
+| [**BR-161**](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/fc74bb24-b792-470e-b108-13d36a16d3f6) | Hiển thị mô tả Mockup | Quản lý Mockup | Mô tả Mockup phải được giới hạn vùng hiển thị trên bảng danh sách. | Mô tả Mockup vượt quá vùng hiển thị. | Hệ thống hiển thị tối đa 2 dòng mô tả và rút gọn phần nội dung vượt quá bằng dấu “…”. Khi Admin di chuột vào phần mô tả bị rút gọn, hệ thống hiển thị đầy đủ nội dung bằng Tooltip. | Nếu mô tả nằm trong giới hạn hiển thị thì hệ thống hiển thị đầy đủ và không bắt buộc hiển thị Tooltip. | User Story Admin xem danh sách Mockup | Quản lý Mockup | STORY-050 | Draft | v0 | 2026-08-25 | Liên quan STORY-050 — Admin xem danh sách Mockup. |
+| [**BR-162**](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/63059c03-5bd0-4090-ab0b-d3a496b53c80) | Trạng thái Mockup | Quản lý Mockup | Mỗi Mockup chỉ được có một trạng thái quản lý tại một thời điểm. | Mockup tồn tại trong hệ thống. | Mockup phải ở một trong hai trạng thái: Active hoặc Inactive. Hệ thống hiển thị đúng trạng thái hiện tại của Mockup trên danh sách quản lý. | Không cho phép một Mockup đồng thời ở cả trạng thái Active và Inactive. | User Story Admin xem danh sách Mockup | Quản lý Mockup | STORY-050 | Draft | v0 | 2026-08-25 | Liên quan STORY-050 — Admin xem danh sách Mockup. |
+| [**BR-163**](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/0fb3fa93-c3d3-4afb-9249-362689d34b0e) | Quyền truy cập danh sách Mockup | Phân quyền | Chỉ Admin có quyền quản lý Mockup mới được truy cập danh sách quản lý Mockup. | Người dùng yêu cầu truy cập chức năng “Quản lý Mockup”. | Hệ thống kiểm tra quyền của tài khoản trước khi trả dữ liệu quản lý Mockup. | Người dùng không có quyền quản lý Mockup không được truy cập hoặc nhận dữ liệu quản trị Mockup. | User Story Admin xem danh sách Mockup | Phân quyền | STORY-050 | Draft | v0 | 2026-08-25 | Liên quan STORY-050 — Admin xem danh sách Mockup. |
 
 ---
 
@@ -200,12 +211,12 @@ Mockup được quản lý tại Core Database và được sử dụng trong qu
 
 | Rule ID | Link |
 |---|---|
-| BR-158 | [Link BR-158](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/dbbaa80e-2369-4095-9495-387a1277c0f4) |
-| BR-159 | [Link BR-159](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/396bf048-2243-42eb-a6c7-f364581c3ca8) |
-| BR-160 | [Link BR-160](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/534ed567-f3d3-4073-a358-37e29d6cac57) |
-| BR-161 | [Link BR-161](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/fc74bb24-b792-470e-b108-13d36a16d3f6) |
-| BR-162 | [Link BR-162](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/63059c03-5bd0-4090-ab0b-d3a496b53c80) |
-| BR-163 | [Link BR-163](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/0fb3fa93-c3d3-4afb-9249-362689d34b0e) |
+| BR-158 | [Nguồn dữ liệu danh sách Mockup](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/dbbaa80e-2369-4095-9495-387a1277c0f4) |
+| BR-159 | [Phạm vi Mockup hiển thị cho Admin](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/396bf048-2243-42eb-a6c7-f364581c3ca8) |
+| BR-160 | [Thông tin hiển thị của Mockup](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/534ed567-f3d3-4073-a358-37e29d6cac57) |
+| BR-161 | [Hiển thị mô tả Mockup](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/fc74bb24-b792-470e-b108-13d36a16d3f6) |
+| BR-162 | [Trạng thái Mockup](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/63059c03-5bd0-4090-ab0b-d3a496b53c80) |
+| BR-163 | [Quyền truy cập danh sách Mockup](https://document-first.vnzdna.com/projects/117393d8-1afc-4c89-baa9-9aeea430cdcd/documents/0fb3fa93-c3d3-4afb-9249-362689d34b0e) |
 
 ---
 
