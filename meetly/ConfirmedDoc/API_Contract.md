@@ -54,11 +54,17 @@ Response thất bại (`400 Bad Request`, `401 Unauthorized`, `403 Forbidden`, `
   "eventType": 1,
   "availableDates": ["2026-09-10", "2026-09-11", "2026-09-12"],
   "dailyStartTime": "08:00",
-  "dailyEndTime": "17:00"
+  "dailyEndTime": "17:00",
+  "admin": {
+    "username": "John",
+    "password": "123"
+  }
 }
 ```
 
-*Lưu ý:* Nếu `eventType = 2`, mảng `availableDates` sẽ chứa các thứ: `["Monday", "Tuesday", "Thursday"]`.
+*Lưu ý:*
+- Nếu `eventType = 2`, mảng `availableDates` sẽ chứa các thứ: `["Monday", "Tuesday", "Thursday"]`.
+- Đối tượng `admin` cung cấp thông tin người tạo sự kiện để cấp quyền `isAdmin: true` duy nhất theo BR-05 & US-01. `password` có thể rỗng `""` hoặc `null`.
 
 ### Response (`200 OK`):
 
@@ -69,7 +75,8 @@ Response thất bại (`400 Bad Request`, `401 Unauthorized`, `403 Forbidden`, `
   "message": "Tạo sự kiện thành công",
   "value": {
     "shortCode": "A1B2C3",
-    "url": "https://meetly.com/A1B2C3"
+    "url": "https://meetly.com/A1B2C3",
+    "revision": 0
   }
 }
 ```
@@ -99,7 +106,9 @@ Trống (chỉ truyền `shortCode` trên URL path).
     "availableDates": ["2026-09-10", "2026-09-11", "2026-09-12"],
     "dailyStartTime": "08:00",
     "dailyEndTime": "17:00",
+    "revision": 0,
     "isFinalized": false,
+    "finalDateValue": null,
     "finalStartTime": null,
     "finalEndTime": null,
     "participants": [
@@ -228,6 +237,7 @@ Trống (chỉ truyền `shortCode` trên URL path).
 
 ```json
 {
+  "finalDateValue": "2026-09-10",
   "finalStartTime": "2026-09-10T08:00:00+07:00",
   "finalEndTime": "2026-09-10T09:00:00+07:00"
 }

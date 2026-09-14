@@ -42,7 +42,7 @@ const connection = new HubConnectionBuilder()
 **Trigger:**
 
 ```http
-PUT /api/v1/events/{shortCode}/participants/me/availability
+POST /api/v1/events/{shortCode}/participants
 ```
 
 Sau khi API cập nhật thời gian rảnh thành công, BE broadcast event `HeatmapUpdated` tới tất cả client đang kết nối trong cùng event.
