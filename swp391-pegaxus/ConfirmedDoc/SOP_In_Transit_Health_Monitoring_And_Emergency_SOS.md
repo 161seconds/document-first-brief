@@ -2,7 +2,7 @@
 ## Standard Operating Procedure: In-Transit Equine Health Telemetry & Emergency SOS Response
 
 > **Mã quy trình**: `SOP-HEALTH-SOS-02`  
-> **Áp dụng cho**: Tài xế / Nhân viên Đi kèm (`Vehicle Driver / Escort`), Điều phối viên Đội xe (`Fleet & Route Coordinator`), Quản lý Logistics (`Logistics Manager`) và Bác sĩ Thú y Tháp tùng.  
+> **Áp dụng cho**: Tài xế / Nhân viên Đi kèm (`Vehicle Driver / Escort`), Điều phối viên Đội xe (`Fleet & Route Coordinator`), Quản lý Logistics (`Logistics Manager`).  
 > **Phạm vi nghiệp vụ**: Vận hành dọc tuyến đường bộ, đường biển và hàng không trong suốt quá trình vận chuyển.
 
 ---

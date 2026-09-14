@@ -39,24 +39,32 @@
 
 ## Nhóm 2: BR-LEGAL-VET (Hồ Sơ Pháp Lý, Tiêm Phòng & Kiểm Dịch)
 
-### BR-LEGAL-VET-01: Hiệu lực Vaccine Cúm Ngựa (Equine Influenza)
-- Toàn bộ ngựa tham gia vận chuyển bắt buộc phải có chứng thực tiêm phòng vaccine Cúm ngựa trong Hộ chiếu:
-  - Phải hoàn thành phác đồ cơ bản (Primary course: Mũi 1 và Mũi 2 cách nhau 21 - 60 ngày).
-  - Mũi tiêm nhắc lại (Booster) phải được tiêm trong vòng **tối đa 180 ngày (6 tháng) đến 365 ngày (12 tháng)** trước ngày khởi hành tùy theo quy định giải đua.
-  - **Quy tắc 7 ngày**: Tuyệt đối không vận chuyển ngựa vừa được tiêm vaccine trong vòng **7 ngày** trước ngày khởi hành (tránh tác dụng phụ sốt nhẹ và ức chế miễn dịch).
+> **Nguyên tắc Phạm vi (Paper-First / Digitalized Documents Only)**:  
+> Hệ thống Pegaxus **chỉ tiếp nhận và thẩm tra bản giấy số hóa (file PDF, ảnh scan giấy tờ hợp lệ)** do Khách hàng / Bác sĩ thú y bên ngoài cung cấp. Hệ thống **hoàn toàn không quản lý, không can thiệp và không theo dõi quy trình thực địa** (cách lấy mẫu máu, quy trình tiêm phòng tại chuồng trại, hay cách thức khách hàng liên hệ bác sĩ/phòng lab để lấy giấy tờ). Hệ thống chỉ đối soát các trường thông tin ghi trên giấy (ngày tiêm, ngày cấp, ngày hết hạn, kết quả âm tính) so với quy chuẩn vận chuyển.
 
-### BR-LEGAL-VET-02: Thời hạn Hiệu lực của Xét nghiệm Coggins Test (EIA)
-- Phiếu xét nghiệm âm tính với Bệnh Thiếu máu truyền nhiễm ngựa (Equine Infectious Anaemia - EIA) bắt buộc phải được cấp bởi phòng thí nghiệm đạt chuẩn ISO 17025:
-  - Có giá trị tối đa **90 ngày** đối với ngựa đua đã đăng ký (Registered Equidae) di chuyển giữa UK và Pháp/Ireland.
-  - Có giá trị tối đa **30 ngày** đối với một số quốc gia áp dụng kiểm dịch nghiêm ngặt hoặc vùng có nguy cơ dịch tễ.
+### BR-LEGAL-VET-01: Thẩm tra Giấy Chứng nhận / Hộ chiếu Tiêm Vaccine Cúm Ngựa (Equine Influenza)
+- Khách hàng bắt buộc tải lên bản scan Hộ chiếu ngựa (trang tiêm phòng) hoặc Giấy chứng nhận tiêm chủng hợp lệ:
+  - Hệ thống kiểm tra ngày tiêm mũi nhắc lại (Booster) ghi trên giấy tờ: Phải nằm trong thời hạn **tối đa 180 ngày (6 tháng) đến 365 ngày (12 tháng)** tính đến ngày dự kiến khởi hành tùy theo quy định chặng đua.
+  - **Quy tắc 7 ngày**: Ngày tiêm vaccine gần nhất ghi trên giấy tờ bắt buộc phải cách ngày khởi hành tối thiểu **7 ngày** (hệ thống chặn khởi hành nếu ngày tiêm nằm trong vòng 7 ngày trước chuyến đi).
+  - Hệ thống không quản lý phác đồ tiêm hay loại thuốc tiêm thực tế; khách hàng tự chịu trách nhiệm lấy giấy xác nhận tiêm chủng hợp pháp từ phòng khám thú y.
 
-### BR-LEGAL-VET-03: Chứng thư Kiểm dịch Xuất khẩu (EHC Form 8438)
-- Bác sĩ Thú y Chính thức (OV) chỉ được phép ký phát hành EHC trong vòng tối đa **48 giờ** trước thời điểm ngựa bốc lên phương tiện.
-- Chứng thư EHC có giá trị hiệu lực tối đa **10 ngày** kể từ ngày ký cho đến khi nhập cảnh qua trạm BCP đích.
+### BR-LEGAL-VET-02: Thẩm tra Phiếu Kết quả Xét nghiệm Coggins Test (EIA)
+- Khách hàng bắt buộc tải lên file scan Phiếu kết quả xét nghiệm âm tính với Bệnh Thiếu máu truyền nhiễm ngựa (Equine Infectious Anaemia - EIA):
+  - Hệ thống kiểm tra kết quả ghi trên phiếu phải là **Âm tính (Negative)**.
+  - Hệ thống kiểm tra ngày cấp phiếu xét nghiệm: Có giá trị hiệu lực tối đa **90 ngày** (với ngựa đua đăng ký di chuyển giữa UK và EU/Pháp/Ireland) hoặc tối đa **30 ngày** (với các quốc gia có yêu cầu kiểm dịch dịch tễ nghiêm ngặt) tính đến ngày khởi hành.
+  - Hệ thống không quản lý quy trình lấy mẫu máu hay liên kết API phòng xét nghiệm; khách hàng tự nộp mẫu và lấy phiếu kết quả từ phòng lab đạt chuẩn ISO 17025.
 
-### BR-LEGAL-VET-04: Điều kiện Khai báo CHED-A trên TRACES-NT
-- Tờ khai CHED-A bắt buộc phải được gửi lên hệ thống TRACES-NT tối thiểu **24 giờ** trước khi phương tiện cập cảng hoặc tới cổng trạm kiểm soát BCP biên giới.
-- Nếu không có mã số CHED-A hợp lệ, hệ thống tự động khóa trạng thái không cho phép xuất bản lệnh khởi hành (*Departure Lock*).
+### BR-LEGAL-VET-03: Thẩm tra Chứng thư Kiểm dịch Xuất khẩu (EHC Form 8438)
+- Tiếp nhận file scan Chứng thư EHC bản cứng đã có chữ ký tay và con dấu của Bác sĩ Thú y Chính thức (Official Veterinarian - OV):
+  - Hệ thống kiểm tra ngày ký phát hành trên chứng thư EHC: Phải được ký trong vòng tối đa **48 giờ** trước thời điểm bốc ngựa lên phương tiện vận chuyển.
+  - Hệ thống kiểm tra thời hạn hiệu lực của chứng thư EHC: Có giá trị tối đa **10 ngày** kể từ ngày ký cho đến khi nhập cảnh qua trạm BCP đích.
+  - Việc mời Bác sĩ Thú y OV đến khám lâm sàng tại chuồng và cấp giấy chứng thư giấy là quy trình ngoại tuyến bên ngoài phạm vi phần mềm.
+
+### BR-LEGAL-VET-04: Tiếp nhận Tờ khai / Giấy Thông quan Kiểm dịch CHED-A
+- Chuyên viên Thủ tục (Transport Specialist) cập nhật mã số tờ khai hoặc tải lên bản scan giấy xác nhận tiếp nhận từ cổng TRACES-NT / cơ quan kiểm dịch cửa khẩu:
+  - Thông tin tờ khai CHED-A bắt buộc phải được ghi nhận trên hệ thống tối thiểu **24 giờ** trước khi phương tiện cập cảng hoặc tới cổng trạm kiểm soát BCP biên giới.
+  - Nếu chuyến đi chưa có mã số hoặc giấy xác nhận CHED-A hợp lệ, hệ thống tự động khóa trạng thái không cho phép xuất bản lệnh khởi hành (*Departure Lock*).
+  - Hệ thống không tích hợp tự động qua API cơ quan nhà nước; chuyên viên thực hiện thủ tục khai báo bên ngoài và ghi nhận kết quả/giấy tờ vào hệ thống.
 
 ---
 
@@ -111,10 +119,14 @@
 
 ## Nhóm 6: BR-INCIDENT-SOS (Xử Lý Sự Cố Hiện Trường & Tái Lập Lộ Trình)
 
-### BR-INCIDENT-SOS-01: Thẩm quyền Quyết định Chuyển viện & Cấp cứu Thú y
+### BR-INCIDENT-SOS-01: Thẩm quyền Quyết định Chuyển viện & Cấp cứu Thú y Ngoại tuyến
+- **Nguyên tắc Bên thứ ba ngoại tuyến**: Bác sĩ Thú y / Phòng khám Thú y là đơn vị chuyên môn độc lập bên ngoài, **hoàn toàn không có tài khoản và không truy cập vào ứng dụng Pegaxus**.
 - Khi phát sinh sự cố y tế khẩn cấp dọc đường:
-  - Bác sĩ Thú y lưu động thuộc mạng lưới khẩn cấp có quyền quyết định đưa ngựa vào bệnh viện thú y gần nhất.
-  - Tài xế không được tự ý tiếp tục hành trình nếu chưa có sự chấp thuận bằng văn bản điện tử của Bác sĩ Thú y qua ứng dụng.
+  - Nhân viên Đi kèm (`Escort`) hoặc Tài xế (`Vehicle Driver`) kích hoạt cảnh báo y tế SOS trên ứng dụng di động, đồng thời chủ động liên hệ ngoại tuyến (qua điện thoại hoặc đưa xe) đến trạm/bệnh viện thú y gần nhất.
+  - Bác sĩ Thú y tiến hành cấp cứu thực địa và cung cấp kết luận bằng văn bản giấy (Đơn thuốc, Biên bản chẩn đoán hoặc Chỉ định nhập viện/chuyển viện).
+  - `Escort` hoặc `Vehicle Driver` chụp ảnh toàn bộ chứng từ y tế giấy và tải lên hệ thống đính kèm báo cáo sự cố SOS.
+  - Thẩm quyền ra quyết định chuyển viện, phê duyệt lộ trình rẽ nhánh cấp cứu hoặc cho phép tiếp tục hành trình thuộc về `Logistics Manager` thao tác trực tiếp trên hệ thống.
+  - Tài xế tuyệt đối không được tự ý tiếp tục hành trình nếu chưa có lệnh phê duyệt xác nhận trên hệ thống của `Logistics Manager`.
 
 ### BR-INCIDENT-SOS-02: Quy định Sang xe Dự phòng (Cross-Docking Rule)
 - Khi xe tải chuyên dụng gặp sự cố cơ học không thể khắc phục trong vòng **2 giờ** giữa điều kiện thời tiết khắc nghiệt:
@@ -141,5 +153,5 @@
 
 ### BR-HANDOVER-CLAIMS-03: Nghĩa vụ Chứng minh Khiếu nại (Burden of Proof)
 - Mọi khiếu nại yêu cầu bồi thường bảo hiểm bắt buộc phải có:
-  - Biên bản giám định độc lập của Bác sĩ Thú y có chứng chỉ hành nghề trong vòng 12h sau bàn giao.
+  - Bản chụp/scan Biên bản giám định độc lập bằng văn bản giấy do Bác sĩ Thú y có chứng chỉ hành nghề cấp, được Khách hàng tải lên hệ thống trong vòng 12h sau bàn giao.
   - Trích xuất dữ liệu cảm biến va đập (G-Force sensor) hoặc cảm biến nhiệt độ từ thùng xe để chứng minh lỗi thuộc về quy trình vận tải của nhà xe.
