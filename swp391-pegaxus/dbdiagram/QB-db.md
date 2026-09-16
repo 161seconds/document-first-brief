@@ -1,0 +1,1977 @@
+# Database Diagram (QB Refined V2)
+
+Database schema definition written in [DBML](https://dbml.dbdiagram.io/docs/).
+
+```dbml
+//////////////////////////////////////////////////////////////
+// RACEHORSE CROSS-BORDER TRANSPORT SYSTEM
+// PHYSICAL ERD - REFINED V2 (QB-DB)
+//
+// Key Refinements Applied from Audit Review:
+// 1. Vehicle decoupling: Extracted to TransportPlanVehicle (reusable assets).
+// 2. Location denormalization fix: Removed redundant transport_plan_id.
+// 3. Compliance per-horse scope: Added horse_id to DossierRequirement & ComplianceDocument.
+// 4. Incident flexibility: Made location_id nullable; added direct transport_id & GPS coordinates.
+// 5. Claim flexibility: Added booking_id; made handover_record_id nullable.
+// 6. Handover detail: Added HandoverHorseDetail for per-horse checkoff.
+// 7. Audit actors: Added employee_id / changed_by_account_id to reviews, requests, resolutions, and status histories.
+//////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////
+// ENUMS - CORE
+//////////////////////////////////////////////////////////////
+
+// Trạng thái tài khoản đăng nhập
+Enum account_status {
+  ACTIVE      // Đang hoạt động
+  INACTIVE    // Chưa kích hoạt
+  SUSPENDED   // Bị khóa/đình chỉ
+}
+
+// Phân loại chủ sở hữu tài khoản
+Enum account_type {
+  CUSTOMER    // Khách hàng cá nhân hoặc chủ trại ngựa
+  EMPLOYEE    // Nhân viên nội bộ công ty vận tải
+}
+
+// 4 vai trò nhân sự vận hành chính
+Enum employee_role {
+  LOGISTICS_MANAGER          // Quản lý điều hành: duyệt đơn, lập kế hoạch, duyệt chi phí khẩn
+  TRANSPORT_SPECIALIST       // Chuyên viên thủ tục: quản lý hồ sơ kiểm dịch, pháp lý quốc tế
+  FLEET_ROUTE_COORDINATOR    // Điều phối viên đội xe: sắp xếp xe, lộ trình, điểm dừng nghỉ
+  DRIVER_ESCORT              // Tài xế / Hộ tống: trực tiếp vận hành chuyến đi, ghi nhật ký ngựa
+}
+
+// Giới tính sinh học của ngựa đua
+Enum horse_sex {
+  MALE        // Ngựa đực giống (Stallion)
+  FEMALE      // Ngựa cái (Mare)
+  GELDING     // Ngựa đực thiến (Gelding)
+}
+
+// Vòng đời đơn đặt dịch vụ vận chuyển
+Enum booking_status {
+  PENDING         // Chờ tiếp nhận
+  UNDER_REVIEW    // Đang thẩm định yêu cầu và hồ sơ
+  APPROVED        // Đã duyệt đơn đặt chỗ
+  REJECTED        // Bị từ chối tiếp nhận
+  CANCELLED       // Khách hoặc quản lý hủy đơn
+}
+
+// Trạng thái vận hành chuyến đi thực tế
+Enum transport_status {
+  CREATED       // Đã khởi tạo chuyến đi từ đơn duyệt
+  PLANNING      // Đang lập kế hoạch điều phối xe và lộ trình
+  READY         // Sẵn sàng xuất hành (hồ sơ và xe đã chốt)
+  IN_TRANSIT    // Đang trên đường di chuyển
+  COMPLETED     // Đã bàn giao và hoàn tất chuyến đi
+  CANCELLED     // Chuyến đi bị hủy bỏ
+}
+
+
+//////////////////////////////////////////////////////////////
+// ENUMS - TRANSPORT PLANNING
+//////////////////////////////////////////////////////////////
+
+// Trạng thái phê duyệt kế hoạch vận tải
+Enum transport_plan_status {
+  DRAFT               // Bản nháp đang soạn thảo
+  PENDING_APPROVAL    // Chờ Quản lý Logistics phê duyệt
+  APPROVED            // Đã phê duyệt kế hoạch
+  IN_PROGRESS         // Đang thực hiện theo kế hoạch
+  COMPLETED           // Đã hoàn thành kế hoạch
+  CANCELLED           // Kế hoạch bị hủy
+}
+
+// Trạng thái lộ trình di chuyển
+Enum route_plan_status {
+  DRAFT        // Dự thảo lộ trình
+  CONFIRMED    // Đã xác nhận tuyến đường
+  ACTIVE       // Lộ trình đang hoạt động
+  COMPLETED    // Đã chạy hết lộ trình
+  CANCELLED    // Tuyến đường bị hủy
+}
+
+// Phương thức vận chuyển từng chặng
+Enum transport_mode {
+  ROAD    // Đường bộ (xe chuyên dụng kéo rơ-moóc/thùng ngựa)
+  SEA     // Đường biển (phà chở xe ngựa qua eo biển)
+  AIR     // Hàng không (chuyến bay chuyên cơ/khoang Air Stalls)
+}
+
+// Phân loại lộ trình
+Enum route_type {
+  PRIMARY    // Tuyến đường chính thức
+  BACKUP     // Tuyến đường dự phòng khi tắc đường/thời tiết xấu
+}
+
+// Phân loại mốc dừng chân/kiểm soát
+Enum location_type {
+  ORIGIN         // Điểm xuất phát (trại ngựa nguồn)
+  DESTINATION    // Điểm đích đến (trường đua/trại ngựa đích)
+  TRANSIT        // Điểm trung chuyển
+  BORDER_GATE    // Cửa khẩu hải quan quốc tế
+  AIRPORT        // Sân bay
+  SEAPORT        // Cảng biển
+  STABLE         // Trại ngựa liên kết dọc đường
+  REST_STOP      // Trạm dừng nghỉ phúc lợi động vật
+  OTHER          // Điểm khác
+}
+
+// Tình trạng sẵn sàng của phương tiện
+Enum vehicle_status {
+  AVAILABLE      // Sẵn sàng nhận chuyến
+  ASSIGNED       // Đã gán vào kế hoạch chuyến đi
+  IN_USE         // Đang lăn bánh trên đường
+  MAINTENANCE    // Đang bảo dưỡng kỹ thuật định kỳ
+  INACTIVE       // Ngừng sử dụng
+}
+
+// Trạng thái đối tác vận tải ngoài
+Enum provider_status {
+  ACTIVE       // Đang hợp tác
+  INACTIVE     // Tạm ngưng
+  SUSPENDED    // Chấm dứt hợp đồng
+}
+
+
+//////////////////////////////////////////////////////////////
+// ENUMS - EXECUTION
+//////////////////////////////////////////////////////////////
+
+// Loại biên bản giao nhận thực tế
+Enum handover_type {
+  PICKUP             // Tiếp nhận ngựa tại chuồng chủ ban đầu
+  TRANSFER           // Bàn giao giữa 2 tài xế/chặng trung chuyển
+  BORDER_HANDOVER    // Bàn giao kiểm dịch tại cửa khẩu biên giới
+  CARRIER_HANDOVER   // Bàn giao cho hãng bay/hãng phà
+  DELIVERY           // Bàn giao ngựa tại điểm đích cho người nhận
+  OTHER              // Giao nhận khác
+}
+
+// Trạng thái biên bản giao nhận
+Enum handover_status {
+  PLANNED        // Lên kế hoạch giao nhận
+  IN_PROGRESS    // Đang kiểm tra thể trạng và ký nhận
+  COMPLETED      // Đã hoàn thành ký xác nhận 2 bên
+  CANCELLED      // Đợt giao nhận bị hủy
+}
+
+// Thời điểm kiểm tra sức khỏe ngựa
+Enum horse_health_log_type {
+  PRE_TRIP_CHECK        // Kiểm tra trước khi lên xe xuất phát
+  ROUTINE_CHECK         // Kiểm tra định kỳ dọc đường (mỗi 4-6h)
+  BORDER_CHECK          // Kiểm tra thú y tại cửa khẩu hải quan
+  REST_STOP_CHECK       // Kiểm tra tại trạm dừng nghỉ
+  INCIDENT_FOLLOWUP     // Theo dõi sau khi phát sinh sự cố y tế
+  POST_TRIP_CHECK       // Kiểm tra tổng kết khi giao ngựa tại đích
+  OTHER                 // Kiểm tra đột xuất khác
+}
+
+// Đánh giá thể trạng tổng quát của ngựa
+Enum horse_health_status {
+  NORMAL                  // Khỏe mạnh, sinh hiệu bình thường
+  OBSERVATION_REQUIRED    // Cần theo dõi thêm (mệt mỏi nhẹ, ăn ít)
+  AT_RISK                 // Có nguy cơ (sốt nhẹ, nhịp tim tăng)
+  CRITICAL                // Nguy kịch (đau bụng cấp colic, chấn thương nặng)
+}
+
+// Mức độ mất nước qua kiểm tra nếp gấp da
+Enum hydration_status {
+  NORMAL                  // Thể dịch đủ, đàn hồi da tốt
+  MILD_DEHYDRATION        // Mất nước nhẹ
+  MODERATE_DEHYDRATION    // Mất nước vừa phải
+  SEVERE_DEHYDRATION      // Mất nước nghiêm trọng (cần truyền dịch)
+}
+
+
+//////////////////////////////////////////////////////////////
+// ENUMS - INCIDENT / EMERGENCY
+//////////////////////////////////////////////////////////////
+
+// Phân loại nhóm sự cố
+Enum incident_category {
+  VEHICLE         // Sự cố kỹ thuật phương tiện
+  HORSE_HEALTH    // Sự cố sức khỏe/thương tật của ngựa
+  MIXED           // Sự cố kép kết hợp (xe tai nạn làm ngựa bị thương)
+  GENERAL         // Sự cố chung (thiên tai, tắc đường cửa khẩu đóng)
+  OTHER           // Sự cố khác
+}
+
+// Cấp độ khẩn cấp của sự cố
+Enum incident_severity {
+  LOW         // Thấp (chậm giờ nhẹ, không ảnh hưởng ngựa)
+  MEDIUM      // Trung bình (xe hỏng vặt, xử lý được trong 1-2h)
+  HIGH        // Cao (ngựa sốt cao, xe chết máy cần cứu hộ)
+  CRITICAL    // Khẩn cấp tối đa (tai nạn, đe dọa sinh mạng ngựa)
+}
+
+// Quy trình xử lý sự cố
+Enum incident_status {
+  REPORTED              // Đã gửi báo cáo khẩn cấp
+  UNDER_INVESTIGATION   // Đội điều phối đang đánh giá tình hình
+  ACTION_REQUIRED       // Đang triển khai phương án ứng cứu
+  RESOLVED              // Đã khắc phục xong sự cố
+  CLOSED                // Đã đóng hồ sơ sự cố
+  CANCELLED             // Báo cáo nhầm/hủy báo cáo
+}
+
+// Loại lỗi kỹ thuật xe
+Enum vehicle_incident_type {
+  BREAKDOWN                      // Hỏng hóc chết máy dọc đường
+  ACCIDENT                       // Va chạm giao thông
+  TIRE_DAMAGE                    // Nổ lốp/rách lốp
+  ENGINE_FAILURE                 // Hỏng động cơ
+  TEMPERATURE_CONTROL_FAILURE    // Hỏng hệ thống điều hòa khoang ngựa
+  EQUIPMENT_FAILURE              // Hỏng cầu dốc nâng hạ/chắn an toàn
+  OTHER                          // Hỏng hóc khác
+}
+
+// Bệnh lý/chấn thương ngựa thường gặp
+Enum horse_incident_type {
+  INJURY               // Chấn thương xây xát/gãy xương
+  DEHYDRATION          // Sốc nhiệt/mất nước cấp tính
+  RESPIRATORY_ISSUE    // Viêm đường hô hấp do bụi/thông khí kém (Shipping Fever)
+  FEVER                // Sốt cao
+  STRESS               // Hoảng loạn, kích động dữ dội
+  COLIC                // Đau bụng co thắt (cực kỳ nguy hiểm ở ngựa)
+  FATIGUE              // Kiệt sức do hành trình dài
+  OTHER                // Vấn đề y tế khác
+}
+
+// Nhóm khoản chi phát sinh khẩn cấp
+Enum emergency_cost_category {
+  VETERINARY             // Chi phí khám cấp cứu thú y
+  MEDICATION             // Tiền thuốc men, dịch truyền
+  VEHICLE_REPAIR         // Tiền sửa chữa xe lưu động
+  TOWING                 // Phí cứu hộ cẩu xe
+  REPLACEMENT_VEHICLE    // Chi phí thuê xe thay thế khẩn cấp
+  EMERGENCY_STABLE       // Phí thuê chuồng trọ khẩn cấp cho ngựa
+  ROUTE_CHANGE           // Phí phát sinh do đổi tuyến đường/vé tàu phà mới
+  ACCOMMODATION          // Chi phí lưu trú phát sinh cho tài xế/hộ tống
+  OTHER                  // Khoản chi khẩn cấp khác
+}
+
+// Trạng thái phê duyệt chi phí khẩn cấp
+Enum emergency_cost_status {
+  PENDING_APPROVAL    // Chờ Quản lý Logistics phê duyệt
+  APPROVED            // Đã chấp thuận chi tiền
+  REJECTED            // Bác bỏ yêu cầu chi tiền
+  CANCELLED           // Hủy yêu cầu chi
+}
+
+// Quyết định của người duyệt
+Enum approval_decision {
+  APPROVED    // Chấp thuận
+  REJECTED    // Từ chối
+}
+
+
+//////////////////////////////////////////////////////////////
+// ENUMS - FINANCE
+//////////////////////////////////////////////////////////////
+
+// Vòng đời hóa đơn
+Enum invoice_status {
+  DRAFT             // Hóa đơn nháp
+  ISSUED            // Đã gửi cho khách hàng
+  PARTIALLY_PAID    // Đã thanh toán một phần (đặt cọc)
+  PAID              // Đã thanh toán đủ toàn bộ
+  OVERDUE           // Quá hạn thanh toán
+  CANCELLED         // Hóa đơn bị hủy
+}
+
+// Phân loại hạng mục thu phí
+Enum invoice_item_type {
+  TRANSPORT_FEE        // Cước vận chuyển cơ bản
+  HORSE_SERVICE_FEE    // Phí dịch vụ chăm sóc ngựa chuyên sâu
+  HANDLING_FEE         // Phí bốc xếp dắt ngựa lên xuống xe/máy bay
+  COMPLIANCE_FEE       // Lệ phí thủ tục hải quan và kiểm dịch
+  EMERGENCY_COST       // Phụ phí ứng cứu sự cố phát sinh
+  OTHER                // Khoản phí khác
+}
+
+// Hình thức thanh toán
+Enum payment_method {
+  CASH             // Tiền mặt
+  BANK_TRANSFER    // Chuyển khoản ngân hàng quốc tế (SWIFT/SEPA)
+  CREDIT_CARD      // Thẻ tín dụng quốc tế
+  OTHER            // Cổng thanh toán khác
+}
+
+// Trạng thái biên nhận thu tiền
+Enum receipt_status {
+  PENDING      // Giao dịch đang chờ xác nhận từ ngân hàng
+  CONFIRMED    // Tiền đã vào tài khoản
+  FAILED       // Giao dịch thanh toán thất bại
+  REFUNDED     // Đã hoàn tiền cho khách
+}
+
+// Trạng thái báo cáo tài chính chuyến đi
+Enum financial_report_status {
+  DRAFT        // Báo cáo nháp đang tổng hợp chi phí
+  FINALIZED    // Báo cáo đã chốt quyết toán chuyến
+}
+
+
+//////////////////////////////////////////////////////////////
+// ENUMS - CLAIM
+//////////////////////////////////////////////////////////////
+
+// Nguyên nhân khiếu nại của khách
+Enum claim_type {
+  HORSE_INJURY      // Ngựa bị chấn thương/tổn thương cơ thể
+  HORSE_HEALTH      // Ngựa bị sụt cân, suy giảm sức khỏe sau chuyến
+  LOSS              // Thất lạc trang thiết bị/phụ kiện của ngựa
+  DAMAGE            // Hư hỏng yên cương, thùng đồ chuyên dụng
+  DELAY             // Chậm trễ giờ giao làm lỡ giải đua
+  DOCUMENT_ISSUE    // Trục trặc giấy tờ làm ngựa bị giữ tại cửa khẩu
+  SERVICE_ISSUE     // Phàn nàn về thái độ phục vụ của nhân sự
+  OTHER             // Vấn đề khiếu nại khác
+}
+
+// Tiến trình giải quyết khiếu nại
+Enum claim_status {
+  SUBMITTED             // Khách vừa gửi đơn khiếu nại
+  UNDER_REVIEW          // Đang đối chiếu nhật ký hành trình và biên bản
+  APPROVED              // Chấp thuận khiếu nại, đồng ý bồi thường
+  PARTIALLY_APPROVED    // Chấp thuận một phần yêu cầu
+  REJECTED              // Bác bỏ khiếu nại
+  RESOLVED              // Đã hoàn tất đền bù/xử lý
+  CANCELLED             // Khách rút đơn khiếu nại
+}
+
+// Phương án xử lý khiếu nại
+Enum claim_resolution_type {
+  COMPENSATION            // Đền bù tiền mặt toàn bộ
+  PARTIAL_COMPENSATION    // Đền bù một phần thiệt hại
+  REFUND                  // Hoàn cước phí vận chuyển
+  SERVICE_RECOVERY        // Tặng voucher/giảm giá cho chuyến tiếp theo
+  NO_COMPENSATION         // Không bồi thường (do lỗi bất khả kháng/khách nộp giấy tờ sai)
+  OTHER                   // Biện pháp hòa giải khác
+}
+
+
+//////////////////////////////////////////////////////////////
+// ENUMS - COMPLIANCE
+//////////////////////////////////////////////////////////////
+
+// Trạng thái hiệu lực quy định pháp lý master
+Enum compliance_requirement_status {
+  ACTIVE      // Đang có hiệu lực thi hành
+  INACTIVE    // Hết hiệu lực/đã bãi bỏ
+}
+
+// Trạng thái bộ mẫu hồ sơ
+Enum dossier_template_status {
+  DRAFT       // Dự thảo bộ mẫu hồ sơ
+  ACTIVE      // Bộ mẫu đang áp dụng chuẩn
+  INACTIVE    // Bộ mẫu ngừng sử dụng
+}
+
+// Tiến độ hoàn thiện hồ sơ kiểm dịch của chuyến
+Enum compliance_dossier_status {
+  DRAFT                   // Khởi tạo hồ sơ
+  IN_PREPARATION          // Đang thu thập và upload các giấy tờ
+  READY_FOR_SUBMISSION    // Đã đủ giấy tờ, sẵn sàng nộp cơ quan chức năng
+  SUBMITTED               // Đã nộp sang Hải quan/Thú y
+  UNDER_REVIEW            // Cơ quan chức năng đang xét duyệt hồ sơ
+  APPROVED                // Hồ sơ thông quan được duyệt toàn bộ
+  REJECTED                // Bị cơ quan chức năng trả về/từ chối
+  CLOSED                  // Đóng hồ sơ lưu trữ sau khi chuyến đi xong
+}
+
+// Trạng thái của từng đầu mục giấy tờ yêu cầu
+Enum dossier_requirement_status {
+  PENDING         // Chưa nộp
+  REQUESTED       // Đã gửi thông báo đòi khách/đối tác cung cấp
+  PROVIDED        // Khách đã upload giấy tờ
+  UNDER_REVIEW    // Chuyên viên đang thẩm định nội dung
+  SATISFIED       // Giấy tờ hợp lệ, đạt yêu cầu
+  REJECTED        // Giấy tờ sai quy cách, bị từ chối
+  WAIVED          // Miễn nộp (theo diện ưu tiên/ngoại lệ)
+}
+
+// Tình trạng pháp lý của bản tài liệu
+Enum compliance_document_status {
+  DRAFT           // Bản thảo tài liệu
+  PROVIDED        // Đã nộp bản scan/ảnh chụp
+  UNDER_REVIEW    // Đang chờ chuyên viên phê duyệt
+  APPROVED        // Đã thẩm định đạt chuẩn
+  REJECTED        // Bị từ chối do mờ/hết hạn/sai thông tin
+  EXPIRED         // Tài liệu đã quá hạn hiệu lực
+}
+
+// Kết quả thẩm định tài liệu số
+Enum document_review_result {
+  APPROVED             // Phê duyệt tài liệu
+  REJECTED             // Từ chối hoàn toàn
+  REVISION_REQUIRED    // Yêu cầu nộp lại bản rõ nét/bản dịch công chứng
+}
+
+// Phân loại yêu cầu bổ sung giấy tờ
+Enum document_request_type {
+  MISSING_DOCUMENT          // Thiếu hoàn toàn đầu mục giấy tờ
+  REVISION                  // Giấy tờ sai sót cần chỉnh sửa nội dung
+  REUPLOAD                  // File tải lên bị mờ, hỏng định dạng
+  ADDITIONAL_INFORMATION    // Cần bổ sung tài liệu giải trình thêm
+}
+
+// Trạng thái yêu cầu bổ sung giấy tờ
+Enum document_request_status {
+  OPEN         // Yêu cầu đang mở chờ khách nộp
+  FULFILLED    // Khách đã nộp đáp ứng yêu cầu
+  CANCELLED    // Hủy bỏ yêu cầu bổ sung
+}
+
+// Trạng thái nộp hồ sơ lên cơ quan công quyền
+Enum authority_submission_status {
+  DRAFT           // Chuẩn bị đợt nộp
+  SUBMITTED       // Đã gửi hồ sơ sang cổng dịch vụ công
+  UNDER_REVIEW    // Cơ quan hải quan/thú y đang xét duyệt
+  APPROVED        // Cơ quan công quyền cấp phép/thông quan
+  REJECTED        // Cơ quan công quyền bác đơn
+  RETURNED        // Trả hồ sơ để bổ sung thông tin
+}
+
+
+//////////////////////////////////////////////////////////////
+// ENUMS - NOTIFICATION
+//////////////////////////////////////////////////////////////
+
+// Chủ đề thông báo
+Enum notification_type {
+  BOOKING           // Đơn đặt chỗ (được duyệt, bị từ chối)
+  TRANSPORT         // Trạng thái chuyến đi (xuất hành, hoàn tất)
+  ROUTE             // Cập nhật lộ trình di chuyển
+  HANDOVER          // Bàn giao ký nhận ngựa
+  HORSE_HEALTH      // Cảnh báo sinh hiệu sức khỏe bất thường
+  INCIDENT          // Báo động sự cố khẩn cấp trên đường
+  EMERGENCY_COST    // Xin duyệt chi phí khẩn cấp
+  PAYMENT           // Nhắc nợ, xác nhận thanh toán hóa đơn
+  CLAIM             // Cập nhật tiến độ xử lý khiếu nại
+  COMPLIANCE        // Cảnh báo tiến độ hoàn tất hồ sơ pháp lý
+  DOCUMENT          // Yêu cầu nộp lại giấy tờ bị mờ/sai
+  SYSTEM            // Thông báo bảo trì hệ thống chung
+}
+
+// Mức độ ưu tiên đẩy thông báo
+Enum notification_priority {
+  LOW       // Thấp (tin tức định kỳ)
+  NORMAL    // Bình thường (trạng thái cập nhật)
+  HIGH      // Cao (hóa đơn sắp hạn, giấy tờ cần gấp)
+  URGENT    // Khẩn cấp tối đa (tai nạn SOS, ngựa sốt cao)
+}
+
+// Trạng thái tiếp nhận tin nhắn thông báo
+Enum notification_recipient_status {
+  PENDING      // Chờ hệ thống gửi (qua WebSocket/FCM/Email)
+  DELIVERED    // Đã chuyển đến thiết bị người nhận
+  READ         // Người dùng đã nhấn đọc
+  FAILED       // Gửi thất bại
+}
+
+
+//////////////////////////////////////////////////////////////
+// FLOW 1 - ACCOUNT / BOOKING / TRANSPORT CORE
+//////////////////////////////////////////////////////////////
+
+// Bảng tài khoản định danh đăng nhập toàn hệ thống
+Table Account {
+  account_id bigint [pk, increment] // Khóa chính tài khoản
+
+  email varchar(255) [not null, unique] // Email đăng nhập duy nhất
+  password_hash varchar(255) [not null] // Mật khẩu băm (BCrypt/Argon2)
+
+  account_type account_type [not null] // Phân loại: CUSTOMER hoặc EMPLOYEE
+  status account_status [not null, default: 'ACTIVE'] // Trạng thái hoạt động
+
+  last_login_at timestamp // Lần đăng nhập gần nhất
+
+  created_at timestamp [not null] // Thời điểm tạo
+  updated_at timestamp [not null] // Thời điểm cập nhật cuối
+
+  indexes {
+    status
+    account_type
+  }
+}
+
+// Thông tin hồ sơ khách hàng (CLB đua, chủ ngựa cá nhân)
+Table Customer {
+  customer_id bigint [pk, increment] // Khóa chính khách hàng
+
+  account_id bigint [not null, unique] // FK 1-1 liên kết tài khoản Account
+
+  full_name varchar(150) [not null] // Tên khách hàng / Đại diện pháp luật
+  phone varchar(30) // Số điện thoại liên hệ chính
+  date_of_birth date // Ngày sinh
+
+  address varchar(500) // Địa chỉ thường trú / Trụ sở chính
+  country varchar(100) // Quốc gia
+
+  identity_number varchar(100) // Số CCCD / Hộ chiếu cá nhân
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    phone
+  }
+}
+
+// Hồ sơ nhân viên nghiệp vụ nội bộ công ty vận chuyển
+Table Employee {
+  employee_id bigint [pk, increment] // Khóa chính nhân viên
+
+  account_id bigint [not null, unique] // FK 1-1 liên kết tài khoản Account
+
+  employee_code varchar(50) [not null, unique] // Mã nhân viên duy nhất (VD: EMP001)
+  full_name varchar(150) [not null] // Họ và tên nhân viên
+  phone varchar(30) // Số điện thoại liên hệ nội bộ
+
+  role employee_role [not null] // Phân quyền chức vụ vận hành
+
+  is_active boolean [not null, default: true] // Trạng thái đang công tác
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    role
+    is_active
+  }
+}
+
+// Hồ sơ danh tính ngựa đua
+Table Horse {
+  horse_id bigint [pk, increment] // Khóa chính ngựa đua
+
+  customer_id bigint [not null] // FK chủ sở hữu (Customer)
+
+  horse_name varchar(150) [not null] // Tên đăng ký thi đấu của ngựa
+
+  passport_number varchar(100) [unique] // Số hộ chiếu ngựa quốc tế (FEI Passport)
+  microchip_number varchar(100) [unique] // Mã số vi chip sinh học cấy dưới da
+
+  breed varchar(100) // Giống ngựa (Thoroughbred, Arabian...)
+  sex horse_sex // Giới tính ngựa
+
+  date_of_birth date // Ngày sinh ngựa
+  color varchar(100) // Màu lông đặc trưng
+
+  country_of_origin varchar(100) // Quốc gia xuất xứ/sinh sản
+
+  identification_notes text // Đặc điểm nhận dạng dị tật/vết sẹo/xoáy lông
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    customer_id
+    horse_name
+  }
+}
+
+// Đơn đặt yêu cầu dịch vụ vận chuyển từ khách hàng
+Table Booking {
+  booking_id bigint [pk, increment] // Khóa chính đơn hàng
+
+  booking_code varchar(50) [not null, unique] // Mã vận đơn công khai (VD: BK-2026-001)
+
+  customer_id bigint [not null] // FK khách hàng đặt đơn
+
+  assigned_employee_id bigint // FK nhân viên Logistics Manager đang xử lý đơn
+
+  status booking_status [not null, default: 'PENDING'] // Trạng thái đơn đặt chỗ
+
+  origin_address varchar(500) [not null] // Địa chỉ bốc ngựa ban đầu
+  origin_country varchar(100) [not null] // Quốc gia xuất phát
+
+  destination_address varchar(500) [not null] // Địa chỉ bàn giao ngựa đích đến
+  destination_country varchar(100) [not null] // Quốc gia đích
+
+  requested_departure_date date [not null] // Ngày mong muốn xuất phát
+  requested_arrival_date date // Ngày mong muốn tới nơi
+
+  special_requirements text // Yêu cầu đặc biệt (chế độ ăn kiêng, thuốc đặc trị)
+  customer_note text // Lời nhắn thêm của khách
+
+  submitted_at timestamp // Thời điểm gửi đơn
+  approved_at timestamp // Thời điểm duyệt đơn
+  rejected_at timestamp // Thời điểm từ chối
+  cancelled_at timestamp // Thời điểm hủy đơn
+
+  rejection_reason text // Lý do từ chối đơn
+  cancellation_reason text // Lý do hủy chuyến
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    customer_id
+    assigned_employee_id
+    status
+    requested_departure_date
+  }
+}
+
+// Bảng nối N-N giữa Đơn hàng và Danh sách ngựa chở trong chuyến
+Table BookingHorse {
+  booking_id bigint [not null] // FK đơn đặt chỗ
+  horse_id bigint [not null] // FK ngựa tham gia chuyến
+
+  special_handling_notes text // Hướng dẫn xếp chuồng riêng cho từng con
+
+  created_at timestamp [not null]
+
+  indexes {
+    (booking_id, horse_id) [pk]
+    horse_id
+  }
+}
+
+// Lịch sử ghi vết thay đổi trạng thái đơn đặt chỗ (Audit log)
+Table BookingStatusHistory {
+  booking_status_history_id bigint [pk, increment] // Khóa chính vết trạng thái
+
+  booking_id bigint [not null] // FK đơn đặt chỗ
+
+  previous_status booking_status // Trạng thái cũ
+  new_status booking_status [not null] // Trạng thái mới chuyển sang
+
+  changed_by_account_id bigint [not null] // FK tài khoản thực hiện chuyển trạng thái
+
+  reason text // Lý do chuyển trạng thái
+
+  changed_at timestamp [not null] // Thời điểm thay đổi
+
+  indexes {
+    booking_id
+    changed_by_account_id
+    changed_at
+  }
+}
+
+// Chuyến vận chuyển thực tế sau khi Đơn hàng được phê duyệt
+Table Transport {
+  transport_id bigint [pk, increment] // Khóa chính chuyến vận chuyển
+
+  transport_code varchar(50) [not null, unique] // Mã chuyến đi nội bộ (VD: TR-2026-088)
+
+  booking_id bigint [not null, unique] // FK 1-1 với đơn đặt chỗ gốc đã duyệt
+
+  status transport_status [not null, default: 'CREATED'] // Tiến độ chuyến đi thực tế
+
+  actual_departure_at timestamp // Thời điểm thực tế xe lăn bánh
+  actual_arrival_at timestamp // Thời điểm thực tế đến đích
+
+  completed_at timestamp // Thời điểm hoàn thành nghiệm thu
+  cancelled_at timestamp // Thời điểm hủy chuyến
+
+  cancellation_reason text // Lý do hủy chuyến
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    status
+  }
+}
+
+
+//////////////////////////////////////////////////////////////
+// FLOW 2 - TRANSPORT / ROUTE PLANNING
+//////////////////////////////////////////////////////////////
+
+// Kế hoạch tổng thể cho chuyến vận chuyển
+Table TransportPlan {
+  transport_plan_id bigint [pk, increment] // Khóa chính kế hoạch
+
+  transport_id bigint [not null] // FK chuyến vận chuyển
+
+  plan_code varchar(50) [not null, unique] // Mã kế hoạch (VD: PLN-001)
+
+  status transport_plan_status [not null, default: 'DRAFT'] // Trạng thái duyệt kế hoạch
+
+  planned_start_at timestamp // Thời gian dự kiến bắt đầu
+  planned_end_at timestamp // Thời gian dự kiến kết thúc
+
+  planning_note text // Ghi chú hướng dẫn cho toàn bộ đội ngũ
+
+  estimated_duration_minutes int // Tổng thời gian ước tính (phút)
+  estimated_distance_km decimal(10,2) // Tổng quãng đường ước tính (km)
+
+  approved_by_employee_id bigint // FK Logistics Manager ký duyệt kế hoạch
+  approved_at timestamp // Thời điểm phê duyệt kế hoạch
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    transport_id
+    status
+    approved_by_employee_id
+  }
+}
+
+// Kế hoạch lộ trình điều hướng di chuyển
+Table RoutePlan {
+  route_plan_id bigint [pk, increment] // Khóa chính kế hoạch lộ trình
+
+  transport_plan_id bigint [not null, unique] // FK 1-1 với kế hoạch vận tải
+
+  route_plan_code varchar(50) [not null, unique] // Mã lộ trình điều hướng
+
+  status route_plan_status [not null, default: 'DRAFT'] // Trạng thái hiệu lực lộ trình
+
+  total_distance_km decimal(10,2) // Tổng độ dài toàn bộ tuyến (km)
+  estimated_duration_minutes int // Tổng thời lượng di chuyển tính toán (phút)
+
+  route_note text // Cảnh báo thời tiết hoặc đường dốc đặc biệt
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    status
+  }
+}
+
+// Từng chặng di chuyển cụ thể cấu thành nên lộ trình
+Table Route {
+  route_id bigint [pk, increment] // Khóa chính từng chặng
+
+  route_plan_id bigint [not null] // FK kế hoạch lộ trình
+
+  route_code varchar(50) [not null] // Mã chặng di chuyển
+
+  route_type route_type [not null, default: 'PRIMARY'] // Chặng chính hay chặng dự phòng tránh tắc đường
+
+  transport_mode transport_mode [not null] // Phương thức di chuyển (ROAD, AIR, SEA)
+
+  sequence_no int [not null] // Thứ tự thực hiện chặng (1, 2, 3...)
+
+  route_name varchar(200) // Tên gợi nhớ chặng (VD: Dover đến Calais qua Phà)
+
+  estimated_distance_km decimal(10,2) // Chiều dài chặng (km)
+  estimated_duration_minutes int // Thời gian dự kiến của chặng (phút)
+
+  planned_departure_at timestamp // Dự kiến giờ xuất phát chặng
+  planned_arrival_at timestamp // Dự kiến giờ đến chặng
+
+  route_note text // Hướng dẫn lái xe trong chặng
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    route_plan_id
+    route_type
+    transport_mode
+
+    (route_plan_id, route_code) [unique]
+    (route_plan_id, sequence_no) [unique]
+  }
+}
+
+// Từng trạm dừng nghỉ/cửa khẩu/sân bay dọc trên từng chặng
+Table Location {
+  location_id bigint [pk, increment] // Khóa chính điểm dừng
+
+  route_id bigint [not null] // FK thuộc về chặng Route nào
+
+  location_name varchar(200) [not null] // Tên địa điểm dừng chân
+  location_type location_type [not null] // Phân loại (REST_STOP, BORDER_GATE, AIRPORT...)
+
+  sequence_no int [not null] // Thứ tự ghé trạm trên chặng
+
+  address varchar(500) // Địa chỉ chi tiết điểm dừng
+  city varchar(100) // Thành phố
+  state_province varchar(100) // Tỉnh/Bang
+  country varchar(100) [not null] // Quốc gia
+
+  latitude decimal(10,7) // Tọa độ GPS vĩ độ
+  longitude decimal(10,7) // Tọa độ GPS kinh độ
+
+  planned_arrival_at timestamp // Thời điểm dự kiến đến trạm
+  planned_departure_at timestamp // Thời điểm dự kiến rời trạm
+
+  actual_arrival_at timestamp // Giờ thực tế xe dừng lại
+  actual_departure_at timestamp // Giờ thực tế xe lăn bánh tiếp
+
+  contact_name varchar(150) // Người liên hệ phụ trách trạm dừng
+  contact_phone varchar(30) // Số điện thoại trạm
+
+  location_note text // Ghi chú tiện ích trạm (có máng nước, chuồng cách ly)
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    route_id
+    location_type
+
+    (route_id, sequence_no) [unique]
+  }
+}
+
+// Danh mục phương tiện vận tải chuyên dụng (Master data tái sử dụng)
+Table Vehicle {
+  vehicle_id bigint [pk, increment] // Khóa chính phương tiện
+
+  vehicle_code varchar(50) [not null, unique] // Mã xe nội bộ (VD: TRUCK-01)
+  license_plate varchar(50) [unique] // Biển kiểm soát phương tiện
+
+  vehicle_type varchar(100) // Chủng loại xe (xe tải 6 ngựa, rơ-moóc chuyên dụng)
+
+  manufacturer varchar(100) // Hãng sản xuất xe
+  model varchar(100) // Đời xe/Mẫu mã
+
+  capacity_horses int // Sức chứa tối đa (số lượng ngựa)
+
+  status vehicle_status [not null, default: 'AVAILABLE'] // Tình trạng xe sẵn sàng/đang chạy
+
+  registration_number varchar(100) // Số sổ đăng kiểm
+  registration_expiry_date date // Ngày hết hạn đăng kiểm
+
+  insurance_number varchar(100) // Số hợp đồng bảo hiểm
+  insurance_expiry_date date // Ngày hết hạn bảo hiểm
+
+  special_equipment text // Trang bị kèm theo (camera giám sát, máy tạo oxy, đệm sàn cao su)
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    status
+  }
+}
+
+// Bảng liên kết gán phương tiện vào kế hoạch chuyến đi (Decoupled N-N)
+Table TransportPlanVehicle {
+  transport_plan_id bigint [not null] // FK kế hoạch vận tải
+  vehicle_id bigint [not null] // FK phương tiện chuyên dụng
+
+  assigned_at timestamp [not null] // Thời điểm phân bổ xe vào chuyến
+  note text // Ghi chú gán xe (xe chính hay xe kéo phụ)
+
+  indexes {
+    (transport_plan_id, vehicle_id) [pk]
+    vehicle_id
+  }
+}
+
+// Danh mục nhà cung cấp dịch vụ vận tải đối tác bên ngoài
+Table TransportProvider {
+  transport_provider_id bigint [pk, increment] // Khóa chính đối tác vận tải
+
+  provider_code varchar(50) [not null, unique] // Mã đối tác (VD: PROV-AIR-01)
+  provider_name varchar(200) [not null] // Tên công ty đối tác (hãng hàng không, hãng tàu)
+
+  status provider_status [not null, default: 'ACTIVE'] // Trạng thái hợp tác
+
+  contact_name varchar(150) // Đại diện đối tác
+  phone varchar(30) // Số điện thoại đường dây nóng
+  email varchar(255) // Email tiếp nhận thông tin
+
+  address varchar(500) // Địa chỉ trụ sở đối tác
+  country varchar(100) // Quốc gia của đối tác
+
+  tax_code varchar(100) // Mã số thuế đối tác
+
+  supported_modes varchar(100) // Các loại hình nhận vận chuyển (AIR, SEA, RAIL)
+
+  note text // Điều khoản cam kết chất lượng (SLA)
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    provider_name
+    status
+  }
+}
+
+// Bảng liên kết N-N gán đối tác vận tải ngoài vào kế hoạch chuyến đi
+Table TransportPlanProvider {
+  transport_plan_id bigint [not null] // FK kế hoạch vận tải
+  transport_provider_id bigint [not null] // FK đối tác vận tải
+
+  service_type varchar(100) // Loại hình dịch vụ cung cấp trong chuyến
+
+  assigned_at timestamp [not null] // Ngày gán đối tác
+  note text // Ghi chú hợp đồng phụ
+
+  indexes {
+    (transport_plan_id, transport_provider_id) [pk]
+    transport_provider_id
+  }
+}
+
+// Bảng phân công nhân sự (Tài xế, Hộ tống) vào kế hoạch chuyến đi
+Table EmployeeTransportPlan {
+  employee_id bigint [not null] // FK nhân viên được giao nhiệm vụ
+  transport_plan_id bigint [not null] // FK kế hoạch vận tải
+
+  responsibility varchar(150) // Vai trò trong chuyến (Tài xế chính, Phụ xe, Bác sĩ thú y đi kèm)
+
+  assigned_at timestamp [not null] // Thời điểm phân công
+  is_primary boolean [not null, default: false] // Cờ nhân sự chịu trách nhiệm chính
+
+  note text // Ghi chú dặn dò công việc
+
+  indexes {
+    (employee_id, transport_plan_id) [pk]
+    transport_plan_id
+  }
+}
+
+
+//////////////////////////////////////////////////////////////
+// FLOW 3 - EXECUTION / HANDOVER / HORSE HEALTH
+//////////////////////////////////////////////////////////////
+
+// Biên bản giao nhận ngựa và bàn giao pháp lý tại các mốc hành trình
+Table HandoverRecord {
+  handover_record_id bigint [pk, increment] // Khóa chính biên bản giao nhận
+
+  transport_id bigint [not null] // FK thuộc chuyến vận chuyển nào
+
+  handover_code varchar(50) [not null, unique] // Mã biên bản (VD: HO-2026-001)
+
+  sequence_no int [not null] // Thứ tự đợt giao nhận trong hành trình
+
+  handover_type handover_type [not null] // Loại giao nhận (PICKUP, BORDER, DELIVERY...)
+  status handover_status [not null, default: 'PLANNED'] // Trạng thái biên bản
+
+  planned_handover_at timestamp // Thời điểm dự kiến bàn giao
+  actual_handover_at timestamp // Thời điểm thực tế ký biên bản
+
+  from_party_name varchar(200) // Đơn vị/Người bàn giao
+  from_contact_name varchar(150) // Họ tên người giao
+  from_contact_phone varchar(30) // Điện thoại người giao
+
+  to_party_name varchar(200) // Đơn vị/Người nhận
+  to_contact_name varchar(150) // Họ tên người nhận
+  to_contact_phone varchar(30) // Điện thoại người nhận
+
+  location_name varchar(200) // Tên địa điểm diễn ra bàn giao
+  address varchar(500) // Địa chỉ cụ thể
+  country varchar(100) // Quốc gia diễn ra bàn giao
+
+  horse_condition_note text // Tóm tắt đánh giá thể trạng chung của đàn ngựa
+  document_handover_note text // Danh mục tài liệu/hộ chiếu kèm theo khi giao nhận
+  equipment_handover_note text // Trang thiết bị/phụ kiện dắt ngựa giao kèm
+  discrepancy_note text // Sai lệch/bất thường ghi nhận tại thời điểm giao
+
+  sender_signature_url varchar(500) // Link ảnh chữ ký bên giao
+  receiver_signature_url varchar(500) // Link ảnh chữ ký bên nhận
+
+  completed_at timestamp // Thời điểm xác nhận hoàn tất
+  cancelled_at timestamp // Thời điểm hủy biên bản
+  cancellation_reason text // Lý do hủy
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    transport_id
+    status
+    actual_handover_at
+
+    (transport_id, sequence_no) [unique]
+  }
+}
+
+// Bảng chi tiết nghiệm thu thể trạng riêng cho từng con ngựa tại biên bản giao nhận
+Table HandoverHorseDetail {
+  handover_record_id bigint [not null] // FK biên bản giao nhận
+  horse_id bigint [not null] // FK ngựa cụ thể được nghiệm thu
+
+  health_status horse_health_status [not null, default: 'NORMAL'] // Thể trạng lúc giao nhận
+  condition_note text // Chi tiết chấn thương/vết xước mới phát hiện lúc giao
+
+  created_at timestamp [not null]
+
+  indexes {
+    (handover_record_id, horse_id) [pk]
+    horse_id
+  }
+}
+
+// Nhật ký theo dõi chỉ số sinh hiệu sức khỏe ngựa định kỳ dọc đường
+Table HorseHealthLog {
+  horse_health_log_id bigint [pk, increment] // Khóa chính nhật ký sức khỏe
+
+  transport_id bigint [not null] // FK chuyến đi
+  horse_id bigint [not null] // FK ngựa được khám
+  employee_id bigint [not null] // FK tài xế/nhân viên đo đạc ghi chép
+
+  log_type horse_health_log_type [not null] // Thời điểm đo (trước đi, dừng nghỉ, cửa khẩu...)
+  health_status horse_health_status [not null] // Đánh giá phân loại sức khỏe tức thời
+
+  checked_at timestamp [not null] // Giờ thực hiện đo khám
+
+  temperature_celsius decimal(4,1) // Thân nhiệt (°C) - Thang chuẩn 37.5-38.5
+  heart_rate_bpm int // Nhịp tim (nhịp/phút) - Thang chuẩn 28-44
+  respiratory_rate_bpm int // Nhịp thở (nhịp/phút) - Thang chuẩn 8-16
+
+  hydration_status hydration_status // Đánh giá mức độ mất nước qua nếp gấp da
+
+  behavior_note text // Hành vi (tỉnh táo, bồn chồn, hoảng loạn, ủ rũ)
+  symptom_note text // Triệu chứng phát hiện (chảy nước mũi, ho, co giật)
+  injury_note text // Vết bầm dập, sưng khớp do rung lắc xe
+  feeding_note text // Lượng cỏ khô/cám dinh dưỡng ngựa đã ăn
+  hydration_note text // Lượng nước ngựa đã uống (lít)
+
+  treatment_provided text // Biện pháp sơ cứu đã thực hiện tại chỗ
+  medication_given text // Thuốc giảm đau/chống say xe đã cấp
+
+  veterinarian_required boolean [not null, default: false] // Cờ cảnh báo cần bác sĩ thú y can thiệp
+  veterinarian_note text // Chỉ dẫn từ xa của bác sĩ thú y qua điện thoại
+
+  location_description varchar(500) // Mô tả vị trí đang đứng kiểm tra
+  photo_url varchar(500) // Ảnh chụp mắt/chân/thể trạng ngựa lúc khám
+
+  general_note text // Ghi chú chung
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    transport_id
+    horse_id
+    employee_id
+    health_status
+    checked_at
+
+    (transport_id, horse_id)
+  }
+}
+
+
+//////////////////////////////////////////////////////////////
+// FLOW 4 - INCIDENT / EMERGENCY
+//////////////////////////////////////////////////////////////
+
+// Báo cáo sự cố khẩn cấp phát sinh trong quá trình vận hành
+Table IncidentReport {
+  incident_report_id bigint [pk, increment] // Khóa chính sự cố
+
+  incident_code varchar(50) [not null, unique] // Mã sự cố khẩn cấp (VD: INC-2026-009)
+
+  transport_id bigint [not null] // FK trực tiếp chuyến đi gặp sự cố
+  employee_id bigint [not null] // FK tài xế/nhân viên phát hiện báo cáo
+
+  location_id bigint // FK điểm dừng (nullable nếu sự cố xảy ra giữa đường)
+  latitude decimal(10,7) // Tọa độ GPS vĩ độ vị trí gặp nạn
+  longitude decimal(10,7) // Tọa độ GPS kinh độ vị trí gặp nạn
+
+  category incident_category [not null] // Phân loại (XE, NGỰA, KÉP, KHÁC)
+  severity incident_severity [not null] // Mức độ nghiêm trọng (LOW, MEDIUM, HIGH, CRITICAL)
+  status incident_status [not null, default: 'REPORTED'] // Quy trình xử lý sự cố
+
+  title varchar(200) [not null] // Tiêu đề tóm tắt sự cố
+  description text [not null] // Mô tả chi tiết hiện trường và diễn biến
+
+  occurred_at timestamp [not null] // Thời điểm xảy ra sự cố
+  reported_at timestamp [not null] // Thời điểm gửi báo động về trung tâm
+
+  immediate_action text // Hành động ứng phó khẩn cấp đã thực hiện ngay tại chỗ
+  resolution_summary text // Tổng kết phương án giải quyết và khắc phục hậu quả
+
+  resolved_at timestamp // Thời điểm giải quyết xong sự cố
+  closed_at timestamp // Thời điểm đóng hồ sơ sự cố
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    transport_id
+    employee_id
+    location_id
+    category
+    severity
+    status
+    occurred_at
+  }
+}
+
+// Chi tiết kỹ thuật sự cố liên quan đến xe vận tải
+Table VehicleIncidentDetail {
+  vehicle_incident_detail_id bigint [pk, increment] // Khóa chính chi tiết hỏng xe
+
+  incident_report_id bigint [not null, unique] // FK 1-1 với báo cáo sự cố gốc
+  vehicle_id bigint [not null] // FK phương tiện gặp trục trặc
+
+  incident_type vehicle_incident_type [not null] // Loại lỗi (chết máy, nổ lốp, hỏng điều hòa)
+
+  vehicle_condition text // Tình trạng hiện tại của phương tiện
+  damage_description text // Đánh giá mức độ hư hại thiết bị
+
+  vehicle_operable boolean [not null, default: true] // Xe còn tự lăn bánh an toàn được không
+  repair_required boolean [not null, default: false] // Có cần sửa chữa tại chỗ
+  towing_required boolean [not null, default: false] // Có cần xe cẩu cứu hộ kéo đi
+  replacement_vehicle_required boolean [not null, default: false] // Có cần xe khác tới sang ngựa
+
+  estimated_repair_cost decimal(18,2) // Chi phí dự kiến khắc phục xe
+  repair_note text // Ghi chú hướng dẫn garage cứu hộ
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    vehicle_id
+    incident_type
+  }
+}
+
+// Chi tiết y tế sự cố phát sinh cho từng con ngựa cụ thể
+Table HorseHealthIncidentDetail {
+  horse_health_incident_detail_id bigint [pk, increment] // Khóa chính chi tiết ngựa bệnh
+
+  incident_report_id bigint [not null] // FK báo cáo sự cố gốc
+  horse_id bigint [not null] // FK ngựa gặp nạn
+
+  incident_type horse_incident_type [not null] // Loại bệnh/chấn thương (đau bụng colic, gãy chân)
+
+  condition_description text [not null] // Miêu tả biểu hiện nguy cấp
+  symptoms text // Các triệu chứng lâm sàng phát hiện
+
+  body_temperature_celsius decimal(4,1) // Thân nhiệt đo lúc phát bệnh (°C)
+  heart_rate_bpm int // Nhịp tim đo lúc nguy cấp (bpm)
+  respiratory_rate_bpm int // Nhịp thở đo lúc nguy cấp (bpm)
+
+  first_aid_provided text // Biện pháp sơ cứu thú y tài xế đã làm
+  veterinarian_required boolean [not null, default: false] // Cờ triệu tập bác sĩ thú y hiện trường
+  veterinarian_contacted_at timestamp // Thời điểm gọi kết nối với bác sĩ thú y
+  veterinarian_instruction text // Y lệnh khẩn cấp của bác sĩ thú y
+  medication_given text // Thuốc đã tiêm hoặc cho uống
+
+  horse_transportable boolean // Ngựa còn chịu đựng được hành trình tiếp không
+  outcome_note text // Kết quả sau xử lý (đã ổn định, phải chuyển trạm thú y)
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    incident_report_id
+    horse_id
+    incident_type
+
+    (incident_report_id, horse_id)
+  }
+}
+
+// Đề xuất xin duyệt khoản chi phí ứng phó khẩn cấp
+Table EmergencyCostRequest {
+  emergency_cost_request_id bigint [pk, increment] // Khóa chính yêu cầu chi khẩn
+
+  incident_report_id bigint [not null] // FK thuộc sự cố nào
+
+  request_code varchar(50) [not null, unique] // Mã yêu cầu cấp tiền (VD: ECR-001)
+  category emergency_cost_category [not null] // Khoản mục chi (thú y, cẩu xe, đổi lộ trình)
+
+  description text [not null] // Diễn giải nội dung cần chi
+  requested_amount decimal(18,2) [not null] // Số tiền xin phê duyệt
+  currency varchar(3) [not null] // Loại tiền tệ (EUR, GBP, USD)
+
+  status emergency_cost_status [not null, default: 'PENDING_APPROVAL'] // Trạng thái xét duyệt tiền
+  justification text [not null] // Giải trình tính cấp bách bảo vệ ngựa
+
+  requested_at timestamp [not null] // Thời điểm gửi xin duyệt
+  approved_amount decimal(18,2) // Số tiền quản lý duyệt cho phép chi
+
+  cancelled_at timestamp // Thời điểm hủy yêu cầu chi
+  cancellation_reason text // Lý do hủy
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    incident_report_id
+    category
+    status
+  }
+}
+
+// Quyết định phê duyệt hoặc từ chối chi phí khẩn cấp của Quản lý Logistics
+Table CostApprovalDecision {
+  cost_approval_decision_id bigint [pk, increment] // Khóa chính quyết định chi
+
+  emergency_cost_request_id bigint [not null, unique] // FK 1-1 với đề xuất chi khẩn cấp
+  employee_id bigint [not null] // FK Logistics Manager ra quyết định
+
+  decision approval_decision [not null] // Quyết định: APPROVED hoặc REJECTED
+  approved_amount decimal(18,2) // Hạn mức tiền mặt cho phép giải ngân
+  decision_reason text // Căn cứ duyệt chi hoặc lý do bác bỏ
+
+  decided_at timestamp [not null] // Thời điểm ban hành quyết định
+  created_at timestamp [not null]
+
+  indexes {
+    employee_id
+    decision
+    decided_at
+  }
+}
+
+
+//////////////////////////////////////////////////////////////
+// FLOW 5 - FINANCE / BILLING / PAYMENT
+//////////////////////////////////////////////////////////////
+
+// Hóa đơn thanh toán dịch vụ vận chuyển
+Table Invoice {
+  invoice_id bigint [pk, increment] // Khóa chính hóa đơn
+
+  invoice_code varchar(50) [not null, unique] // Mã hóa đơn kế toán (VD: INV-2026-004)
+
+  booking_id bigint [not null] // FK đơn hàng vận chuyển cần quyết toán
+  employee_id bigint [not null] // FK kế toán / quản lý phụ trách lập hóa đơn
+
+  status invoice_status [not null, default: 'DRAFT'] // Tình trạng thu tiền
+  currency varchar(3) [not null] // Đơn vị tiền tệ thanh toán
+
+  subtotal decimal(18,2) [not null, default: 0] // Tổng tiền hàng trước thuế
+  discount_amount decimal(18,2) [not null, default: 0] // Tiền chiết khấu/khuyến mãi
+  tax_amount decimal(18,2) [not null, default: 0] // Tiền thuế VAT
+  total_amount decimal(18,2) [not null, default: 0] // Tổng số tiền khách phải trả
+
+  issued_at timestamp // Ngày xuất hóa đơn
+  due_date date // Hạn cuối thanh toán
+  paid_at timestamp // Ngày thanh toán hoàn tất
+
+  cancelled_at timestamp // Ngày hủy hóa đơn
+  cancellation_reason text // Lý do hủy hóa đơn
+
+  billing_note text // Ghi chú hướng dẫn thanh toán ngân hàng
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    booking_id
+    employee_id
+    status
+    due_date
+  }
+}
+
+// Từng dòng chi tiết phí trong hóa đơn
+Table InvoiceItem {
+  invoice_item_id bigint [pk, increment] // Khóa chính dòng hóa đơn
+
+  invoice_id bigint [not null] // FK hóa đơn chứa mục này
+
+  horse_id bigint // FK tùy chọn: Khoản phí tính riêng cho con ngựa nào
+  emergency_cost_request_id bigint [unique] // FK liên kết nếu là khoản phụ phí sự cố khẩn cấp
+
+  item_type invoice_item_type [not null] // Loại phí (cước xe, hải quan, thuốc thú y)
+  description varchar(500) [not null] // Tên khoản mục diễn giải
+  quantity decimal(10,2) [not null, default: 1] // Số lượng
+  unit_price decimal(18,2) [not null] // Đơn giá
+  line_amount decimal(18,2) [not null] // Thành tiền dòng (Số lượng * Đơn giá)
+
+  note text // Ghi chú chi tiết mục phí
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    invoice_id
+    horse_id
+    item_type
+  }
+}
+
+// Biên nhận thanh toán thu tiền thực tế (Hỗ trợ trả làm nhiều đợt)
+Table Receipt {
+  receipt_id bigint [pk, increment] // Khóa chính biên nhận thu tiền
+
+  receipt_code varchar(50) [not null, unique] // Mã phiếu thu (VD: REC-2026-001)
+  invoice_id bigint [not null] // FK hóa đơn được thanh toán
+
+  amount decimal(18,2) [not null] // Số tiền nộp trong đợt này
+  currency varchar(3) [not null] // Đơn vị tiền tệ
+  payment_method payment_method [not null] // Hình thức (chuyển khoản, thẻ, tiền mặt)
+
+  status receipt_status [not null, default: 'PENDING'] // Trạng thái giao dịch tiền
+  transaction_reference varchar(150) // Mã giao dịch ngân hàng / Mã chuẩn chi thẻ
+
+  paid_at timestamp // Thời điểm khách bấm thanh toán
+  confirmed_at timestamp // Thời điểm kế toán xác nhận tiền nổi tài khoản
+
+  note text // Ghi chú chứng từ thanh toán
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    invoice_id
+    status
+    transaction_reference
+    paid_at
+  }
+}
+
+// Lịch sử ghi vết chuyển đổi trạng thái hóa đơn (Audit log kế toán)
+Table InvoiceStatusHistory {
+  invoice_status_history_id bigint [pk, increment] // Khóa chính vết hóa đơn
+
+  invoice_id bigint [not null] // FK hóa đơn
+  previous_status invoice_status // Trạng thái hóa đơn cũ
+  new_status invoice_status [not null] // Trạng thái hóa đơn mới
+
+  changed_by_account_id bigint [not null] // FK tài khoản kế toán thực hiện đổi
+
+  reason text // Lý do hủy hóa đơn hoặc gia hạn nợ
+  changed_at timestamp [not null] // Thời điểm thay đổi
+  created_at timestamp [not null]
+
+  indexes {
+    invoice_id
+    changed_by_account_id
+    new_status
+    changed_at
+  }
+}
+
+// Báo cáo tổng kết quyết toán tài chính của chuyến vận chuyển
+Table FinancialReport {
+  financial_report_id bigint [pk, increment] // Khóa chính báo cáo tài chính
+
+  report_code varchar(50) [not null, unique] // Mã báo cáo quyết toán (VD: FIN-2026-001)
+  transport_id bigint [not null, unique] // FK 1-1 với chuyến đi
+
+  status financial_report_status [not null, default: 'DRAFT'] // Trạng thái báo cáo (nháp / đã khóa sổ)
+  currency varchar(3) [not null] // Đơn vị tiền tệ quyết toán
+
+  total_invoiced_amount decimal(18,2) [not null, default: 0] // Tổng doanh thu đã xuất hóa đơn
+  total_paid_amount decimal(18,2) [not null, default: 0] // Tổng tiền thực thu từ khách
+  total_emergency_cost decimal(18,2) [not null, default: 0] // Tổng chi phí sự cố công ty đã chi
+  outstanding_amount decimal(18,2) [not null, default: 0] // Công nợ còn tồn chưa thanh toán
+
+  summary_note text // Đánh giá biên lợi nhuận của chuyến đi
+
+  generated_at timestamp // Thời điểm hệ thống sinh số liệu
+  finalized_at timestamp // Thời điểm kế toán trưởng khóa sổ
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    status
+  }
+}
+
+
+//////////////////////////////////////////////////////////////
+// FLOW 6 - CLAIM / CLAIM RESOLUTION
+//////////////////////////////////////////////////////////////
+
+// Đơn khiếu nại yêu cầu bồi thường thiệt hại từ khách hàng
+Table Claim {
+  claim_id bigint [pk, increment] // Khóa chính đơn khiếu nại
+
+  claim_code varchar(50) [not null, unique] // Mã đơn khiếu nại (VD: CLM-2026-003)
+
+  customer_id bigint [not null] // FK khách hàng khiếu nại
+  booking_id bigint [not null] // FK đơn đặt chỗ liên quan trực tiếp
+  handover_record_id bigint // FK biên bản bàn giao phát hiện lỗi (nullable nếu khiếu nại dịch vụ chung)
+
+  claim_type claim_type [not null] // Loại tranh chấp (ngựa chấn thương, trễ giờ thi đấu)
+  status claim_status [not null, default: 'SUBMITTED'] // Tiến trình xử lý giải quyết
+
+  title varchar(200) [not null] // Tiêu đề khiếu nại
+  description text [not null] // Mô tả tường trình thiệt hại từ khách
+
+  requested_compensation_amount decimal(18,2) // Số tiền khách yêu cầu bồi hoàn
+  currency varchar(3) // Đơn vị tiền tệ yêu cầu
+
+  evidence_note text // Mô tả bằng chứng (ảnh ngựa trầy xước, biên lai trạm thú y)
+  customer_note text // Kiến nghị từ khách hàng
+
+  submitted_at timestamp [not null] // Thời điểm nộp đơn khiếu nại
+  reviewed_at timestamp // Thời điểm thẩm định hồ sơ
+  resolved_at timestamp // Thời điểm ra phương án xử lý
+  cancelled_at timestamp // Thời điểm khách rút đơn
+  cancellation_reason text // Lý do rút đơn
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    customer_id
+    booking_id
+    handover_record_id
+    claim_type
+    status
+    submitted_at
+  }
+}
+
+// Phán quyết và phương án đền bù xử lý khiếu nại của công ty
+Table ClaimResolution {
+  claim_resolution_id bigint [pk, increment] // Khóa chính quyết định bồi thường
+
+  claim_id bigint [not null, unique] // FK 1-1 với đơn khiếu nại
+  employee_id bigint [not null] // FK Quản lý Logistics / Pháp chế thụ lý giải quyết
+
+  resolution_type claim_resolution_type [not null] // Hình thức (đền tiền, hoàn cước, voucher)
+  resolution_summary text [not null] // Tóm tắt căn cứ giải quyết thỏa thuận
+
+  approved_compensation_amount decimal(18,2) // Số tiền công ty duyệt bồi thường thực tế
+  currency varchar(3) // Loại tiền tệ bồi thường
+
+  corrective_action text // Biện pháp khắc phục nghiệp vụ nội bộ tránh tái diễn
+  internal_note text // Ghi chú nội bộ dành cho ban giám đốc
+
+  resolved_at timestamp [not null] // Thời điểm phê duyệt quyết định bồi thường
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    employee_id
+    resolution_type
+    resolved_at
+  }
+}
+
+
+//////////////////////////////////////////////////////////////
+// FLOW 7 - COMPLIANCE / LEGAL DOSSIER
+//////////////////////////////////////////////////////////////
+
+// Danh mục quy chuẩn pháp lý và yêu cầu chứng từ kiểm dịch quốc tế (Master data)
+Table ComplianceRequirement {
+  compliance_requirement_id bigint [pk, increment] // Khóa chính quy chuẩn
+
+  requirement_code varchar(50) [not null, unique] // Mã quy chuẩn (VD: REQ-COGGINS-TEST)
+  requirement_name varchar(200) [not null] // Tên loại giấy tờ (Xét nghiệm máu Coggins, Hộ chiếu FEI)
+  description text // Hướng dẫn tiêu chuẩn xét nghiệm và quy cách mẫu
+  issuing_authority varchar(200) // Cơ quan nhà nước có thẩm quyền cấp (VD: DEFRA UK, DGAL France)
+  validity_required boolean [not null, default: false] // Giấy tờ này có giới hạn hạn sử dụng không
+
+  status compliance_requirement_status [not null, default: 'ACTIVE'] // Quy chuẩn còn áp dụng không
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    requirement_name
+    status
+  }
+}
+
+// Bộ mẫu hồ sơ pháp lý chuẩn theo hành lang tuyến đường
+Table DossierTemplate {
+  dossier_template_id bigint [pk, increment] // Khóa chính bộ mẫu hồ sơ
+
+  template_code varchar(50) [not null, unique] // Mã bộ mẫu (VD: TPL-UK-EU-POST-BREXIT)
+  template_name varchar(200) [not null] // Tên bộ hồ sơ mẫu (Hồ sơ tiêu chuẩn tuyến Anh sang Pháp)
+  description text // Căn cứ pháp luật và hiệp định thú y áp dụng
+  version_no int [not null, default: 1] // Phiên bản bộ mẫu
+
+  status dossier_template_status [not null, default: 'DRAFT'] // Tình trạng ban hành mẫu
+  effective_from date // Ngày bắt đầu áp dụng
+  effective_to date // Ngày hết hiệu lực
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    template_name
+    status
+  }
+}
+
+// Bảng liên kết N-N cấu hình danh mục các giấy tờ bắt buộc trong từng Bộ mẫu
+Table DossierTemplateItem {
+  dossier_template_item_id bigint [pk, increment] // Khóa chính cấu hình mục mẫu
+
+  dossier_template_id bigint [not null] // FK bộ mẫu hồ sơ
+  compliance_requirement_id bigint [not null] // FK quy chuẩn giấy tờ
+
+  sequence_no int [not null] // Thứ tự chuẩn bị giấy tờ
+  is_mandatory boolean [not null, default: true] // Cờ bắt buộc phải có mới được xuất hành
+  instruction text // Hướng dẫn chuyên viên thủ tục cách lấy giấy tờ này
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    dossier_template_id
+    compliance_requirement_id
+
+    (dossier_template_id, compliance_requirement_id) [unique]
+    (dossier_template_id, sequence_no) [unique]
+  }
+}
+
+// Bộ hồ sơ số hóa thực tế của chuyến đi vận chuyển
+Table ComplianceDossier {
+  compliance_dossier_id bigint [pk, increment] // Khóa chính bộ hồ sơ chuyến
+
+  dossier_code varchar(50) [not null, unique] // Mã hồ sơ số (VD: DOS-2026-012)
+  transport_id bigint [not null, unique] // FK 1-1 liên kết với chuyến đi vận chuyển
+
+  status compliance_dossier_status [not null, default: 'DRAFT'] // Tiến độ hoàn thiện hồ sơ thông quan
+
+  opened_at timestamp [not null] // Ngày mở hồ sơ bắt đầu thu thập
+  ready_for_submission_at timestamp // Ngày đủ giấy tờ sẵn sàng nộp
+  approved_at timestamp // Ngày cơ quan hải quan/thú y đóng dấu thông qua
+  rejected_at timestamp // Ngày bị cơ quan chức năng từ chối
+  closed_at timestamp // Ngày đóng hồ sơ lưu kho
+
+  rejection_reason text // Lý do cơ quan có thẩm quyền từ chối thông quan
+  note text // Ghi chú của chuyên viên thủ tục
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    status
+  }
+}
+
+// Từng đầu việc giấy tờ thực tế cần hoàn thiện trong bộ hồ sơ chuyến
+Table DossierRequirement {
+  dossier_requirement_id bigint [pk, increment] // Khóa chính đầu việc giấy tờ
+
+  compliance_dossier_id bigint [not null] // FK bộ hồ sơ chuyến
+  compliance_requirement_id bigint [not null] // FK quy chuẩn giấy tờ áp dụng
+  horse_id bigint // FK tùy chọn: Null = giấy tờ chung chuyến; Có ID = giấy tờ riêng con ngựa
+
+  status dossier_requirement_status [not null, default: 'PENDING'] // Tiến độ xử lý giấy này
+  is_mandatory boolean [not null, default: true] // Bắt buộc nộp hay tùy chọn
+  due_date date // Hạn cuối phải nộp xong trước giờ xe chạy
+  instruction text // Lời nhắc gửi khách hàng hoặc bác sĩ thú y
+  satisfied_at timestamp // Thời điểm giấy tờ được xác nhận hoàn thành
+  waived_reason text // Lý do được miễn nộp
+  note text // Ghi chú nội bộ
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    compliance_dossier_id
+    compliance_requirement_id
+    horse_id
+    status
+  }
+}
+
+// Thông tin pháp lý của bản tài liệu đã nộp vào hệ thống
+Table ComplianceDocument {
+  compliance_document_id bigint [pk, increment] // Khóa chính tài liệu pháp lý
+
+  dossier_requirement_id bigint [not null, unique] // FK 1-1 đáp ứng đầu việc nào
+  horse_id bigint // FK tùy chọn: Gắn tài liệu trực tiếp với con ngựa sở hữu
+
+  document_code varchar(50) [not null, unique] // Mã tài liệu số (VD: DOC-PASSPORT-09)
+  document_name varchar(200) [not null] // Tên tài liệu hiển thị
+  status compliance_document_status [not null, default: 'DRAFT'] // Trạng thái duyệt tài liệu
+
+  document_number varchar(150) // Số hiệu công văn / Số chứng chỉ in trên giấy
+  issuing_authority varchar(200) // Tên cơ quan nhà nước đã cấp giấy
+  issued_date date // Ngày cấp giấy
+  expiry_date date // Ngày hết hiệu lực giấy
+
+  note text // Ghi chú tình trạng bản cứng
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    horse_id
+    document_number
+    status
+    expiry_date
+  }
+}
+
+// Các phiên bản tệp đính kèm số hóa (PDF/Scan/Ảnh) của tài liệu
+Table DocumentVersion {
+  document_version_id bigint [pk, increment] // Khóa chính phiên bản file
+
+  compliance_document_id bigint [not null] // FK thuộc tài liệu pháp lý nào
+  version_no int [not null] // Số thứ tự phiên bản (v1, v2, v3 nộp lại)
+
+  file_name varchar(255) [not null] // Tên file gốc người dùng tải lên
+  file_url varchar(1000) [not null] // Đường dẫn lưu trữ đám mây (S3/Cloud Storage)
+  mime_type varchar(100) // Định dạng file (application/pdf, image/jpeg)
+  file_size_bytes bigint // Dung lượng file tính bằng bytes
+
+  upload_note text // Ghi chú của người upload (VD: bản chụp có dấu đỏ công chứng)
+  uploaded_at timestamp [not null] // Thời điểm tải lên
+  created_at timestamp [not null]
+
+  indexes {
+    compliance_document_id
+
+    (compliance_document_id, version_no) [unique]
+  }
+}
+
+// Đánh giá kiểm duyệt phiên bản tài liệu của chuyên viên thủ tục
+Table DocumentReview {
+  document_review_id bigint [pk, increment] // Khóa chính lượt kiểm duyệt
+
+  document_version_id bigint [not null] // FK phiên bản file được duyệt
+  employee_id bigint [not null] // FK Chuyên viên thủ tục thực hiện kiểm tra
+
+  result document_review_result [not null] // Kết quả: APPROVED, REJECTED, REVISION_REQUIRED
+  review_comment text // Lời giải thích từ chối hoặc hướng dẫn sửa đổi
+  reviewed_at timestamp [not null] // Thời điểm thẩm duyệt
+  created_at timestamp [not null]
+
+  indexes {
+    document_version_id
+    employee_id
+    result
+    reviewed_at
+  }
+}
+
+// Thông báo yêu cầu khách nộp lại/bổ sung giấy tờ còn thiếu
+Table DocumentRequest {
+  document_request_id bigint [pk, increment] // Khóa chính yêu cầu nộp giấy
+
+  dossier_requirement_id bigint [not null] // FK đầu việc giấy tờ đang thiếu
+  employee_id bigint [not null] // FK Chuyên viên thủ tục ban hành yêu cầu
+
+  request_code varchar(50) [not null, unique] // Mã yêu cầu bổ sung (VD: DREQ-001)
+  request_type document_request_type [not null] // Loại đòi (thiếu file, file mờ, cần dịch)
+  status document_request_status [not null, default: 'OPEN'] // Trạng thái yêu cầu
+  message text [not null] // Tin nhắn gửi đến khách hàng chi tiết yêu cầu
+
+  requested_at timestamp [not null] // Thời điểm gửi thông báo
+  due_date date // Hạn cuối khách phải bổ sung xong
+  fulfilled_at timestamp // Thời điểm khách đã nộp bổ sung đạt
+
+  cancelled_at timestamp // Thời điểm hủy yêu cầu
+  cancellation_reason text // Lý do hủy
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    dossier_requirement_id
+    employee_id
+    request_type
+    status
+    requested_at
+  }
+}
+
+// Hồ sơ ghi vết các lần nộp lên cơ quan nhà nước có thẩm quyền
+Table AuthoritySubmission {
+  authority_submission_id bigint [pk, increment] // Khóa chính lần nộp
+
+  compliance_dossier_id bigint [not null] // FK bộ hồ sơ chuyến đi
+  submitted_by_employee_id bigint // FK Chuyên viên thủ tục trực tiếp nộp hồ sơ
+
+  submission_no int [not null] // Lần nộp thứ mấy (Lần 1, Lần 2 sau khi sửa)
+  authority_name varchar(200) [not null] // Tên cơ quan nhà nước tiếp nhận hồ sơ
+  status authority_submission_status [not null, default: 'DRAFT'] // Phản hồi từ phía nhà nước
+
+  submission_reference varchar(150) // Số biên nhận hồ sơ một cửa của nhà nước
+  submission_method varchar(100) // Hình thức nộp (Cổng dịch vụ công trực tuyến, Nộp trực tiếp tại quầy)
+
+  submitted_at timestamp // Giờ gửi hồ sơ đi
+  response_received_at timestamp // Giờ nhận kết quả phê chuẩn hoặc bác đơn
+
+  decision_note text // Trích dẫn quyết định phê duyệt của cơ quan chức năng
+  rejection_reason text // Lý do cơ quan công quyền từ chối thông quan
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    compliance_dossier_id
+    submitted_by_employee_id
+    status
+    submission_reference
+
+    (compliance_dossier_id, submission_no) [unique]
+  }
+}
+
+
+//////////////////////////////////////////////////////////////
+// FLOW 8 - NOTIFICATION
+//////////////////////////////////////////////////////////////
+
+// Bản tin thông báo hệ thống phát sinh từ các luồng nghiệp vụ
+Table Notification {
+  notification_id bigint [pk, increment] // Khóa chính bản tin thông báo
+
+  transport_id bigint [not null] // FK chuyến vận chuyển liên quan
+  notification_type notification_type [not null] // Nhóm chủ đề thông báo (Hành trình, Sức khỏe, Khẩn cấp...)
+  priority notification_priority [not null, default: 'NORMAL'] // Mức độ ưu tiên đẩy tin
+
+  title varchar(200) [not null] // Tiêu đề ngắn gọn của thông báo
+  message text [not null] // Nội dung chi tiết thông báo
+
+  reference_type varchar(100) // Tên bảng gốc nghiệp vụ phát sinh (Booking, Incident, Invoice...)
+  reference_id bigint // Khóa chính bản ghi gốc nghiệp vụ
+
+  action_url varchar(1000) // Đường link sâu chuyển màn hình khi người dùng nhấn vào tin
+
+  created_at timestamp [not null] // Thời điểm tạo thông báo
+  expires_at timestamp // Thời điểm hết hạn hiển thị của tin
+
+  indexes {
+    transport_id
+    notification_type
+    priority
+    created_at
+
+    (reference_type, reference_id)
+  }
+}
+
+// Hộp thư nhận thông báo của từng tài khoản người dùng
+Table AccountNotification {
+  account_id bigint [not null] // FK tài khoản người nhận (Customer hoặc Employee)
+  notification_id bigint [not null] // FK bản tin thông báo
+
+  status notification_recipient_status [not null, default: 'PENDING'] // Trạng thái nhận tin
+  delivered_at timestamp // Thời điểm tin đã gửi thành công tới app
+  read_at timestamp // Thời điểm người dùng nhấn vào đọc tin
+
+  created_at timestamp [not null]
+
+  indexes {
+    (account_id, notification_id) [pk]
+    notification_id
+    status
+    read_at
+  }
+}
+
+
+//////////////////////////////////////////////////////////////
+// RELATIONSHIPS - CORE
+//////////////////////////////////////////////////////////////
+
+// Account 1 - 0..1 Customer (Mỗi tài khoản khách chỉ gắn 1 hồ sơ khách hàng)
+Ref: Customer.account_id - Account.account_id
+
+// Account 1 - 0..1 Employee (Mỗi tài khoản nhân viên chỉ gắn 1 hồ sơ nhân viên)
+Ref: Employee.account_id - Account.account_id
+
+// Customer 1 - N Horse (Một khách hàng có thể đăng ký sở hữu nhiều ngựa)
+Ref: Horse.customer_id > Customer.customer_id
+
+// Customer 1 - N Booking (Một khách hàng có thể tạo nhiều đơn đặt vận chuyển)
+Ref: Booking.customer_id > Customer.customer_id
+
+// Employee 1 - N Booking (Một quản lý có thể phụ trách thẩm định nhiều đơn)
+Ref: Booking.assigned_employee_id >? Employee.employee_id
+
+// Booking N - N Horse thông qua bảng trung gian BookingHorse
+Ref: BookingHorse.booking_id > Booking.booking_id
+Ref: BookingHorse.horse_id > Horse.horse_id
+
+// Booking 1 - N BookingStatusHistory (Theo dõi lịch sử đổi trạng thái đơn)
+Ref: BookingStatusHistory.booking_id > Booking.booking_id
+Ref: BookingStatusHistory.changed_by_account_id > Account.account_id
+
+// Booking 1 - 1 Transport (Mỗi đơn được duyệt sinh ra duy nhất một chuyến đi vận chuyển thực tế)
+Ref: Transport.booking_id - Booking.booking_id
+
+
+//////////////////////////////////////////////////////////////
+// RELATIONSHIPS - TRANSPORT PLANNING
+//////////////////////////////////////////////////////////////
+
+// Transport 1 - N TransportPlan (Một chuyến đi có thể có nhiều bản kế hoạch điều chỉnh)
+Ref: TransportPlan.transport_id > Transport.transport_id
+
+// Employee 1 - N TransportPlan (Logistics Manager ký duyệt các bản kế hoạch)
+Ref: TransportPlan.approved_by_employee_id >? Employee.employee_id
+
+// TransportPlan 1 - 1 RoutePlan (Mỗi bản kế hoạch vận tải gắn với một kế hoạch lộ trình)
+Ref: RoutePlan.transport_plan_id - TransportPlan.transport_plan_id
+
+// RoutePlan 1 - N Route (Một kế hoạch lộ trình bao gồm nhiều chặng di chuyển liên hoàn)
+Ref: Route.route_plan_id > RoutePlan.route_plan_id
+
+// Route 1 - N Location (Chuẩn hóa: Từng chặng sở hữu danh sách các trạm dừng tuần tự)
+Ref: Location.route_id > Route.route_id
+
+// TransportPlan N - N Vehicle qua bảng nối TransportPlanVehicle (Tái sử dụng phương tiện)
+Ref: TransportPlanVehicle.transport_plan_id > TransportPlan.transport_plan_id
+Ref: TransportPlanVehicle.vehicle_id > Vehicle.vehicle_id
+
+// TransportPlan N - N TransportProvider (Kế hoạch có thể thuê nhiều đối tác ngoài)
+Ref: TransportPlanProvider.transport_plan_id > TransportPlan.transport_plan_id
+Ref: TransportPlanProvider.transport_provider_id > TransportProvider.transport_provider_id
+
+// TransportPlan N - N Employee (Phân công nhiều nhân sự tài xế/hộ tống vào chuyến)
+Ref: EmployeeTransportPlan.employee_id > Employee.employee_id
+Ref: EmployeeTransportPlan.transport_plan_id > TransportPlan.transport_plan_id
+
+
+//////////////////////////////////////////////////////////////
+// RELATIONSHIPS - EXECUTION
+//////////////////////////////////////////////////////////////
+
+// Transport 1 - N HandoverRecord (Chuyến đi có nhiều biên bản giao nhận dọc đường)
+Ref: HandoverRecord.transport_id > Transport.transport_id
+
+// HandoverRecord 1 - N HandoverHorseDetail (Nghiệm thu thể trạng riêng từng con ngựa khi giao nhận)
+Ref: HandoverHorseDetail.handover_record_id > HandoverRecord.handover_record_id
+Ref: HandoverHorseDetail.horse_id > Horse.horse_id
+
+// Nhật ký sức khỏe ngựa trong chuyến
+Ref: HorseHealthLog.transport_id > Transport.transport_id
+Ref: HorseHealthLog.horse_id > Horse.horse_id
+Ref: HorseHealthLog.employee_id > Employee.employee_id
+
+
+//////////////////////////////////////////////////////////////
+// RELATIONSHIPS - INCIDENT / EMERGENCY
+//////////////////////////////////////////////////////////////
+
+// IncidentReport liên kết trực tiếp tới Transport, Nhân viên báo cáo và Điểm dừng tùy chọn
+Ref: IncidentReport.transport_id > Transport.transport_id
+Ref: IncidentReport.employee_id > Employee.employee_id
+Ref: IncidentReport.location_id >? Location.location_id
+
+// IncidentReport 1 - 0..1 VehicleIncidentDetail (Nếu là sự cố xe)
+Ref: VehicleIncidentDetail.incident_report_id - IncidentReport.incident_report_id
+Ref: VehicleIncidentDetail.vehicle_id > Vehicle.vehicle_id
+
+// IncidentReport 1 - N HorseHealthIncidentDetail (Nếu có ngựa gặp chấn thương/bệnh)
+Ref: HorseHealthIncidentDetail.incident_report_id > IncidentReport.incident_report_id
+Ref: HorseHealthIncidentDetail.horse_id > Horse.horse_id
+
+// IncidentReport 1 - N EmergencyCostRequest (Đề xuất xin duyệt các khoản chi khẩn cấp)
+Ref: EmergencyCostRequest.incident_report_id > IncidentReport.incident_report_id
+
+// EmergencyCostRequest 1 - 0..1 CostApprovalDecision (Quyết định phê chuẩn chi tiền của Quản lý)
+Ref: CostApprovalDecision.emergency_cost_request_id - EmergencyCostRequest.emergency_cost_request_id
+Ref: CostApprovalDecision.employee_id > Employee.employee_id
+
+
+//////////////////////////////////////////////////////////////
+// RELATIONSHIPS - FINANCE
+//////////////////////////////////////////////////////////////
+
+// Booking 1 - N Invoice (Đơn đặt chỗ có thể có hóa đơn cọc, hóa đơn quyết toán)
+Ref: Invoice.booking_id > Booking.booking_id
+Ref: Invoice.employee_id > Employee.employee_id
+
+// Invoice 1 - N InvoiceItem (Chi tiết từng mục cước phí trong hóa đơn)
+Ref: InvoiceItem.invoice_id > Invoice.invoice_id
+Ref: InvoiceItem.horse_id >? Horse.horse_id
+
+// Chi phí khẩn cấp đã duyệt được liên kết 1-1 thành một dòng thu phí trên hóa đơn gửi khách
+Ref: InvoiceItem.emergency_cost_request_id - EmergencyCostRequest.emergency_cost_request_id
+
+// Invoice 1 - N Receipt (Hóa đơn có thể thu tiền làm nhiều đợt thanh toán)
+Ref: Receipt.invoice_id > Invoice.invoice_id
+
+// Lịch sử thay đổi trạng thái hóa đơn kế toán
+Ref: InvoiceStatusHistory.invoice_id > Invoice.invoice_id
+Ref: InvoiceStatusHistory.changed_by_account_id > Account.account_id
+
+// Transport 1 - 1 FinancialReport (Báo cáo quyết toán doanh thu chi phí của chuyến đi)
+Ref: FinancialReport.transport_id - Transport.transport_id
+
+
+//////////////////////////////////////////////////////////////
+// RELATIONSHIPS - CLAIM
+//////////////////////////////////////////////////////////////
+
+// Khiếu nại bồi thường gắn với Khách hàng, Đơn đặt chỗ và Biên bản giao nhận tùy chọn
+Ref: Claim.customer_id > Customer.customer_id
+Ref: Claim.booking_id > Booking.booking_id
+Ref: Claim.handover_record_id >? HandoverRecord.handover_record_id
+
+// Claim 1 - 0..1 ClaimResolution (Quyết định bồi hoàn của công ty gắn với nhân viên thụ lý)
+Ref: ClaimResolution.claim_id - Claim.claim_id
+Ref: ClaimResolution.employee_id > Employee.employee_id
+
+
+//////////////////////////////////////////////////////////////
+// RELATIONSHIPS - COMPLIANCE
+//////////////////////////////////////////////////////////////
+
+// Cấu hình bộ mẫu hồ sơ pháp lý chuẩn
+Ref: DossierTemplateItem.compliance_requirement_id > ComplianceRequirement.compliance_requirement_id
+Ref: DossierTemplateItem.dossier_template_id > DossierTemplate.dossier_template_id
+
+// Transport 1 - 1 ComplianceDossier (Mỗi chuyến đi có một bộ hồ sơ thông quan điện tử)
+Ref: ComplianceDossier.transport_id - Transport.transport_id
+
+// DossierRequirement liên kết với Hồ sơ chuyến, Quy chuẩn giấy tờ và Ngựa cụ thể (tùy chọn)
+Ref: DossierRequirement.compliance_dossier_id > ComplianceDossier.compliance_dossier_id
+Ref: DossierRequirement.compliance_requirement_id > ComplianceRequirement.compliance_requirement_id
+Ref: DossierRequirement.horse_id >? Horse.horse_id
+
+// Yêu cầu bổ sung giấy tờ gắn với đầu việc và chuyên viên ban hành
+Ref: DocumentRequest.dossier_requirement_id > DossierRequirement.dossier_requirement_id
+Ref: DocumentRequest.employee_id > Employee.employee_id
+
+// Bản tài liệu đã nộp gắn 1-1 với đầu việc và gắn với con ngựa cụ thể (tùy chọn)
+Ref: ComplianceDocument.dossier_requirement_id - DossierRequirement.dossier_requirement_id
+Ref: ComplianceDocument.horse_id >? Horse.horse_id
+
+// Quản lý các phiên bản file scan/PDF nộp lại
+Ref: DocumentVersion.compliance_document_id > ComplianceDocument.compliance_document_id
+
+// Lịch sử chuyên viên thủ tục kiểm duyệt bản tài liệu
+Ref: DocumentReview.document_version_id > DocumentVersion.document_version_id
+Ref: DocumentReview.employee_id > Employee.employee_id
+
+// Các đợt nộp hồ sơ sang cơ quan hải quan/thú y gắn với chuyên viên phụ trách
+Ref: AuthoritySubmission.compliance_dossier_id > ComplianceDossier.compliance_dossier_id
+Ref: AuthoritySubmission.submitted_by_employee_id >? Employee.employee_id
+
+
+//////////////////////////////////////////////////////////////
+// RELATIONSHIPS - NOTIFICATION
+//////////////////////////////////////////////////////////////
+
+// Bản tin thông báo gắn với chuyến vận chuyển
+Ref: Notification.transport_id > Transport.transport_id
+
+// Hộp thư thông báo của từng tài khoản người dùng
+Ref: AccountNotification.account_id > Account.account_id
+Ref: AccountNotification.notification_id > Notification.notification_id
+
+
+//////////////////////////////////////////////////////////////
+// REFINED V2 NOTES / IMPLEMENTATION GUIDELINES
+//
+// 1) Reusable Vehicles: Vehicle is now decoupled from TransportPlan
+//    via junction table TransportPlanVehicle. Vehicles can be reused.
+//
+// 2) Location Hierarchy: Normalized to Route 1 - N Location.
+//    Eliminated redundant transport_plan_id foreign key.
+//
+// 3) Per-Horse Compliance Scope: DossierRequirement and ComplianceDocument
+//    support optional horse_id for horse-specific permits/vaccines/passports.
+//
+// 4) Full Actor Auditability: Added employee_id / changed_by_account_id
+//    to DocumentReview, DocumentRequest, AuthoritySubmission,
+//    ClaimResolution, and InvoiceStatusHistory.
+//
+// 5) Flexible Incidents & Claims: IncidentReport links directly to Transport
+//    with optional Location and GPS coordinates; Claim links to Booking
+//    with optional HandoverRecord.
+//
+// 6) Per-Horse Handover: HandoverHorseDetail allows tracking health
+//    and physical handoff condition individually per horse.
+//
+// 7) Application Boundary:
+//    - Account -> Customer/Employee role consistency enforced at App/Service layer.
+//    - Notification polymorphic pair (reference_type, reference_id) validated by App.
+//////////////////////////////////////////////////////////////
+```
