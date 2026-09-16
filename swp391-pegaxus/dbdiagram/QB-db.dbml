@@ -32,10 +32,10 @@ Enum account_type {
 
 // 4 vai trò nhân sự vận hành chính
 Enum employee_role {
-  LOGISTICS_MANAGER          // Quản lý điều hành: duyệt đơn, lập kế hoạch, duyệt chi phí khẩn
-  TRANSPORT_SPECIALIST       // Chuyên viên thủ tục: quản lý hồ sơ kiểm dịch, pháp lý quốc tế
-  FLEET_ROUTE_COORDINATOR    // Điều phối viên đội xe: sắp xếp xe, lộ trình, điểm dừng nghỉ
-  DRIVER_ESCORT              // Tài xế / Hộ tống: trực tiếp vận hành chuyến đi, ghi nhật ký ngựa
+  LOGISTICS_MANAGER       // Quản lý điều hành: duyệt đơn, lập kế hoạch, duyệt chi phí khẩn
+  TRANSPORT_SPECIALIST    // Chuyên viên thủ tục: quản lý hồ sơ kiểm dịch, pháp lý quốc tế
+  FLEET_ROUTE_COORDINATOR // Điều phối viên đội xe: sắp xếp xe, lộ trình, điểm dừng nghỉ
+  DRIVER_ESCORT           // Tài xế / Hộ tống: trực tiếp vận hành chuyến đi, ghi nhật ký ngựa
 }
 
 // Giới tính sinh học của ngựa đua
@@ -109,8 +109,8 @@ Enum location_type {
   BORDER_GATE    // Cửa khẩu hải quan quốc tế
   AIRPORT        // Sân bay
   SEAPORT        // Cảng biển
-  STABLE         // Trại ngựa liên kết dọc đường
-  REST_STOP      // Trạm dừng nghỉ phúc lợi động vật
+  STABLE         // TRẠI ngựa liên kết dọc đường(nằm nghỉ ngơi, ăn bữa chính, vận động nhẹ, tắm rửa, có bsi thú y)
+  REST_STOP      // TRẠM DỪNG nghỉ phúc lợi động vật(nghỉ hồi sức, ăn uống, đo nhanh sinh hiệu, tài xế nghỉ xả hơi)
   OTHER          // Điểm khác
 }
 
